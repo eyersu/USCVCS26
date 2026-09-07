@@ -82,6 +82,12 @@
   h1{font-family:var(--serif);font-weight:900;font-size:1.7rem;margin:0;letter-spacing:-.01em}
   h1 .flag{color:var(--gold)}
   .sub{color:#9fb3c8;font-size:.85rem;margin-top:4px}
+  @media (max-width:520px){
+    header{margin-bottom:18px}
+    h1{font-size:1.3rem;line-height:1.15}
+    h1 .flag{display:none}   /* drop the ★ stars on mobile to tighten the header */
+    .foot .kbdline{display:none}   /* keyboard shortcuts aren't relevant on a phone */
+  }
 
   .controls{
     display:flex;flex-direction:column;gap:16px;align-items:stretch;
@@ -194,11 +200,11 @@
   .of-val{font-family:var(--serif-body);font-size:1.04rem;font-weight:600;color:#202e3a;min-width:0}
   .of-meta{display:flex;align-items:center;gap:8px;justify-content:flex-end}
   @media (max-width:600px){
-    .of-row{grid-template-columns:auto 1fr;column-gap:10px;row-gap:3px}
-    .of-role{grid-row:1;grid-column:1}
-    .of-qn{grid-row:1;grid-column:2;justify-self:start}
-    .of-val{grid-row:2;grid-column:1 / -1}
-    .of-meta{grid-row:3;grid-column:1 / -1;justify-content:flex-start}
+    .of-row{grid-template-columns:auto 1fr;column-gap:10px;row-gap:6px;padding:13px 2px}
+    .of-role{grid-row:1;grid-column:1;font-size:.66rem}
+    .of-qn{grid-row:1;grid-column:2;justify-self:start;font-size:.66rem}
+    .of-val{grid-row:2;grid-column:1 / -1;font-size:1.22rem}
+    .of-meta{grid-row:3;grid-column:1 / -1;justify-content:flex-start;margin-top:2px}
     .of-editrow{grid-column:1 / -1}
   }
   .of-badge{font-family:var(--mono);font-size:.52rem;letter-spacing:.6px;text-transform:uppercase;font-weight:600;padding:3px 8px;border-radius:11px;white-space:nowrap}
@@ -994,7 +1000,7 @@
 </details>
 
 <div class="foot">
-  Keyboard: <kbd>←</kbd>/<kbd>→</kbd> navigate · <kbd>Space</kbd> flip · <kbd>K</kbd> known · <kbd>R</kbd> review · <kbd>S</kbd> shuffle.
+  <span class="kbdline">Keyboard: <kbd>←</kbd>/<kbd>→</kbd> navigate · <kbd>Space</kbd> flip · <kbd>K</kbd> known · <kbd>R</kbd> review · <kbd>S</kbd> shuffle. </span>
   Progress is saved in this browser only. Some answers (officials’ names) change with elections — verify current officeholders at uscis.gov/citizenship/testupdates.
 </div>
 
@@ -1107,14 +1113,15 @@
   #guideBtn:hover{background:#fff}
   /* collapse to just the "?" badge when the title would overlap */
   @media (max-width:768px){
-    #guideBtn{padding:9px 11px 9px 9px;gap:0}
+    #guideBtn{padding:13px 15px 13px 13px;gap:0}
     #guideBtn .glabel{display:none}
+    #guideBtn .q{width:27px;height:27px;font-size:.95rem}
   }
   /* Quick Start replay tab — a quieter right-edge tab tucked under How to use */
   #quickstartBtn{position:fixed;top:60px;right:0;z-index:20;font-family:"IBM Plex Mono",monospace;font-size:.58rem;letter-spacing:1.4px;text-transform:uppercase;font-weight:600;color:#d7e2ee;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-right:0;border-radius:999px 0 0 999px;padding:7px 14px 7px 12px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;line-height:1;box-shadow:-3px 4px 12px rgba(0,0,0,.3)}
   #quickstartBtn:hover{background:rgba(247,148,29,.16);border-color:rgba(247,148,29,.5);color:#f7941d}
   #quickstartBtn .qs-ic{font-size:.8rem}
-  @media (max-width:768px){ #quickstartBtn{padding:7px 11px;gap:0} #quickstartBtn .qs-lb{display:none} }
+  @media (max-width:768px){ #quickstartBtn{top:84px;padding:13px 15px;gap:0} #quickstartBtn .qs-lb{display:none} #quickstartBtn .qs-ic{font-size:1.25rem} }
   /* Quick Start coach-mark tour */
   #qsVeil{position:fixed;inset:0;z-index:90;display:none}
   #qsSpot{position:absolute;box-shadow:0 0 0 9999px rgba(254,201,110,.85);transition:all .32s cubic-bezier(.4,.1,.2,1);pointer-events:none}
