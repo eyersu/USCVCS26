@@ -88,10 +88,9 @@
   h1 .flag{color:var(--gold)}
   .sub{color:#9fb3c8;font-size:.85rem;margin-top:4px}
   @media (max-width:520px){
-    header{margin-bottom:22px}
-    h1{font-size:1.9rem;line-height:1.12}                 /* large hero title on first view (matches mockup) */
-    body.hdr-compact h1{font-size:1.2rem}                 /* collapses after first scroll / a short beat */
-    body.hdr-compact h1 .flag{display:none}
+    header{margin-bottom:26px}
+    h1{font-size:1.85rem;line-height:1.16}   /* stays this size — no shrink-on-scroll */
+    .sub{margin-top:8px;line-height:1.5}
     .foot .kbdline{display:none}   /* keyboard shortcuts aren't relevant on a phone */
   }
 
@@ -1156,7 +1155,6 @@
     body{padding-top:calc(52px + env(safe-area-inset-top))}
     /* centred, non-clipping header + a two-line progress block */
     h1{text-wrap:balance}
-    body.hdr-compact h1{font-size:1.42rem}
     .progress{flex-wrap:wrap;justify-content:center;column-gap:12px;row-gap:8px;margin-bottom:22px}
     #posLabel{white-space:nowrap;font-weight:600}
     .progress .bar{flex:1 1 auto;width:auto;min-width:120px}
@@ -3021,10 +3019,6 @@ const CARDS = [
   wireVoiceCards();
   qsWire();
   gBuildSteps();
-  // header: large hero title on first view, then collapse to compact after the first scroll (or a short beat)
-  (function(){ let c=false; function collapse(){ if(c) return; c=true; document.body.classList.add("hdr-compact"); }
-    window.addEventListener("scroll", function(){ if((window.scrollY||document.documentElement.scrollTop||0) > 24) collapse(); }, {passive:true});
-    setTimeout(collapse, 2600); })();
   updateOrderUI();
   buildDeck(false);
   const recomputeH=()=>requestAnimationFrame(()=>{ computeDefaultH(); if(!flipped) renderNoAnim(); });
