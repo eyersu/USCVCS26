@@ -276,9 +276,9 @@
   .fliphint kbd{margin:0 2px}
   .card{
     position:relative;width:100%;cursor:pointer;display:grid;
-    transform-style:preserve-3d;transition:transform .55s cubic-bezier(.4,.15,.2,1), height .4s ease;
+    transform-style:preserve-3d;-webkit-transform-style:preserve-3d;transition:transform .55s cubic-bezier(.4,.15,.2,1), height .4s ease;
   }
-  .card.flipped{transform:rotateY(180deg)}
+  .card.flipped{transform:rotateY(180deg);-webkit-transform:rotateY(180deg)}
   .face{
     grid-area:1/1;position:relative;overflow:hidden;
     backface-visibility:hidden;-webkit-backface-visibility:hidden;
@@ -286,7 +286,8 @@
     box-shadow:0 18px 46px rgba(0,0,0,.36);
   }
   .fc{display:flex;flex-direction:column;padding:28px 30px 22px}
-  .face.back{transform:rotateY(180deg)}
+  .face.front{transform:rotateY(0deg);-webkit-transform:rotateY(0deg)}   /* explicit 3-D transform so iOS honors backface-visibility */
+  .face.back{transform:rotateY(180deg);-webkit-transform:rotateY(180deg)}
   /* the rotated-away face still captures clicks (backface-visibility only hides paint) —
      disable pointer events on the hidden face so clicks hit the visible one */
   .card:not(.flipped) .face.back{pointer-events:none}
