@@ -79,13 +79,14 @@
     padding:24px 16px 48px;
   }
   header{text-align:center;margin-bottom:30px}
-  h1{font-family:var(--serif);font-weight:900;font-size:1.7rem;margin:0;letter-spacing:-.01em}
+  h1{font-family:var(--serif);font-weight:900;font-size:1.7rem;margin:0;letter-spacing:-.01em;transition:font-size .3s ease}
   h1 .flag{color:var(--gold)}
   .sub{color:#9fb3c8;font-size:.85rem;margin-top:4px}
   @media (max-width:520px){
-    header{margin-bottom:18px}
-    h1{font-size:1.3rem;line-height:1.15}
-    h1 .flag{display:none}   /* drop the ★ stars on mobile to tighten the header */
+    header{margin-bottom:22px}
+    h1{font-size:1.9rem;line-height:1.12}                 /* large hero title on first view (matches mockup) */
+    body.hdr-compact h1{font-size:1.2rem}                 /* collapses after first scroll / a short beat */
+    body.hdr-compact h1 .flag{display:none}
     .foot .kbdline{display:none}   /* keyboard shortcuts aren't relevant on a phone */
   }
 
@@ -2981,6 +2982,10 @@ const CARDS = [
   wireVoiceCards();
   qsWire();
   gBuildSteps();
+  // header: large hero title on first view, then collapse to compact after the first scroll (or a short beat)
+  (function(){ let c=false; function collapse(){ if(c) return; c=true; document.body.classList.add("hdr-compact"); }
+    window.addEventListener("scroll", function(){ if((window.scrollY||document.documentElement.scrollTop||0) > 24) collapse(); }, {passive:true});
+    setTimeout(collapse, 2600); })();
   updateOrderUI();
   buildDeck(false);
   const recomputeH=()=>requestAnimationFrame(()=>{ computeDefaultH(); if(!flipped) renderNoAnim(); });
