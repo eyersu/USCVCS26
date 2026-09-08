@@ -2967,6 +2967,8 @@ const CARDS = [
   function qsDone(){ try{ return localStorage.getItem(QUICKSTART_LS)==="1"; }catch(e){ return false; } }
   function qsPlace(){
     const s=qsSteps[qsI], el=document.querySelector(s.sel); if(!el){ if(!s.last) qsNext(); return; }
+    document.body.classList.remove("hdr-compact");   // keep the headline full-size while the tour is open, so the layout can't shift under the spotlight
+    if(s.last){ try{ window.scrollTo({top:0,behavior:"auto"}); }catch(e){ window.scrollTo(0,0); } }   // last step: bring the page to the very top
     const rr=el.getBoundingClientRect();   // if the target is fully off-screen, bring it into view first, then re-place
     if(rr.bottom < 60 || rr.top > window.innerHeight-60){ el.scrollIntoView({block:"center",behavior:"auto"}); requestAnimationFrame(qsPlace); return; }
     const r=el.getBoundingClientRect(), pad=8, spot=$("qsSpot"), tip=$("qsTip"), caret=$("qsCaret");
@@ -2999,7 +3001,7 @@ const CARDS = [
   }
   function qsNext(){ if(qsSteps[qsI].last){ qsEnd(); return; } qsI++; qsPlace(); }
   function qsPrev(){ if(qsI>0){ qsI--; qsPlace(); } }
-  function qsEnd(){ $("qsVeil").style.display="none"; try{ localStorage.setItem(QUICKSTART_LS,"1"); }catch(e){} try{ if(window.__hdrCollapse) setTimeout(window.__hdrCollapse, 500); }catch(e){} }
+  function qsEnd(){ $("qsVeil").style.display="none"; try{ localStorage.setItem(QUICKSTART_LS,"1"); }catch(e){} setTimeout(function(){ document.body.classList.add("hdr-compact"); }, 500); }   // minimize the headline once the tour closes
   function qsStart(){ qsI=0; try{ if(document.activeElement && document.activeElement.blur) document.activeElement.blur(); }catch(e){} try{ window.scrollTo({top:0,behavior:"auto"}); }catch(e){ window.scrollTo(0,0); } $("qsVeil").style.display="block"; requestAnimationFrame(qsPlace); }
   function qsWire(){
     const dots=$("qsDots"), veil=$("qsVeil"); if(!veil) return;
