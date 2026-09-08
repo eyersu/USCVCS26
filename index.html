@@ -2992,7 +2992,7 @@ const CARDS = [
   }
   function qsNext(){ if(qsSteps[qsI].last){ qsEnd(); return; } qsI++; qsPlace(); }
   function qsPrev(){ if(qsI>0){ qsI--; qsPlace(); } }
-  function qsEnd(){ $("qsVeil").style.display="none"; try{ localStorage.setItem(QUICKSTART_LS,"1"); }catch(e){} }
+  function qsEnd(){ $("qsVeil").style.display="none"; try{ localStorage.setItem(QUICKSTART_LS,"1"); }catch(e){} try{ if(window.__hdrCollapse) setTimeout(window.__hdrCollapse, 500); }catch(e){} }
   function qsStart(){ qsI=0; try{ if(document.activeElement && document.activeElement.blur) document.activeElement.blur(); }catch(e){} try{ window.scrollTo({top:0,behavior:"auto"}); }catch(e){ window.scrollTo(0,0); } $("qsVeil").style.display="block"; requestAnimationFrame(qsPlace); }
   function qsWire(){
     const dots=$("qsDots"), veil=$("qsVeil"); if(!veil) return;
@@ -3055,10 +3055,15 @@ const CARDS = [
   wireVoiceCards();
   qsWire();
   gBuildSteps();
-  // header: roomy two-line hero first, then ease the title down to a single line after a short beat (or first scroll)
-  (function(){ let c=false; function collapse(){ if(c) return; c=true; document.body.classList.add("hdr-compact"); }
+  // header: roomy two-line hero first, then ease the title down to a single line after a short beat (or first scroll).
+  // Hold off while the Quick Start tour is open, so the layout doesn't shift out from under its spotlight.
+  (function(){ let c=false;
+    function qsOpen(){ var v=document.getElementById("qsVeil"); return !!v && v.style.display==="block"; }
+    function collapse(){ if(c || qsOpen()) return; c=true; document.body.classList.add("hdr-compact"); }
     window.addEventListener("scroll", function(){ if((window.scrollY||document.documentElement.scrollTop||0) > 24) collapse(); }, {passive:true});
-    setTimeout(collapse, 3500); })();
+    setTimeout(collapse, 3500);
+    window.__hdrCollapse = collapse;   // Quick Start triggers this once it closes
+  })();
   updateOrderUI();
   buildDeck(false);
   const recomputeH=()=>requestAnimationFrame(()=>{ computeDefaultH(); if(!flipped) renderNoAnim(); });
