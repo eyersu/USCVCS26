@@ -1,6 +1,6 @@
 // Civics PWA service worker — cache-first with runtime caching + offline fallback.
 // Bump CACHE on every deploy so clients pick up the new app.
-const CACHE = "civics-v11";
+const CACHE = "civics-v12";
 const ASSETS = ["./", "./index.html", "./manifest.webmanifest",
                 "./icon-192.png", "./icon-512.png", "./apple-touch-icon.png"];
 
