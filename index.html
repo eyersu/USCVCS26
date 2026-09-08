@@ -3020,19 +3020,28 @@ const CARDS = [
     {sel:"#locChip",     title:"Set your location (optional)", body:"Some of the answers are specific to your STATE & DISTRICT. Setting your location fills in those answers throughout the study guide.", place:"bottom"},
     {sel:".modetoggle",  title:"Study by sight or by sound",   body:"Read the cards as FLASHCARDS, or switch to VOICE CARDS to hear each question — and every answer — read aloud.", place:"bottom"},
     {sel:"#card",        title:"Flip through the questions",   body:"Every card is one exam question. Press SPACE BAR or click the card to flip and reveal all the accepted answers.", place:"right", mplace:"top", rad:16},
-    {sel:"#cardCtl",     title:"Track what you know",          body:"Mark each card KNOWN or flag it for REVIEW as you go. Your progress saves on this device automatically.", place:"bottom", rad:12},
+    {sel:"#cardCtl",     title:"Track what you know",          body:"Mark each card KNOWN or flag it for REVIEW as you go. Your progress saves on this device automatically.", place:"bottom", msel:".nav .review, .nav .know", rad:14},
     {sel:".examrow",     title:"Test yourself",                body:"When you're ready, take a 20-question practice exam — ORAL or WRITTEN. Get 12 right to pass, just like the interview.", place:"top", rad:13},
     {sel:"#guideBtn",    title:"Everything's in the guide",    body:"Learn more about every function of this guide whenever you like. It's right here for the full walkthrough, anytime.", place:"bottom", last:true}
   ];
   let qsI = 0;
   function qsDone(){ try{ return localStorage.getItem(QUICKSTART_LS)==="1"; }catch(e){ return false; } }
+  function qsUnionRect(sel){   // bounding box enclosing EVERY element matching sel, so one step can spotlight two things at once (Review+Known on mobile)
+    const els=Array.prototype.slice.call(document.querySelectorAll(sel)).filter(function(e){ return e.getClientRects().length; });
+    if(!els.length) return document.querySelector(sel).getBoundingClientRect();
+    let l=Infinity,t=Infinity,r=-Infinity,b=-Infinity;
+    els.forEach(function(e){ const q=e.getBoundingClientRect(); l=Math.min(l,q.left); t=Math.min(t,q.top); r=Math.max(r,q.right); b=Math.max(b,q.bottom); });
+    return {left:l,top:t,right:r,bottom:b,width:r-l,height:b-t,x:l,y:t};
+  }
   function qsPlace(){
-    const s=qsSteps[qsI], el=document.querySelector(s.sel); if(!el){ if(!s.last) qsNext(); return; }
+    const mob=window.innerWidth<=600;
+    const s=qsSteps[qsI], sel=(mob && s.msel) ? s.msel : s.sel, el=document.querySelector(sel);
+    if(!el || el.getClientRects().length===0){ if(!s.last) qsNext(); return; }   // skip missing OR hidden targets (#cardCtl is display:none on phones)
     document.body.classList.remove("hdr-compact");   // keep the headline full-size while the tour is open, so the layout can't shift under the spotlight
     if(s.last){ try{ window.scrollTo({top:0,behavior:"auto"}); }catch(e){ window.scrollTo(0,0); } }   // last step: bring the page to the very top
-    const rr=el.getBoundingClientRect();   // if the target is fully off-screen, bring it into view first, then re-place
+    const rr=qsUnionRect(sel);   // union of every matched element (one or two), then re-place if it's off-screen
     if(rr.bottom < 60 || rr.top > window.innerHeight-60){ el.scrollIntoView({block:"center",behavior:"auto"}); requestAnimationFrame(qsPlace); return; }
-    const r=el.getBoundingClientRect(), pad=8, spot=$("qsSpot"), tip=$("qsTip"), caret=$("qsCaret");
+    const r=rr, pad=8, spot=$("qsSpot"), tip=$("qsTip"), caret=$("qsCaret");
     spot.style.left=(r.left-pad)+"px"; spot.style.top=(r.top-pad)+"px";
     spot.style.width=(r.width+pad*2)+"px"; spot.style.height=(r.height+pad*2)+"px";
     const cs=getComputedStyle(el), spotH=r.height+pad*2;
@@ -3044,7 +3053,6 @@ const CARDS = [
     $("qsSkip").style.display = s.last ? "none" : "";
     $("qsNext").textContent = s.last ? "Start studying" : "Next";
     const tw=Math.min(320,window.innerWidth*0.88), th=tip.offsetHeight||200, gap=16;
-    const mob=window.innerWidth<=600;
     let left, top, place=(mob && s.mplace) ? s.mplace : s.place;
     if(!(mob && s.mplace)){
       if(place==="bottom" && r.bottom+gap+th>window.innerHeight-10) place="top";
