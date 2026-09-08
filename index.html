@@ -85,6 +85,7 @@
   }
   header{text-align:center;margin-bottom:30px}
   h1{font-family:var(--serif);font-weight:900;font-size:1.7rem;margin:0;letter-spacing:-.01em;transition:font-size .3s ease}
+  body.qs-open h1{transition:none}   /* during Quick Start, resize instantly so the spotlight lands on the settled layout */
   h1 .flag{color:var(--gold)}
   .sub{color:#9fb3c8;font-size:.85rem;margin-top:4px}
   @media (max-width:520px){
@@ -188,6 +189,7 @@
   .of-derived{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;margin:0 0 16px}
   .of-derived .of-verify-tag{margin-bottom:11px}
   .of-reset{margin-left:auto;height:42px;border:1.5px solid #d9cdb6;background:#fff;color:#7a5a34;border-radius:10px;font-weight:700;font-size:.84rem;padding:0 18px;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+  .of-reset-m{display:none}   /* mobile-only copy, shown after the warning box */
   .of-reset:hover{background:#f3e7d3;border-color:#d3b98f}
   .of-dchip{font-family:var(--mono);font-size:.72rem;font-weight:600;color:var(--navy);background:#fff;border:1px solid #d9cdb6;border-radius:20px;padding:6px 13px}
   .of-dchip b{color:var(--orange)}
@@ -413,10 +415,33 @@
     .qtext{font-size:1.12rem}
     .ghost{font-size:6rem}                         /* big card numeral: smaller on phones */
     .fliphint{display:none}                        /* no space bar on phones; the tour already says to tap the card */
-    .stage{margin-bottom:20px}                     /* keep breathing room now that the hint is gone */
+    /* Card + controls as one unit: card is flat-bottomed; the Prev/Review/Known/Next bar attaches
+       directly below it with a matching rounded bottom (its bottom curve = the card's top curve). */
+    .stage{margin-bottom:0}
+    .face{border-radius:16px 16px 0 0;box-shadow:none}
+    .nav{margin:0 auto 26px;background:#14283f;border-radius:0 0 16px 16px;padding:0;gap:0;box-shadow:0 16px 40px rgba(0,0,0,.34)}
+    .nav button{flex:1;border:0;border-radius:0;padding:13px 4px;background:transparent}
+    .nav button:first-child{border-bottom-left-radius:16px}
+    .nav button:last-child{border-bottom-right-radius:16px}
+    .nav button + button::after{content:"";position:absolute;left:0;top:12px;bottom:12px;width:1px;background:rgba(255,255,255,.14)}
+    /* Review / Known as inset rounded chips (not full-block fills), matching the mockup */
+    .nav .review, .nav .know, .nav .review.active, .nav .know.active{position:relative;background:transparent}
+    .nav .review::before, .nav .know::before{content:"";position:absolute;inset:7px 7px;border-radius:14px;z-index:0}
+    .nav .review > *, .nav .know > *{position:relative;z-index:1}
+    .nav .review::before{background:#7a2828}
+    .nav .know::before{background:#235c3b}
+    .nav .review.active::before{background:#b23b3b}
+    .nav .know.active::before{background:#1f8a4c}
+    /* location modal: full-width action buttons + orange circle close (matches the guide's X) */
+    #officialsModal .of-update{width:100%;flex-basis:100%}
+    #officialsModal .of-reset{width:100%;margin-left:0}
+    #officialsModal .of-derived .of-reset{display:none}      /* on phones, Reset moves to after the warning box */
+    #officialsModal .of-reset-m{display:inline-flex;justify-content:center}
+    #officialsModal .tclose{background:var(--orange);color:#fff;border-radius:50%;width:40px;height:40px;padding:0;display:inline-flex;align-items:center;justify-content:center;font-size:1.05rem;box-shadow:0 4px 12px rgba(226,98,12,.4)}
+    #officialsModal .tclose:hover{background:#b8500a}
     .face{padding:0}.fc{padding:18px 16px 16px}   /* was double-padded (.face + .fc) — recover width on mobile */
     /* nav: all four buttons stack icon-over-label, equal width & height (Prev/Next match Review/Known) */
-    .nav button{min-width:0;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:9px 6px;line-height:1.15}
+    .nav button{min-width:0;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:17px 6px;line-height:1.15;position:relative}
     .nav .nic{margin-right:0;font-size:1.05rem}
     /* roomier fields & controls on mobile */
     .controls{padding:16px 14px;gap:20px}
@@ -426,7 +451,7 @@
     #catSel{padding:11px 14px}
     .crow button{padding:11px 15px}
     .crow .danger{flex:1 1 100%;width:100%}   /* Reset buttons span the full width on phones */
-    .nav{gap:10px;width:min(680px,94vw)}   /* fill the card column so the buttons aren't tight around the labels */
+    .nav{gap:0;width:min(680px,94vw)}   /* fill the card column; flush cells so chips center between the dividers */
     .examrow{gap:20px}   /* more space between the two Practice Exam buttons */
     /* filter fields: even heights, unified pill corners, matching text sizes, full-width groups, even spacing */
     .search{border-radius:999px}
@@ -1162,6 +1187,8 @@
       <p>Officials change with elections and a ZIP can span districts. Confirm each value at <a href="https://www.uscis.gov/citizenship/testupdates" target="_blank" rel="noopener">uscis.gov/citizenship/testupdates</a>, your state site, and <a href="https://www.house.gov/representatives/find-your-representative" target="_blank" rel="noopener">house.gov</a>.</p>
     </div>
 
+    <button type="button" class="of-reset of-reset-m" id="ofResetM">↺ Reset location</button>
+
     <div id="ofRows"></div>
 
     <p class="of-intro of-sources">Your <b>district is derived from the ZIP</b> (US Census); your <b>senators and representative</b> come from the @unitedstates Congress dataset; the <b>national officials</b> (President, VP, Speaker, Chief Justice) and <b>Governor</b> from Wikidata. Every value is editable — confirm anything via the links above.</p>
@@ -1245,14 +1272,14 @@
   #guideModal .g-facts li{font-size:.88rem;color:#a9b8c8}
   #guideModal .g-facts b{font-family:"Fraunces",serif;font-weight:600;font-size:1.28rem;color:#eaf1f8;display:block;line-height:1.1}
   #guideModal .g-hr{height:1px;background:#3a4f66;margin:38px 0 0}
-  #guideModal .g-sec{display:grid;grid-template-columns:190px 1fr;gap:clamp(28px,4vw,52px);padding:48px 0;border-bottom:1px solid #324459}
-  #guideModal .g-sec:last-of-type{border-bottom:none}
+  #guideModal .g-sec{display:grid;grid-template-columns:190px 1fr;gap:clamp(28px,4vw,52px);padding:48px 0;border-top:1px solid rgba(255,255,255,.13);border-bottom:none}
+  #guideModal .g-sec:first-of-type{border-top:none}
   #guideModal .g-rail .num{font-family:"Fraunces",serif;font-weight:900;font-size:2.8rem;line-height:.8;color:#f7941d;letter-spacing:-1px}
   #guideModal .g-rail .lab{font-family:"IBM Plex Mono",monospace;font-size:.64rem;letter-spacing:2px;text-transform:uppercase;font-weight:600;color:#f7941d;margin-top:13px}
   #guideModal .g-sec h3{font-family:"Fraunces",serif;font-weight:600;font-size:1.55rem;line-height:1.16;letter-spacing:-.3px;margin:0 0 15px;color:#eaf1f8;text-wrap:balance}
   #guideModal .g-intro{color:#a9b8c8;font-size:1.04rem;line-height:1.6;margin:0 0 8px;max-width:66ch}
   #guideModal strong,#guideModal b{font-weight:600;color:#eaf1f8}
-  @media(max-width:760px){#guideModal .g-sec{grid-template-columns:1fr;gap:16px;padding:40px 0}#guideModal .g-rail{display:flex;align-items:baseline;gap:14px}#guideModal .g-rail .num{font-size:1.9rem}#guideModal .g-rail .lab{margin-top:0}}
+  @media(max-width:760px){#guideModal .g-sec{grid-template-columns:1fr;gap:16px;padding:40px 0}#guideModal .g-sec h3{font-size:1.9rem;line-height:1.14}#guideModal .g-rail{display:flex;align-items:baseline;gap:14px}#guideModal .g-rail .num{font-size:1.9rem}#guideModal .g-rail .lab{margin-top:0}}
   /* full-screen guide — fixed left stepper (outside the zoomed panel); lights up as each section scrolls in */
   @media(min-width:761px){
     #guideModal .g-inner{padding-left:224px}
@@ -2977,13 +3004,14 @@ const CARDS = [
     ofRefreshApp(); renderOfficials();
     maybeShowCallout();   // reset returns the shipped un-localized state, incl. the "Start here" callout
   };
+  if($("ofResetM")) $("ofResetM").onclick = $("ofReset").onclick;   // mobile Reset (after the warning) shares the handler
 
   // ===== Quick Start coach-mark tour (first visit; replay via the header tab) =====
   const QUICKSTART_LS = "civics2025.quickstart.v1";
   const qsSteps = [
     {sel:"#locChip",     title:"Set your location (optional)", body:"Some of the answers are specific to your STATE & DISTRICT. Setting your location fills in those answers throughout the study guide.", place:"bottom"},
     {sel:".modetoggle",  title:"Study by sight or by sound",   body:"Read the cards as FLASHCARDS, or switch to VOICE CARDS to hear each question — and every answer — read aloud.", place:"bottom"},
-    {sel:"#card",        title:"Flip through the questions",   body:"Every card is one exam question. Press SPACE BAR or click the card to flip and reveal all the accepted answers.", place:"right", rad:16},
+    {sel:"#card",        title:"Flip through the questions",   body:"Every card is one exam question. Press SPACE BAR or click the card to flip and reveal all the accepted answers.", place:"right", mplace:"top", rad:16},
     {sel:"#cardCtl",     title:"Track what you know",          body:"Mark each card KNOWN or flag it for REVIEW as you go. Your progress saves on this device automatically.", place:"bottom", rad:12},
     {sel:".examrow",     title:"Test yourself",                body:"When you're ready, take a 20-question practice exam — ORAL or WRITTEN. Get 12 right to pass, just like the interview.", place:"top", rad:13},
     {sel:"#guideBtn",    title:"Everything's in the guide",    body:"Learn more about every function of this guide whenever you like. It's right here for the full walkthrough, anytime.", place:"bottom", last:true}
@@ -3008,10 +3036,13 @@ const CARDS = [
     $("qsSkip").style.display = s.last ? "none" : "";
     $("qsNext").textContent = s.last ? "Start studying" : "Next";
     const tw=Math.min(320,window.innerWidth*0.88), th=tip.offsetHeight||200, gap=16;
-    let left, top, place=s.place;
-    if(place==="bottom" && r.bottom+gap+th>window.innerHeight-10) place="top";
-    if(place==="top" && r.top-gap-th<10) place="bottom";
-    if(place==="right" && r.right+gap+tw>window.innerWidth-10) place="bottom";
+    const mob=window.innerWidth<=600;
+    let left, top, place=(mob && s.mplace) ? s.mplace : s.place;
+    if(!(mob && s.mplace)){
+      if(place==="bottom" && r.bottom+gap+th>window.innerHeight-10) place="top";
+      if(place==="top" && r.top-gap-th<10) place="bottom";
+      if(place==="right" && r.right+gap+tw>window.innerWidth-10) place="bottom";
+    }
     if(place==="bottom"||place==="top"){ left=r.left+r.width/2-tw/2; top=place==="bottom"?r.bottom+gap:r.top-gap-th; }
     else { left=r.right+gap; top=r.top+r.height/2-th/2; }
     left=Math.max(10,Math.min(left,window.innerWidth-tw-10));
@@ -3026,8 +3057,8 @@ const CARDS = [
   }
   function qsNext(){ if(qsSteps[qsI].last){ qsEnd(); return; } qsI++; qsPlace(); }
   function qsPrev(){ if(qsI>0){ qsI--; qsPlace(); } }
-  function qsEnd(){ $("qsVeil").style.display="none"; try{ localStorage.setItem(QUICKSTART_LS,"1"); }catch(e){} setTimeout(function(){ document.body.classList.add("hdr-compact"); }, 500); }   // minimize the headline once the tour closes
-  function qsStart(){ qsI=0; try{ if(document.activeElement && document.activeElement.blur) document.activeElement.blur(); }catch(e){} try{ window.scrollTo({top:0,behavior:"auto"}); }catch(e){ window.scrollTo(0,0); } $("qsVeil").style.display="block"; requestAnimationFrame(qsPlace); }
+  function qsEnd(){ $("qsVeil").style.display="none"; document.body.classList.remove("qs-open"); try{ localStorage.setItem(QUICKSTART_LS,"1"); }catch(e){} setTimeout(function(){ document.body.classList.add("hdr-compact"); }, 500); }   // minimize the headline once the tour closes
+  function qsStart(){ qsI=0; document.body.classList.add("qs-open"); document.body.classList.remove("hdr-compact"); try{ if(document.activeElement && document.activeElement.blur) document.activeElement.blur(); }catch(e){} try{ window.scrollTo({top:0,behavior:"auto"}); }catch(e){ window.scrollTo(0,0); } $("qsVeil").style.display="block"; requestAnimationFrame(function(){ requestAnimationFrame(qsPlace); }); }
   function qsWire(){
     const dots=$("qsDots"), veil=$("qsVeil"); if(!veil) return;
     dots.innerHTML=qsSteps.map((s,k)=>'<i data-k="'+k+'"></i>').join("");
