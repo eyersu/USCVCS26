@@ -363,6 +363,7 @@
 
   .nav{display:flex;gap:10px;align-items:center;justify-content:center;margin-bottom:18px}
   .nav button{min-width:110px;font-weight:600}
+  .nav .nic{margin-right:.4em}   /* desktop: arrow/icon inline with a space before the label */
   .know{background:rgba(31,138,76,.18);border-color:rgba(31,138,76,.5);color:#bff0d0}
   .know:hover{background:rgba(31,138,76,.32)}
   .review{background:rgba(194,59,59,.18);border-color:rgba(194,59,59,.5);color:#f6c9c9}
@@ -411,7 +412,9 @@
     .fliphint{display:none}                        /* no space bar on phones; the tour already says to tap the card */
     .stage{margin-bottom:20px}                     /* keep breathing room now that the hint is gone */
     .face{padding:0}.fc{padding:18px 16px 16px}   /* was double-padded (.face + .fc) — recover width on mobile */
-    .nav button{min-width:0;flex:1}
+    /* nav: all four buttons stack icon-over-label, equal width & height (Prev/Next match Review/Known) */
+    .nav button{min-width:0;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:9px 6px;line-height:1.15}
+    .nav .nic{margin-right:0;font-size:1.05rem}
     /* roomier fields & controls on mobile */
     .controls{padding:16px 14px;gap:20px}
     .controls .crow{gap:12px}
@@ -421,7 +424,7 @@
     .crow button{padding:11px 15px}
     .crow .danger{flex:1 1 100%;width:100%}   /* Reset buttons span the full width on phones */
     .nav{gap:10px}
-    .examrow{gap:14px}
+    .examrow{gap:20px}   /* more space between the two Practice Exam buttons */
     /* filter fields: even heights (match the search box), category on its own line, 65/20 + In order 50/50 */
     #catSel{flex-basis:100%;height:48px;padding:0 40px 0 16px}   /* taller — also fixes the clipped "All categories" label */
     #starBtn{flex:1 1 0;height:48px}
@@ -452,6 +455,18 @@
   .back ul.ans li .vc-aplay:hover{background:#b8500a}
   .vc-readall{position:absolute;left:86px;top:var(--vc-readall-top);display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:.6rem;letter-spacing:1px;text-transform:uppercase;font-weight:600;color:var(--red);background:none;border:1px dashed rgba(226,98,12,.5);border-radius:9px;padding:7px 12px;cursor:pointer;z-index:3}
   .vc-readall svg{display:block}
+  /* Phones: lift the question speaker up out of the question text, and make the answer rows
+     a flex layout (star + speaker vertically centered; wrapped answer text aligns under the text). */
+  @media (max-width:520px){
+    :root{--vc-front-top:176px; --vc-back-top:80px; --vc-readall-top:88px}
+    .vc-spk{left:16px}       /* align the question speaker with the card's content edge (matches the .fc padding) */
+    .vc-readall{left:72px}   /* keep Read all beside the speaker */
+    .back ul.ans li{display:flex;align-items:center;gap:11px;padding:13px 4px}
+    .back ul.ans li::before{position:static;top:auto;left:auto;margin:0;flex:none;font-size:1.05rem;line-height:1;width:16px;text-align:center}
+    .back ul.ans li.pickable{padding-left:4px;padding-right:4px;margin:0}
+    .back ul.ans li .vc-aplay{width:34px;height:34px;margin:0;flex:none}
+    .back ul.ans li .vc-aplay svg{width:16px;height:16px}
+  }
 
   .primary:hover{background:#b8500a;border-color:#b8500a}
 
@@ -793,10 +808,10 @@
 <div class="fliphint">Press <kbd>Space bar</kbd> or click the card to reveal the answer</div>
 
 <div class="nav">
-  <button id="prevBtn" title="Previous (←)">← Prev</button>
-  <button class="review" id="reviewBtn" title="Mark for review (D)">↻ Review</button>
-  <button class="know" id="knowBtn" title="Mark as known (K)">✓ Known</button>
-  <button id="nextBtn" title="Next (→)">Next →</button>
+  <button id="prevBtn" title="Previous (←)"><span class="nic">←</span><span class="nlb">Prev</span></button>
+  <button class="review" id="reviewBtn" title="Mark for review (D)"><span class="nic">↻</span><span class="nlb">Review</span></button>
+  <button class="know" id="knowBtn" title="Mark as known (K)"><span class="nic">✓</span><span class="nlb">Known</span></button>
+  <button id="nextBtn" title="Next (→)"><span class="nic">→</span><span class="nlb">Next</span></button>
 </div>
 
 <div class="examrow">
