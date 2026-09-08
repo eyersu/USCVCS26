@@ -89,7 +89,9 @@
   .sub{color:#9fb3c8;font-size:.85rem;margin-top:4px}
   @media (max-width:520px){
     header{margin-bottom:26px}
-    h1{font-size:1.85rem;line-height:1.16}   /* stays this size — no shrink-on-scroll */
+    h1{font-size:1.85rem;line-height:1.16}   /* roomy two-line hero on first view */
+    body.hdr-compact h1{font-size:1.4rem;line-height:1.22}   /* eases down to a single comfortable line after a few seconds */
+    body.hdr-compact h1 .flag{display:none}                  /* drop the stars so the title fits one line */
     .sub{margin-top:8px;line-height:1.5}
     .foot .kbdline{display:none}   /* keyboard shortcuts aren't relevant on a phone */
   }
@@ -3019,6 +3021,10 @@ const CARDS = [
   wireVoiceCards();
   qsWire();
   gBuildSteps();
+  // header: roomy two-line hero first, then ease the title down to a single line after a short beat (or first scroll)
+  (function(){ let c=false; function collapse(){ if(c) return; c=true; document.body.classList.add("hdr-compact"); }
+    window.addEventListener("scroll", function(){ if((window.scrollY||document.documentElement.scrollTop||0) > 24) collapse(); }, {passive:true});
+    setTimeout(collapse, 3500); })();
   updateOrderUI();
   buildDeck(false);
   const recomputeH=()=>requestAnimationFrame(()=>{ computeDefaultH(); if(!flipped) renderNoAnim(); });
