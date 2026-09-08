@@ -437,7 +437,13 @@
     #officialsModal .of-reset{width:100%;margin-left:0}
     #officialsModal .of-derived .of-reset{display:none}      /* on phones, Reset moves to after the warning box */
     #officialsModal .of-reset-m{display:inline-flex;justify-content:center}
-    #officialsModal .tclose{background:var(--orange);color:#fff;border-radius:50%;width:40px;height:40px;padding:0;display:inline-flex;align-items:center;justify-content:center;font-size:1.05rem;box-shadow:0 4px 12px rgba(226,98,12,.4)}
+    /* full-screen on phones, like the How to Use guide */
+    #officialsModal{padding:0}
+    #officialsModal .panel{position:relative;width:100%;max-width:none;min-height:100vh;margin:0;border-radius:0;border-top:none;box-shadow:none;padding:calc(38px + env(safe-area-inset-top)) 20px calc(40px + env(safe-area-inset-bottom))}
+    #officialsModal .thead{margin-bottom:22px}
+    #officialsModal .ttitle{font-size:1.7rem;line-height:1.1;letter-spacing:-.4px}   /* match the guide headline */
+    /* X: match the guide's exactly (size + placement), fixed so it stays while the sheet scrolls */
+    #officialsModal .tclose{position:fixed;top:calc(22px + env(safe-area-inset-top));right:16px;width:48px;height:48px;font-size:1.3rem;border-radius:50%;background:var(--orange);color:#fff;padding:0;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(226,98,12,.4);z-index:10}
     #officialsModal .tclose:hover{background:#b8500a}
     .face{padding:0}.fc{padding:18px 16px 16px}   /* was double-padded (.face + .fc) — recover width on mobile */
     /* nav: all four buttons stack icon-over-label, equal width & height (Prev/Next match Review/Known) */
