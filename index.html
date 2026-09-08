@@ -420,10 +420,10 @@
     .crow .danger{flex:1 1 100%;width:100%}   /* Reset buttons span the full width on phones */
     .nav{gap:10px}
     .examrow{gap:14px}
-    /* mode toggle: full width, two equal 50/50 halves */
-    .modebar{width:min(680px,94vw)}
-    .modetoggle{display:flex;width:100%}
-    .modetoggle .mt{flex:1;justify-content:center;padding:10px 8px}
+    /* filter row: category on its own line, then "65/20 only" + "In order" split 50/50 */
+    #catSel{flex-basis:100%}
+    #starBtn{flex:1 1 0}
+    .switch{width:auto;flex:1 1 0}
   }
 
   /* prominent primary button (TEST + in-test actions) */
