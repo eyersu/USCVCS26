@@ -2118,8 +2118,15 @@ const CARDS = [
     $("modeVoice").classList.toggle("on", voiceMode); $("modeFlash").classList.toggle("on", !voiceMode);
   }
   function flip(){ flipped=!flipped; render(); }
-  function next(){ if(deck.length){ vcStop(); idx=(idx+1)%deck.length; flipped=false; renderNoAnim(); } }
-  function prev(){ if(deck.length){ vcStop(); idx=(idx-1+deck.length)%deck.length; flipped=false; renderNoAnim(); } }
+  function scrollToCard(){   // mobile: after Prev/Next, pin the new card's top just under the fixed top bar so a long answer list can't leave you mid-page
+    if(window.innerWidth>520) return;                                  // mobile only — desktop scroll behavior unchanged
+    const card=$("card"); if(!card) return;
+    const bar=$("topbar"), off=(bar?bar.getBoundingClientRect().height:0)+12;
+    const y=window.pageYOffset + card.getBoundingClientRect().top - off;
+    window.scrollTo({top:Math.max(0,y), behavior:"auto"});
+  }
+  function next(){ if(deck.length){ vcStop(); idx=(idx+1)%deck.length; flipped=false; renderNoAnim(); scrollToCard(); } }
+  function prev(){ if(deck.length){ vcStop(); idx=(idx-1+deck.length)%deck.length; flipped=false; renderNoAnim(); scrollToCard(); } }
   function mark(kind){
     if(!deck.length) return;
     const n = deck[idx].n;
