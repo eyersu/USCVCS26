@@ -88,11 +88,11 @@
   h1 .flag{color:var(--gold)}
   .sub{color:#9fb3c8;font-size:.85rem;margin-top:4px}
   @media (max-width:520px){
-    header{margin-bottom:26px}
+    header{margin-top:16px;margin-bottom:26px}   /* more space before the headline */
     h1{font-size:1.85rem;line-height:1.32}   /* roomy two-line hero — extra leading between the two lines */
     body.hdr-compact h1{font-size:1.3rem;line-height:1.2;white-space:nowrap}   /* eases down to a single line after a few seconds */
     body.hdr-compact h1 .flag{font-size:.72em}               /* keep the stars on minimize, just smaller so it still fits one line */
-    .sub{margin-top:8px;line-height:1.5}
+    .sub{margin-top:8px;line-height:2}   /* open leading so the wrapped line with the location pill separates */
     .foot .kbdline{display:none}   /* keyboard shortcuts aren't relevant on a phone */
     .foot{margin-top:44px}         /* breathing room after the last content block */
   }
