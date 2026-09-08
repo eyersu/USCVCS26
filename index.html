@@ -1172,7 +1172,7 @@
   /* On desktop the container is inert — the two buttons keep their own fixed positions.
      On phones (≤600px) it becomes a full-width segmented top bar. */
   #topbar{display:contents}
-  #guideBtn{position:fixed;top:22px;right:0;z-index:20;font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:1.4px;text-transform:uppercase;font-weight:700;color:#0d1b2a;background:#faf6ee;border:0;border-radius:999px 0 0 999px;padding:9px 16px 9px 9px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;line-height:1;box-shadow:-3px 4px 16px rgba(0,0,0,.4)}
+  #guideBtn{position:fixed;top:26px;right:0;z-index:20;font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:1.4px;text-transform:uppercase;font-weight:700;color:#0d1b2a;background:#faf6ee;border:0;border-radius:999px 0 0 999px;padding:9px 16px 9px 9px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;line-height:1;box-shadow:-3px 4px 16px rgba(0,0,0,.4)}
   #guideBtn .q{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#e2620c;color:#fff;font-weight:800;font-size:.72rem}
   #guideBtn:hover{background:#fff}
   /* collapse to just the "?" badge when the title would overlap */
@@ -1182,7 +1182,7 @@
     #guideBtn .q{width:27px;height:27px;font-size:.95rem}
   }
   /* Quick Start replay tab — a quieter right-edge tab tucked under How to use */
-  #quickstartBtn{position:fixed;top:60px;right:0;z-index:20;font-family:"IBM Plex Mono",monospace;font-size:.58rem;letter-spacing:1.4px;text-transform:uppercase;font-weight:600;color:#d7e2ee;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-right:0;border-radius:999px 0 0 999px;padding:7px 14px 7px 12px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;line-height:1;box-shadow:-3px 4px 12px rgba(0,0,0,.3)}
+  #quickstartBtn{position:fixed;top:64px;right:0;z-index:20;font-family:"IBM Plex Mono",monospace;font-size:.58rem;letter-spacing:1.4px;text-transform:uppercase;font-weight:600;color:#d7e2ee;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-right:0;border-radius:999px 0 0 999px;padding:7px 14px 7px 12px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;line-height:1;box-shadow:-3px 4px 12px rgba(0,0,0,.3)}
   #quickstartBtn:hover{background:rgba(247,148,29,.16);border-color:rgba(247,148,29,.5);color:#f7941d}
   #quickstartBtn .qs-ic{font-size:.8rem}
   @media (max-width:768px){ #quickstartBtn{top:84px;padding:13px 15px;gap:0} #quickstartBtn .qs-lb{display:none} #quickstartBtn .qs-ic{font-size:1.25rem} }
@@ -1236,7 +1236,7 @@
   #guideModal{padding:0}                                  /* full-screen guide */
   #guideModal.modal.open{align-items:stretch}
   #guideModal .g-panel{position:relative;width:100%;min-height:calc(100vh / 1.2);margin:0;background:#26394e;color:#eaf1f8;border-radius:0;overflow:hidden;box-shadow:none;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.7;font-size:16px;zoom:1.2}
-  #guideModal .g-close{position:absolute;top:16px;right:16px;z-index:5;width:38px;height:38px;border:none;border-radius:50%;background:#e2620c;color:#fff;font-size:1.05rem;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;box-shadow:0 4px 12px rgba(226,98,12,.4)}
+  #guideModal .g-close{position:absolute;top:46px;right:46px;z-index:5;width:38px;height:38px;border:none;border-radius:50%;background:#e2620c;color:#fff;font-size:1.05rem;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;box-shadow:0 4px 12px rgba(226,98,12,.4)}
   #guideModal .g-close:hover{background:#b8500a}
   #guideModal .g-inner{padding:46px clamp(24px,4vw,60px) 48px;max-height:calc(100vh / 1.2);overflow:auto}
   #guideModal .g-kicker{font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:2.4px;text-transform:uppercase;color:#f7941d;font-weight:600;margin:0 0 14px}
@@ -1272,7 +1272,7 @@
   @media(max-width:760px){
     #guideModal .g-panel{zoom:1;min-height:100vh}
     #guideModal .g-inner{max-height:100vh;padding:calc(38px + env(safe-area-inset-top)) 20px calc(40px + env(safe-area-inset-bottom))}
-    #guideModal .g-close{top:calc(22px + env(safe-area-inset-top));width:48px;height:48px;font-size:1.3rem}
+    #guideModal .g-close{top:calc(22px + env(safe-area-inset-top));right:16px;width:48px;height:48px;font-size:1.3rem}
     #guideModal .g-title{font-size:1.7rem;line-height:1.1;letter-spacing:-.4px}
     #guideModal .g-facts{gap:14px 22px;margin-top:20px}
     #guideModal .g-facts b{font-size:1.05rem}
