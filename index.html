@@ -2844,7 +2844,7 @@ const CARDS = [
     if(ofEditing){ const inp=$("ofEdit_"+ofEditing); if(inp){ inp.focus(); inp.select(); } }
   }
 
-  function ofOpen(){ dismissCallout(); ofEditing=null; $("ofState").value=officials.state; $("ofZip").value=officials.zip; renderOfficials(); $("officialsModal").classList.add("open"); $("officialsModal").setAttribute("aria-hidden","false"); }
+  function ofOpen(){ dismissCallout(); ofEditing=null; $("ofState").value=officials.state; $("ofZip").value=officials.zip; renderOfficials(); const m=$("officialsModal"); m.classList.add("open"); m.setAttribute("aria-hidden","false"); m.scrollTop=0; const p=m.querySelector(".panel"); if(p) p.scrollTop=0; }   // always reopen at the top, even if last left scrolled
   function ofCloseModal(){ ofEditing=null; $("officialsModal").classList.remove("open"); $("officialsModal").setAttribute("aria-hidden","true"); }
 
   function ofCommitEdit(f, val){ val=(val||"").trim(); if(!val){ ofEditing=null; renderOfficials(); return; } officials.values[f]=val; officials.src[f]="you"; officials.upd[f]=new Date().toISOString().slice(0,10); officials.fail[f]=false; ofEditing=null; ofRefreshApp(); renderOfficials(); }
