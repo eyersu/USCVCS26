@@ -423,17 +423,22 @@
     #catSel{padding:11px 14px}
     .crow button{padding:11px 15px}
     .crow .danger{flex:1 1 100%;width:100%}   /* Reset buttons span the full width on phones */
-    .nav{gap:10px}
+    .nav{gap:10px;width:min(680px,94vw)}   /* fill the card column so the buttons aren't tight around the labels */
     .examrow{gap:20px}   /* more space between the two Practice Exam buttons */
-    /* filter fields: even heights (match the search box), category on its own line, 65/20 + In order 50/50 */
-    #catSel{flex-basis:100%;height:48px;padding:0 40px 0 16px}   /* taller — also fixes the clipped "All categories" label */
-    #starBtn{flex:1 1 0;height:48px}
-    .crow .switch{flex:1 1 0;width:auto;height:48px;padding:0}
-    .switch .swlabel{text-align:center;padding:0 12px}          /* centered toggle label */
+    /* filter fields: even heights, unified pill corners, matching text sizes, full-width groups, even spacing */
+    .search{border-radius:999px}
+    #catSel{flex-basis:100%;height:48px;padding:0 40px 0 16px;border-radius:999px;font-size:.95rem}   /* taller fixes the clipped label; pill corners */
+    #starBtn{flex:1 1 0;height:48px;border-radius:999px;font-size:.95rem}
+    .crow .switch{flex:1 1 0;width:auto;height:48px;padding:0;border-radius:999px}   /* the whole toggle is a pill so the knob sits nicely */
+    .switch .swlabel{text-align:center;padding:0 12px;font-size:.95rem}          /* centered toggle label */
     .switch.on .swlabel{text-align:center;padding:0 12px}
-    /* Review / Known / Unassigned trio spans full width like the other groups */
-    .pilegroup{width:100%;display:flex;gap:2px}
-    .pilegroup button{flex:1;padding:9px 2px;font-size:.8rem;white-space:nowrap}
+    /* Review / Known / Unassigned: full width, pill, text matching the others */
+    .pilegroup{width:100%;display:flex;gap:4px;height:48px;border-radius:999px;align-items:center}
+    .pilegroup button{flex:1;padding:0 4px;height:40px;font-size:.95rem;white-space:nowrap;border-radius:999px}
+    button.danger{border-radius:999px}
+    /* even vertical spacing between fields */
+    .controls{gap:14px}
+    .controls .crow{column-gap:12px;row-gap:14px}
   }
 
   /* prominent primary button (TEST + in-test actions) */
