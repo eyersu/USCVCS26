@@ -1903,7 +1903,8 @@ const CARDS = [
     function confetti(x,y){
       if(RM()) return;
       x=(x==null)?W/2:x; y=(y==null)?H*0.4:y;
-      for(let i=0;i<100;i++){
+      const N = W<=520 ? 42 : 100;   // phones: fewer rotating rects so the per-question burst stays smooth (desktop unchanged)
+      for(let i=0;i<N;i++){
         const a=Math.random()*6.2832, sp=Math.random()*7+2;
         add({type:"rect",x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-5,g:0.32,drag:0.994,
           s:Math.random()*6+5,rot:Math.random()*6,spin:(Math.random()-0.5)*0.4,
