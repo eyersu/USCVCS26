@@ -447,7 +447,7 @@
     #officialsModal .of-reset{width:100%;margin-left:0}
     #officialsModal .of-derived .of-reset{display:none}      /* on phones, Reset moves to after the warning box */
     #officialsModal .of-derived{flex-wrap:nowrap}                 /* keep the District field + ZIP-derived tag on one row */
-    #officialsModal .of-derived .of-verify-tag{flex:1 1 0;min-width:0;margin-bottom:0;min-height:42px;box-sizing:border-box;display:inline-flex;align-items:center}   /* fill the rest, wrap text, align to the input box */
+    #officialsModal .of-derived .of-verify-tag{flex:1 1 0;min-width:0;margin-bottom:0;display:flex;align-items:center;min-height:42px;box-sizing:border-box}   /* align to the input box; inner span keeps text + link inline */
     #officialsModal .of-reset-m{display:inline-flex;justify-content:center}
     /* full-screen on phones, like the How to Use guide */
     #officialsModal{padding:0}
@@ -2952,8 +2952,8 @@ const CARDS = [
 
   function renderOfficials(){
     if($("ofDistrictInput")) $("ofDistrictInput").value = officials.district || "";
-    if($("ofDistTag")) $("ofDistTag").innerHTML = (officials.districtSrc==="you" ? "⚠ Manually set" : "⚠ ZIP-derived")
-      + ` · verify at <a href="https://www.house.gov/representatives/find-your-representative" target="_blank" rel="noopener">house.gov</a>`;
+    if($("ofDistTag")) $("ofDistTag").innerHTML = '<span class="of-tagtext">' + (officials.districtSrc==="you" ? "⚠ Manually set" : "⚠ ZIP-derived")
+      + ` · verify at <a href="https://www.house.gov/representatives/find-your-representative" target="_blank" rel="noopener">house.gov</a></span>`;
     const v=officials.values;
     let html="";
     for(const item of OF_ROLE_MAP){
