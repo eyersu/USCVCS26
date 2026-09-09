@@ -2819,7 +2819,7 @@ const CARDS = [
   let ofEditing = null;
   let ofCongressCache = null;
 
-  function ofLoad(){ try{ const s=JSON.parse(localStorage.getItem(OF_LS)); if(s && s.values){ OF_FIELDS.forEach(f=>{ if(!(f in s.src)) s.src[f]="builtin"; if(!(f in s.upd)) s.upd[f]=""; }); return s; } }catch(e){} return JSON.parse(JSON.stringify(OF_DEFAULT)); }
+  function ofLoad(){ try{ const s=JSON.parse(localStorage.getItem(OF_LS)); if(s && s.values){ OF_FIELDS.forEach(f=>{ if(!(f in s.src)) s.src[f]="builtin"; if(!(f in s.upd)) s.upd[f]=""; }); OF_NATIONAL.forEach(f=>{ if(s.src[f]==="builtin"){ s.values[f]=OF_DEFAULT.values[f]; s.upd[f]=OF_DEFAULT.upd[f]; } });   /* built-in national officials always reflect the shipped defaults, so updates propagate to saved installs */ return s; } }catch(e){} return JSON.parse(JSON.stringify(OF_DEFAULT)); }
   function ofSave(){ try{ localStorage.setItem(OF_LS, JSON.stringify(officials)); }catch(e){} }
 
   function setCardA(n, arr){ const c=CARDS.find(x=>x.n===n); if(c) c.a=arr; }
