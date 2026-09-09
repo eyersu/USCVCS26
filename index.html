@@ -2764,7 +2764,7 @@ const CARDS = [
   initVoices();
 
   document.addEventListener("keydown", e=>{
-    if($("qsVeil") && $("qsVeil").style.display!=="none") return;   // Quick Start tour owns the keys while open
+    if(document.body.classList.contains("qs-open")) return;   // Quick Start tour owns the keys while open (robust across sessions — the veil's CSS display is not inline)
     const gm=$("guideModal");
     if(gm && gm.classList.contains("open")){
       if(e.key==="Escape"){ if(window.__gSearchOpen && window.__gSearchOpen()){ window.__gSearchClose(); } else closeGuide(); }
