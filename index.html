@@ -1292,7 +1292,7 @@
   #qsTip .qs-skip{font-family:inherit;font-size:.82rem;font-weight:500;background:none;border:none;color:#8a95a0;cursor:pointer;padding:9px 10px;border-radius:9px;white-space:nowrap}
   #qsTip .qs-skip:hover{color:#5a6b7d}
   #qsTip .qs-next{font-family:inherit;font-size:.86rem;font-weight:700;background:#e2620c;color:#fff;border:none;cursor:pointer;padding:10px 16px;border-radius:10px;white-space:nowrap}
-  #qsTip .qs-next:hover{background:#b8500a}
+  @media (hover:hover){ #qsTip .qs-next:hover{background:#b8500a} }   /* hover-capable only, so a tap on touch devices doesn't leave Next stuck dark */
   #qsTip .qs-caret{position:absolute;width:16px;height:16px;background:#fff;transform:rotate(45deg)}
   #guideModal{padding:0}                                  /* full-screen guide */
   #guideModal.modal.open{align-items:stretch}
