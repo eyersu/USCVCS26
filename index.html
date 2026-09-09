@@ -1727,6 +1727,8 @@ const CARDS = [
   let starOnly = false;
   let pile = "";   // "", "review", "known", or "unassigned"
   let cat = "all";
+  let curN = 0;      // current card number — persisted so we can resume on this card next launch
+  let resumeN = 0;   // card number to resume to on this launch (read from saved prefs)
   let progress = load();  // { [n]: "known" | "review" }
 
   function load(){ try{ return JSON.parse(localStorage.getItem(LS)) || {}; }catch(e){ return {}; } }
@@ -1734,13 +1736,14 @@ const CARDS = [
 
   // Study-view selections (order / 65-20 / category / pile). Persist across launches until a reset clears them.
   const PREFS_LS = "civics2025.prefs.v1";
-  function savePrefs(){ try{ localStorage.setItem(PREFS_LS, JSON.stringify({shuffled, starOnly, pile, cat})); }catch(e){} }
+  function savePrefs(){ try{ localStorage.setItem(PREFS_LS, JSON.stringify({shuffled, starOnly, pile, cat, n:curN})); }catch(e){} }
   function loadPrefs(){
     let p=null; try{ p=JSON.parse(localStorage.getItem(PREFS_LS)); }catch(e){}
     if(p){
       shuffled=!!p.shuffled; starOnly=!!p.starOnly;
       pile=(p.pile==="review"||p.pile==="known"||p.pile==="unassigned")?p.pile:"";
       cat=(typeof p.cat==="string")?p.cat:"all";
+      resumeN=(typeof p.n==="number")?p.n:0;
       if(catSel){ catSel.value=cat; if(catSel.value!==cat){ cat="all"; catSel.value="all"; } }   // saved category no longer exists -> fall back
       $("starBtn").classList.toggle("active", starOnly);
       $("reviewOnlyBtn").classList.toggle("active", pile==="review");
@@ -1944,6 +1947,7 @@ const CARDS = [
     card.style.display="grid"; empty.style.display="none"; $("cardCtl").style.display="";
     $("prevArrow").style.display=""; $("nextArrow").style.display="";
     const c = deck[idx];
+    curN = c.n;
     card.classList.toggle("flipped", flipped);
 
     const starTxt = c.star ? "★" : "";
@@ -1974,6 +1978,7 @@ const CARDS = [
     vcRender(c);
     sizeCard();
     updateStats();
+    savePrefs();   // record the card now on screen so we can resume here next launch
   }
 
   function updateStats(){
@@ -3175,6 +3180,7 @@ const CARDS = [
   loadPrefs();
   buildDeck(false);
   if(!deck.length) unfilterDeck();   // saved filters produced an empty deck on launch -> show the full deck instead of a blank card
+  if(resumeN){ const ri=deck.findIndex(c=>c.n===resumeN); if(ri>=0){ idx=ri; renderNoAnim(); } }   // resume on the last card viewed (question side; flip state is never persisted)
   const recomputeH=()=>requestAnimationFrame(()=>{ computeDefaultH(); if(!flipped) renderNoAnim(); });
   // settle layout (fonts + card height), then auto-run the Quick Start once on first visit
   const afterLayout=()=>{ recomputeH(); if(!qsDone()) requestAnimationFrame(()=>requestAnimationFrame(qsStart)); };
