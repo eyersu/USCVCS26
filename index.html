@@ -2175,10 +2175,7 @@ const CARDS = [
     // celebrate only when a card is newly marked known
     if(kind==="known" && progress[n]==="known" && !wasKnown){
       const k = knownCount();
-      if(k===PASS){
-        FX.fireworks();
-        toast("🎆 "+PASS+" correct — that’s a passing score!", true);
-      } else if(k>0 && k%10===0){
+      if(k>0 && k%10===0){   // small confetti + toast every 10th known (the 12-known passing-score fireworks were removed by request)
         const kb = $("knownIcon").offsetParent ? $("knownIcon") : $("knowBtn");
         const r = kb.getBoundingClientRect();
         FX.confetti(r.left+r.width/2, r.top);
