@@ -446,6 +446,8 @@
     #officialsModal .of-update{width:100%;flex-basis:100%}
     #officialsModal .of-reset{width:100%;margin-left:0}
     #officialsModal .of-derived .of-reset{display:none}      /* on phones, Reset moves to after the warning box */
+    #officialsModal .of-derived{flex-wrap:nowrap}                 /* keep the District field + ZIP-derived tag on one row */
+    #officialsModal .of-derived .of-verify-tag{flex:1 1 0;min-width:0}   /* tag fills the rest and wraps its text */
     #officialsModal .of-reset-m{display:inline-flex;justify-content:center}
     /* full-screen on phones, like the How to Use guide */
     #officialsModal{padding:0}
@@ -1217,7 +1219,7 @@
 
     <div id="ofRows"></div>
 
-    <p class="of-intro of-sources">Your <b>district is derived from the ZIP</b> (US Census); your <b>senators and representative</b> come from the @unitedstates Congress dataset; the <b>national officials</b> (President, VP, Speaker, Chief Justice) and <b>Governor</b> from Wikidata. Every value is editable — confirm anything via the links above.</p>
+    <p class="of-intro of-sources">Your <b>district is derived from the ZIP</b> (US Census); your <b>senators and representative</b> come from the @unitedstates Congress dataset; your <b>Governor</b> from Wikidata. The <b>national officials</b> (President, VP, Speaker, Chief Justice) are built in with their full names. Every value is editable — confirm anything via the links above.</p>
   </div>
 </div>
 
@@ -3125,15 +3127,14 @@ const CARDS = [
       setF("senator2", leg.senators[1], "congress");
       if(leg.rep) setF("rep", leg.rep, "congress"); else officials.fail.rep = true;
     }catch(e){ officials.fail.senator1=officials.fail.senator2=officials.fail.rep=true; }
-    // national offices (P1308 officeholder)
-    for(const [f,qid] of [["president","Q11696"],["vp","Q11699"],["speaker","Q912994"],["chief","Q11147"]]){
-      try{ setF(f, await ofFetchWikidataOffice(qid), "wikidata"); }catch(e){ officials.fail[f]=true; }
-    }
+    // National offices keep their built-in full names (incl. middle names). Live sources return only
+    // first + last and these offices change rarely, so "Update from live sources" leaves them as-is.
+    // (Edit a card manually to change one.)
     // governor (P6 head of government of the state)
     try{ const gq=STATE_QID[officials.state]; setF("governor", gq ? await ofFetchGovernor(gq) : null, "wikidata"); }catch(e){ officials.fail.governor=true; }
     btn.disabled=false; btn.textContent=orig;
     // online but every live field failed (e.g. captive wifi / sources unreachable) -> softer notice
-    const netFields=["senator1","senator2","rep","president","vp","speaker","chief","governor"];
+    const netFields=["senator1","senator2","rep","governor"];
     if(netFields.every(f=>officials.fail[f]===true)) $("ofUnreachable").style.display="flex";
     ofRefreshApp(); renderOfficials();
   }
