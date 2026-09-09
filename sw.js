@@ -3,7 +3,7 @@
 // cached copy; when offline, fall back to the cached copy. Other assets are cache-first.
 // With this strategy content updates appear on the next launch WITHOUT bumping a version or
 // reinstalling — bump CACHE only when this SW logic or the offline asset list itself changes.
-const CACHE = "civics-v55";
+const CACHE = "civics-v56";
 const ASSETS = ["./", "./index.html", "./manifest.webmanifest",
                 "./icon-192.png", "./icon-512.png", "./apple-touch-icon.png"];
 
@@ -29,7 +29,9 @@ self.addEventListener("fetch", (e) => {
   const isPage = req.mode === "navigate" || req.destination === "document";
   if (isPage) {
     e.respondWith(
-      fetch(req)
+      // Bypass the HTTP cache for the page itself so a fresh deploy shows up on
+      // the next launch instead of waiting out the host's HTML cache.
+      fetch(req, { cache: "no-store" })
         .then((resp) => {
           try {
             const copy = resp.clone();
