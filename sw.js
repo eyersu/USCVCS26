@@ -3,7 +3,7 @@
 // cached copy; when offline, fall back to the cached copy. Other assets are cache-first.
 // With this strategy content updates appear on the next launch WITHOUT bumping a version or
 // reinstalling — bump CACHE only when this SW logic or the offline asset list itself changes.
-const CACHE = "civics-v47";
+const CACHE = "civics-v48";
 const ASSETS = ["./", "./index.html", "./manifest.webmanifest",
                 "./icon-192.png", "./icon-512.png", "./apple-touch-icon.png"];
 
