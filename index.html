@@ -1290,6 +1290,25 @@
   #guideModal .g-panel{position:relative;width:100%;min-height:calc(100vh / 1.2);margin:0;background:#26394e;color:#eaf1f8;border-radius:0;overflow:hidden;box-shadow:none;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.7;font-size:16px;zoom:1.2}
   #guideModal .g-close{position:absolute;top:46px;right:46px;z-index:5;width:38px;height:38px;border:none;border-radius:50%;background:#e2620c;color:#fff;font-size:1.05rem;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;box-shadow:0 4px 12px rgba(226,98,12,.4)}
   #guideModal .g-close:hover{background:#b8500a}
+  #guideModal .g-search{position:absolute;top:46px;right:96px;z-index:6;display:flex;align-items:center;gap:6px}
+  #guideModal .g-searchtoggle{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);color:#e6eef5;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;flex:none}
+  #guideModal .g-searchtoggle:hover{background:rgba(255,255,255,.16)}
+  #guideModal .g-searchtoggle .ic-x{display:none}
+  #guideModal .g-searchfield{display:none;align-items:center;gap:8px}
+  #guideModal .g-search.open{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:4px 12px 4px 4px;box-shadow:0 0 0 2px rgba(247,148,29,.6)}
+  #guideModal .g-search.open .g-searchtoggle{width:30px;height:30px;background:none;border:none}
+  #guideModal .g-search.open .g-searchtoggle:hover{background:rgba(255,255,255,.1)}
+  #guideModal .g-search.open .g-searchtoggle .ic-s{display:none}
+  #guideModal .g-search.open .g-searchtoggle .ic-x{display:block}
+  #guideModal .g-search.open .g-searchfield{display:flex}
+  #guideModal .g-searchfield input{background:none;border:none;outline:none;color:#eaf1f8;font:inherit;font-size:.95rem;width:130px;padding:0}
+  #guideModal .g-searchfield input::placeholder{color:#8ea0b2}
+  #guideModal .g-count{font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:.5px;color:#a9b8c8;white-space:nowrap;min-width:34px;text-align:right}
+  #guideModal .g-sdiv{width:1px;height:16px;background:rgba(255,255,255,.18)}
+  #guideModal .g-sarr{background:none;border:none;color:#cdd8e2;cursor:pointer;display:flex;align-items:center;padding:2px;border-radius:6px}
+  #guideModal .g-sarr:hover{background:rgba(255,255,255,.12);color:#fff}
+  #guideModal mark.g-hit{background:rgba(247,148,29,.3);color:inherit;border-radius:3px;padding:0 1px}
+  #guideModal mark.g-hit.cur{background:#f7941d;color:#3a2600}
   #guideModal .g-inner{padding:46px clamp(24px,4vw,60px) 48px;max-height:calc(100vh / 1.2);overflow:auto}
   #guideModal .g-kicker{font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:2.4px;text-transform:uppercase;color:#f7941d;font-weight:600;margin:0 0 14px}
   #guideModal .g-title{font-family:"Fraunces",Georgia,serif;font-weight:900;font-size:2.4rem;line-height:1;letter-spacing:-1px;margin:0}
@@ -1314,6 +1333,8 @@
     #guideModal #gSteps .st .n{display:block;font-family:"Fraunces",serif;font-weight:900;font-size:2.8rem;line-height:.8;letter-spacing:-1px;color:#fff;transition:color .35s ease}
     #guideModal #gSteps .st .l{display:block;font-family:"IBM Plex Mono",monospace;font-size:.6rem;letter-spacing:2px;text-transform:uppercase;font-weight:600;color:#fff;margin-top:8px;transition:color .35s ease}
     #guideModal #gSteps .st.on .n,#guideModal #gSteps .st.on .l{color:#f7941d}
+    #guideModal #gSteps .st.dim{opacity:.22}
+    #guideModal #gSteps .st .l .c{color:#7a8ea0;font-weight:400}
     #guideModal .g-secwrap .g-sec{display:block;padding:44px 0}
     #guideModal .g-secwrap .g-sec > .g-rail{display:none}
   }
@@ -1325,6 +1346,10 @@
     #guideModal .g-panel{zoom:1;min-height:100vh}
     #guideModal .g-inner{max-height:100vh;padding:calc(38px + env(safe-area-inset-top)) 20px calc(40px + env(safe-area-inset-bottom))}
     #guideModal .g-close{top:calc(22px + env(safe-area-inset-top));right:16px;width:48px;height:48px;font-size:1.3rem}
+    #guideModal .g-search{top:calc(22px + env(safe-area-inset-top));right:76px}
+    #guideModal .g-searchtoggle{width:48px;height:48px}
+    #guideModal .g-search.open .g-searchtoggle{width:34px;height:34px}
+    #guideModal .g-searchfield input{width:min(42vw,150px);font-size:1rem}
     #guideModal .g-title{font-size:1.7rem;line-height:1.1;letter-spacing:-.4px}
     #guideModal .g-facts{gap:14px 22px;margin-top:20px}
     #guideModal .g-facts b{font-size:1.05rem}
@@ -1395,6 +1420,16 @@
 <div class="modal" id="guideModal" aria-hidden="true">
   <nav id="gSteps" aria-label="Guide sections"></nav>
   <div class="g-panel">
+    <div class="g-search" id="gSearch">
+      <button class="g-searchtoggle" id="gSearchBtn" type="button" aria-label="Search the guide" title="Search the guide"><span class="ic-s" aria-hidden="true"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20.5 20.5l-4.2-4.2"/></svg></span><span class="ic-x" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span></button>
+      <div class="g-searchfield">
+        <input id="gSearchInput" type="text" placeholder="Search the guide…" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Search the guide">
+        <span class="g-count" id="gSearchCount" aria-live="polite"></span>
+        <span class="g-sdiv"></span>
+        <button id="gSearchPrev" type="button" class="g-sarr" aria-label="Previous match"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></button>
+        <button id="gSearchNext" type="button" class="g-sarr" aria-label="Next match"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+    </div>
     <button class="g-close" type="button" title="Close (Esc)">✕</button>
     <div class="g-inner">
       <p class="g-kicker">User Guide · USCIS M-1778 (09/25)</p>
@@ -2680,7 +2715,7 @@ const CARDS = [
     if($("qsVeil") && $("qsVeil").style.display!=="none") return;   // Quick Start tour owns the keys while open
     const gm=$("guideModal");
     if(gm && gm.classList.contains("open")){
-      if(e.key==="Escape") closeGuide();
+      if(e.key==="Escape"){ if(window.__gSearchOpen && window.__gSearchOpen()){ window.__gSearchClose(); } else closeGuide(); }
       return; // don't run study shortcuts while the guide is open
     }
     if($("officialsModal").classList.contains("open")){
@@ -2704,7 +2739,7 @@ const CARDS = [
 
   // ---- How-to guide overlay ----
   function openGuide(){ const m=$("guideModal"); if(!m) return; m.classList.add("open"); m.setAttribute("aria-hidden","false"); m.querySelector(".g-inner").scrollTop=0; if(gUpdate) requestAnimationFrame(gUpdate); }
-  function closeGuide(){ const m=$("guideModal"); if(!m) return; m.classList.remove("open"); m.setAttribute("aria-hidden","true"); }
+  function closeGuide(){ const m=$("guideModal"); if(!m) return; if(window.__gSearchClose) window.__gSearchClose(); m.classList.remove("open"); m.setAttribute("aria-hidden","true"); }
   (function(){ const b=$("guideBtn"), m=$("guideModal"); if(!b||!m) return;
     b.onclick=openGuide;
     const c=m.querySelector(".g-close"); if(c) c.onclick=closeGuide;
@@ -3179,13 +3214,67 @@ const CARDS = [
     window.addEventListener("resize", gUpdate);
     gUpdate();
   }
+  function gSearchInit(){
+    const wrap=$("gSearch"), input=$("gSearchInput"), btn=$("gSearchBtn"), cnt=$("gSearchCount"), prevB=$("gSearchPrev"), nextB=$("gSearchNext");
+    const root=document.querySelector("#guideModal .g-secs"), nav=$("gSteps");
+    if(!wrap || !input || !root) return;
+    const secs=[].slice.call(root.querySelectorAll(".g-sec"));
+    let marks=[], cur=-1;
+    function clearHi(){ [].slice.call(root.querySelectorAll("mark.g-hit")).forEach(function(m){ m.parentNode.replaceChild(document.createTextNode(m.textContent), m); }); root.normalize(); marks=[]; cur=-1; }
+    function railCounts(off){
+      if(!nav) return;
+      [].slice.call(nav.querySelectorAll(".st")).forEach(function(it,i){
+        let c=it.querySelector(".l .c");
+        if(off){ if(c) c.remove(); it.classList.remove("dim"); return; }
+        const n=secs[i] ? secs[i].querySelectorAll("mark.g-hit").length : 0;
+        if(!c){ c=document.createElement("span"); c.className="c"; const l=it.querySelector(".l"); if(l) l.appendChild(c); }
+        if(c) c.textContent=" ("+n+")";
+        it.classList.toggle("dim", n===0);
+      });
+    }
+    function setCur(i){
+      if(!marks.length) return;
+      if(cur>=0 && marks[cur]) marks[cur].classList.remove("cur");
+      cur=(i%marks.length+marks.length)%marks.length;
+      marks[cur].classList.add("cur");
+      cnt.textContent=(cur+1)+" / "+marks.length;
+      try{ marks[cur].scrollIntoView({block:"center", behavior:"auto"}); }catch(e){}
+    }
+    function run(){
+      const q=input.value.trim(); clearHi();
+      if(q.length<2){ cnt.textContent=""; railCounts(true); return; }
+      const ql=q.toLowerCase();
+      const walker=document.createTreeWalker(root, NodeFilter.SHOW_TEXT, { acceptNode:function(n){ return (n.nodeValue && n.nodeValue.toLowerCase().indexOf(ql)!==-1) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT; } });
+      const nodes=[]; let nd; while(nd=walker.nextNode()) nodes.push(nd);
+      nodes.forEach(function(node){
+        const text=node.nodeValue, low=text.toLowerCase(); let last=0, idx; const frag=document.createDocumentFragment();
+        while((idx=low.indexOf(ql,last))!==-1){ if(idx>last) frag.appendChild(document.createTextNode(text.slice(last,idx))); const mk=document.createElement("mark"); mk.className="g-hit"; mk.textContent=text.slice(idx,idx+ql.length); frag.appendChild(mk); marks.push(mk); last=idx+ql.length; }
+        if(last<text.length) frag.appendChild(document.createTextNode(text.slice(last)));
+        node.parentNode.replaceChild(frag,node);
+      });
+      railCounts(false);
+      if(marks.length) setCur(0); else cnt.textContent="0 / 0";
+    }
+    function openS(){ wrap.classList.add("open"); setTimeout(function(){ try{ input.focus(); }catch(e){} }, 30); }
+    function closeS(){ wrap.classList.remove("open"); input.value=""; clearHi(); cnt.textContent=""; railCounts(true); }
+    btn.onclick=function(){ wrap.classList.contains("open") ? closeS() : openS(); };
+    input.addEventListener("input", run);
+    input.addEventListener("keydown", function(e){
+      if(e.key==="Enter"){ e.preventDefault(); if(marks.length) setCur(cur + (e.shiftKey?-1:1)); }
+      else if(e.key==="Escape"){ e.preventDefault(); e.stopPropagation(); closeS(); }
+    });
+    prevB.onclick=function(){ if(marks.length) setCur(cur-1); };
+    nextB.onclick=function(){ if(marks.length) setCur(cur+1); };
+    window.__gSearchOpen=function(){ return wrap.classList.contains("open"); };
+    window.__gSearchClose=closeS;
+  }
 
   // apply saved profile before first render
   applyOfficials(); updateLocChip(); maybeShowCallout();
 
   wireVoiceCards();
   qsWire();
-  gBuildSteps();
+  gBuildSteps(); gSearchInit();
   // header: roomy two-line hero first, then ease the title down to a single line after a short beat (or first scroll).
   // Hold off while the Quick Start tour is open, so the layout doesn't shift out from under its spotlight.
   (function(){ let c=false;
