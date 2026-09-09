@@ -725,7 +725,9 @@
   #testModal .tcorrect-m{display:none}   /* mobile-only running counter; desktop uses the ghost numeral */
   @media (max-width:600px){
     #testModal .exam-ghost{display:none}         /* decorative score-ghost overlaps text on mobile */
-    #testModal .tcorrect-m{display:block;margin-top:9px;font-family:var(--mono);font-size:.74rem;letter-spacing:1.4px;text-transform:uppercase;font-weight:700;color:var(--orange)}
+    #testModal .tcorrect-m{display:flex;align-items:baseline;gap:9px;margin-top:8px}
+    #testModal .tcorrect-m .tcm-n{font-family:var(--serif);font-weight:900;font-size:2rem;line-height:1;letter-spacing:-.5px;color:var(--orange)}   /* bigger than the headline, per request */
+    #testModal .tcorrect-m .tcm-l{font-family:var(--mono);font-size:.68rem;letter-spacing:1.4px;text-transform:uppercase;font-weight:700;color:var(--orange)}
     #testModal .tstatus{white-space:normal;line-height:1.55}
   }
   #testModal .ghlbl{font-family:var(--mono);font-size:.64rem;letter-spacing:1.8px;text-transform:uppercase;font-weight:600;color:#3f5c86;margin-top:9px}
@@ -1117,7 +1119,7 @@
     <div class="ttitle" id="tTitle">Practice Exam</div>
     <div class="tbar"><i id="tBarFill"></i></div>
     <div class="statusrow"><span class="tstatus" id="tStatus">Question 1 of 20 · need 12 correct to pass</span></div>
-    <div class="tcorrect-m" id="tCorrectM">0 correct so far</div>
+    <div class="tcorrect-m" id="tCorrectM"><span class="tcm-n">0</span><span class="tcm-l">correct so far</span></div>
 
     <div id="tQuestionView">
       <div class="meta">
@@ -2297,7 +2299,7 @@ const CARDS = [
   function updateExamHead(){
     $("tGhostNum").textContent = test.correct;
     $("tStatus").innerHTML = '<span class="nb">Question '+(test.i+1)+' of '+TEST_TOTAL+'</span> · <span class="nb">need '+TEST_PASS+' correct to pass</span>';
-    const cm=$("tCorrectM"); if(cm) cm.textContent = test.correct+" correct so far";
+    const cm=$("tCorrectM"); if(cm) cm.innerHTML = '<span class="tcm-n">'+test.correct+'</span><span class="tcm-l">correct so far</span>';
     $("tBarFill").style.width = (test.i/TEST_TOTAL*100)+"%";
   }
   function renderTest(){
