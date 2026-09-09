@@ -721,7 +721,7 @@
   #testModal .exam-ghost{position:absolute;top:30px;left:66%;right:20px;display:flex;flex-direction:column;align-items:center;text-align:center;line-height:.8;pointer-events:none}
   #testModal .exam-ghost .n{font-family:var(--serif);font-weight:900;font-size:5.8rem;line-height:.8;color:var(--orange);display:block}
   #testModal .ttitle{color:#20303f;font-size:1.5rem;margin-bottom:18px}
-  #testModal .tbar{height:7px;width:100%;background:#d7dee8;margin-bottom:14px}
+  #testModal .tbar{height:7px;width:66%;background:#d7dee8;margin-bottom:14px}
   #testModal .tbar>i{background:#3f5c86}
   #testModal .statusrow{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
   #testModal .tstatus{font-family:var(--mono);font-size:.63rem;letter-spacing:1.4px;text-transform:uppercase;color:#7a8592}
@@ -729,6 +729,7 @@
   #testModal .tcorrect-m{display:none}   /* mobile-only running counter; desktop uses the ghost numeral */
   @media (max-width:600px){
     #testModal .exam-ghost{display:none}         /* decorative score-ghost overlaps text on mobile */
+    #testModal .tbar{width:100%}                 /* phones: no score-ghost, so the bar spans the card */
     #testModal .tcorrect-m{display:flex;align-items:center;gap:11px;margin-top:18px}
     #testModal .tcorrect-m .tcm-n{font-family:var(--serif);font-weight:900;font-size:3.3rem;line-height:1;letter-spacing:-.5px;color:var(--orange)}   /* large running score — matches the oral-exam mockup */
     #testModal .tcorrect-m .tcm-l{font-family:var(--mono);font-size:.72rem;letter-spacing:1.4px;text-transform:uppercase;font-weight:700;color:var(--orange)}
