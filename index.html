@@ -273,18 +273,17 @@
   .bar:hover .bhandle,.bar:focus-visible .bhandle,.bar:focus .bhandle{opacity:1}
   .bar:hover .bhandle{width:19px;height:19px}
   /* 6 · one-time prompt when the browser blocks audio autoplay */
-  .audioprompt{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(8px);z-index:9998;display:none;align-items:center;gap:9px;background:#122438;border:1px solid var(--gold);color:var(--gold);font-family:var(--mono);font-size:.68rem;letter-spacing:.6px;font-weight:600;padding:11px 17px;border-radius:24px;cursor:pointer;white-space:nowrap;box-shadow:0 10px 28px rgba(0,0,0,.55);opacity:0;transition:opacity .2s,transform .2s}
+  .audioprompt{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(8px);z-index:8000;display:none;align-items:center;gap:9px;background:#122438;border:1px solid var(--gold);color:var(--gold);font-family:var(--mono);font-size:.68rem;letter-spacing:.6px;font-weight:600;padding:11px 17px;border-radius:24px;cursor:pointer;white-space:nowrap;box-shadow:0 10px 28px rgba(0,0,0,.55);opacity:0;transition:opacity .2s,transform .2s}
   .audioprompt.show{display:inline-flex;opacity:1;transform:translateX(-50%) translateY(0)}
   .audioprompt:hover{background:#16304c}
   /* Rotate-to-portrait notice: this app is designed portrait; on a phone held landscape, ask to rotate */
-  #rotateNote{display:none}
+  #rotateNote{display:none;position:fixed;inset:0;z-index:100000;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:16px;padding:24px;background:var(--navy,#0d1b2a);color:var(--paper,#faf6ee)}
+  #rotateNote .ricon{width:76px;height:76px;transform-origin:50% 50%;animation:rotatehint 3s ease-in-out infinite}
+  #rotateNote .rtitle{font-family:var(--serif,Georgia,serif);font-weight:800;font-size:1.4rem;letter-spacing:-.2px;margin:0}
+  #rotateNote .rsub{font-family:var(--mono,monospace);font-size:.7rem;letter-spacing:1.6px;text-transform:uppercase;color:var(--gold,#f7941d);margin:0}
   @keyframes rotatehint{0%,100%{transform:rotate(-10deg)}50%{transform:rotate(10deg)}}
-  @media (orientation:landscape) and (max-height:520px) and (pointer:coarse){
-    #rotateNote{display:flex;position:fixed;inset:0;z-index:100000;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:16px;padding:24px;background:var(--navy,#0d1b2a);color:var(--paper,#faf6ee)}
-    #rotateNote .ricon{width:76px;height:76px;transform-origin:50% 50%;animation:rotatehint 3s ease-in-out infinite}
-    #rotateNote .rtitle{font-family:var(--serif,Georgia,serif);font-weight:800;font-size:1.4rem;letter-spacing:-.2px;margin:0}
-    #rotateNote .rsub{font-family:var(--mono,monospace);font-size:.7rem;letter-spacing:1.6px;text-transform:uppercase;color:var(--gold,#f7941d);margin:0}
-  }
+  #rotateNote.show{display:flex}                                                                   /* JS toggles this on a phone in landscape (reliable on iOS) */
+  @media (orientation:landscape) and (max-height:600px) and (pointer:coarse){#rotateNote{display:flex}}   /* CSS fallback when JS is unavailable */
   /* 2 · respect the OS "reduce motion" preference */
   @media (prefers-reduced-motion: reduce){
     *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;
@@ -666,7 +665,7 @@
       align-items:center; column-gap:12px; row-gap:3px}
     .people > summary .srow .ic, .tlpanel > summary .srow .ic{grid-row:1 / span 2; align-self:center}
     .people > summary .srow h2, .tlpanel > summary .srow h2{grid-row:1; grid-column:2; white-space:nowrap}
-    .people > summary .srow .cnt, .tlpanel > summary .srow .cnt{grid-row:2; grid-column:2; margin-left:0}
+    .people > summary .srow .cnt, .tlpanel > summary .srow .cnt{grid-row:2; grid-column:2; margin-left:0; font-size:.74rem; font-weight:600; letter-spacing:.6px; color:#6a5c44}   /* larger, bolder, darker so the subtitle reads on mobile */
     .people > summary .srow .pchev, .tlpanel > summary .srow .pchev{grid-row:1 / span 2; grid-column:3; align-self:center}
   }
   .tlbody{padding:2px 0 16px}
@@ -2253,7 +2252,7 @@ const CARDS = [
   function startTest(){ beginExam(false); }
   function startOral(){ beginExam(true); }
   function beginExam(oral){
-    window.scrollTo(0,0);
+    window.scrollTo(0,0); vcStop(); hideAudioPrompt();   // don't let the study-card audio prompt sit over the exam
     const deck = drawTestNumbers(TEST_TOTAL).map(n=>CARDS.find(c=>c.n===n));
     test = { deck, i:0, correct:0, firedPass:false, log:[], oral:!!oral };
     hideCeleb();
@@ -3192,6 +3191,18 @@ const CARDS = [
   buildDeck(false);
   if(!deck.length) unfilterDeck();   // saved filters produced an empty deck on launch -> show the full deck instead of a blank card
   if(resumeN){ const ri=deck.findIndex(c=>c.n===resumeN); if(ri>=0){ idx=ri; renderNoAnim(); } }   // resume on the last card viewed (question side; flip state is never persisted)
+  (function(){   // Rotate notice, JS-driven: iOS PWAs are unreliable with pointer/orientation media queries, so decide from innerWidth/innerHeight
+    const note=document.getElementById("rotateNote"); if(!note) return;
+    function upd(){
+      const coarse = ("ontouchstart" in window) || (window.matchMedia && window.matchMedia("(pointer:coarse)").matches);
+      const landscape = window.innerWidth > window.innerHeight;
+      const shortSide = Math.min(window.innerWidth, window.innerHeight);   // a phone's short side is <= ~430; tablets are >= 700
+      note.classList.toggle("show", !!(coarse && landscape && shortSide<=520));
+    }
+    ["resize","orientationchange"].forEach(function(ev){ window.addEventListener(ev, upd, {passive:true}); });
+    if(window.visualViewport) visualViewport.addEventListener("resize", upd, {passive:true});
+    upd();
+  })();
   const recomputeH=()=>requestAnimationFrame(()=>{ computeDefaultH(); if(!flipped) renderNoAnim(); });
   // settle layout (fonts + card height), then auto-run the Quick Start once on first visit
   const afterLayout=()=>{ recomputeH(); if(!qsDone()) requestAnimationFrame(()=>requestAnimationFrame(qsStart)); };
