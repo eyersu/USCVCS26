@@ -1364,6 +1364,17 @@
   #guideModal .g-rr{display:flex;align-items:baseline;gap:16px}
   #guideModal .g-rr .c{flex:none;display:flex;flex-wrap:wrap;gap:7px;align-items:center}
   #guideModal .g-rr .d{color:#a9b8c8;font-size:.98rem;line-height:1.5;max-width:52ch}
+  #guideModal .g-inst{display:flex;flex-direction:column;gap:20px;margin:26px 0 0;max-width:760px}
+  #guideModal .g-inst-row{display:flex;gap:15px;align-items:flex-start}
+  #guideModal .g-inst-ic{flex:none;color:#eaf1f8;margin-top:1px}
+  #guideModal .g-inst-ic svg{display:block}
+  #guideModal .g-inst-name{font-size:1rem;line-height:1.2;margin-bottom:4px}
+  #guideModal .g-inst-name b{font-weight:600;color:#eaf1f8}
+  #guideModal .g-inst-name .g-inst-br{color:#8ea0b2;font-weight:400}
+  #guideModal .g-inst-d{color:#a9b8c8;font-size:.98rem;line-height:1.55;max-width:52ch}
+  #guideModal .g-inst-d b{font-weight:600;color:#eaf1f8}
+  #guideModal .ic-inline{display:inline-flex;vertical-align:-2px;color:#a9b8c8}
+  #guideModal .ic-inline svg{display:block}
   @media(max-width:560px){#guideModal .g-rr{flex-direction:column;gap:6px;align-items:flex-start}}
   #guideModal .g-chip{display:inline-flex;align-items:center;gap:7px;font-size:.82rem;font-weight:500;line-height:1;padding:7px 13px;border-radius:22px;border:1px solid #3d5069;background:#1c2a3a;color:#e7edf4;white-space:nowrap}
   #guideModal .g-chip .ic{opacity:.72;font-weight:600;display:inline-flex;align-items:center}
@@ -1617,9 +1628,21 @@
         <div class="g-body">
           <h3>Install it like an app</h3>
           <p class="g-intro">Add it to your home screen and it opens full-screen, runs offline, and keeps your progress — no App Store, no account.</p>
-          <div class="g-ref">
-            <div class="g-rr"><div class="c"><span class="g-chip">iPhone · Safari</span></div><div class="d">Tap <b>Share</b> <span class="ic-inline"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M6 12v7a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-7"/></svg></span>, then <b>Add to Home Screen</b>, then <b>Add</b>. It has to be Safari — other iOS browsers can't install it.</div></div>
-            <div class="g-rr"><div class="c"><span class="g-chip">Android · Chrome</span></div><div class="d">Tap the <b>⋮ menu</b>, then <b>Install app</b>, then <b>Install</b>. Edge, Brave, and Samsung Internet work the same way.</div></div>
+          <div class="g-inst">
+            <div class="g-inst-row">
+              <span class="g-inst-ic"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M17.05 12.04c-.03-2.6 2.12-3.85 2.22-3.91-1.21-1.77-3.09-2.02-3.76-2.05-1.6-.16-3.12.94-3.93.94-.81 0-2.06-.92-3.39-.9-1.74.03-3.35 1.01-4.25 2.57-1.81 3.14-.46 7.79 1.3 10.34.86 1.25 1.88 2.65 3.22 2.6 1.29-.05 1.78-.83 3.34-.83 1.56 0 2 .83 3.37.81 1.39-.03 2.27-1.27 3.12-2.53.98-1.45 1.39-2.85 1.41-2.92-.03-.01-2.71-1.04-2.74-4.13M14.53 4.6c.71-.86 1.19-2.06 1.06-3.25-1.02.04-2.26.68-2.99 1.54-.66.76-1.23 1.98-1.08 3.15 1.14.09 2.3-.58 3.01-1.44"/></svg></span>
+              <div class="g-inst-txt">
+                <div class="g-inst-name"><b>iPhone</b> <span class="g-inst-br">· Safari</span></div>
+                <div class="g-inst-d">Tap <b>Share</b> <span class="ic-inline"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M6 12v7a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-7"/></svg></span>, then <b>Add to Home Screen</b>, then <b>Add</b>. It has to be Safari — other iOS browsers can't install it.</div>
+              </div>
+            </div>
+            <div class="g-inst-row">
+              <span class="g-inst-ic"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M6 18c0 .55.45 1 1 1h1v3.5a1.5 1.5 0 0 0 3 0V19h2v3.5a1.5 1.5 0 0 0 3 0V19h1c.55 0 1-.45 1-1V8H6v10M3.5 8A1.5 1.5 0 0 0 2 9.5v7a1.5 1.5 0 0 0 3 0v-7A1.5 1.5 0 0 0 3.5 8m17 0A1.5 1.5 0 0 0 19 9.5v7a1.5 1.5 0 0 0 3 0v-7A1.5 1.5 0 0 0 20.5 8m-4.97-5.84 1.3-1.3a.5.5 0 0 0-.7-.7l-1.48 1.47A5.9 5.9 0 0 0 12 1c-.96 0-1.86.22-2.66.63L7.87.16a.5.5 0 1 0-.71.7l1.3 1.3A5.98 5.98 0 0 0 6 7h12a5.98 5.98 0 0 0-2.44-4.84M9.5 5.5a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5m5 0a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5"/></svg></span>
+              <div class="g-inst-txt">
+                <div class="g-inst-name"><b>Android</b> <span class="g-inst-br">· Chrome</span></div>
+                <div class="g-inst-d">Tap the <b>⋮ menu</b>, then <b>Install app</b>, then <b>Install</b>. Edge, Brave, and Samsung Internet work the same way.</div>
+              </div>
+            </div>
           </div>
           <p class="g-install-note">Installing needs an internet connection (Wi-Fi or cellular). Once it's on your home screen, it works fully offline — no connection needed.</p>
           <div class="g-gfoot"><p>Based on the USCIS 2025 civics test, M-1778 (09/25). An independent study tool, not affiliated with USCIS. Confirm current details at <a href="https://www.uscis.gov/citizenship/testupdates" target="_blank" rel="noopener">uscis.gov/citizenship/testupdates</a>.</p></div>
