@@ -243,7 +243,7 @@
     transition:.15s;
   }
   select{padding-right:8px}
-  button:hover,select:hover{background:rgba(255,255,255,.16)}
+  @media(hover:hover){button:hover,select:hover{background:rgba(255,255,255,.16)}}   /* hover only on real pointers, so a tap on touch does not leave a sticky highlight */
   button.active{background:var(--gold);color:#25200a;border-color:var(--gold)}  /* no weight change — keeps width stable */
   .spacer{flex:1 1 100%;height:0}
 
@@ -260,7 +260,7 @@
   /* 3 · study-pile filters grouped; destructive resets set apart */
   .pilegroup{display:inline-flex;gap:4px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:4px}
   .pilegroup button{border:none;background:none;border-radius:10px;padding:8px 14px}
-  .pilegroup button:hover{background:rgba(255,255,255,.10)}
+  @media(hover:hover){.pilegroup button:hover{background:rgba(255,255,255,.10)}}
   .pilegroup button.active{background:var(--gold);color:#25200a}
   .crow-div{width:1px;align-self:stretch;min-height:26px;background:rgba(255,255,255,.16);margin:0 4px}
   button.danger{border:1px dashed rgba(224,133,124,.5);background:none;color:#e0857c}
@@ -1732,6 +1732,24 @@ const CARDS = [
   function load(){ try{ return JSON.parse(localStorage.getItem(LS)) || {}; }catch(e){ return {}; } }
   function save(){ try{ localStorage.setItem(LS, JSON.stringify(progress)); }catch(e){} }
 
+  // Study-view selections (order / 65-20 / category / pile). Persist across launches until a reset clears them.
+  const PREFS_LS = "civics2025.prefs.v1";
+  function savePrefs(){ try{ localStorage.setItem(PREFS_LS, JSON.stringify({shuffled, starOnly, pile, cat})); }catch(e){} }
+  function loadPrefs(){
+    let p=null; try{ p=JSON.parse(localStorage.getItem(PREFS_LS)); }catch(e){}
+    if(p){
+      shuffled=!!p.shuffled; starOnly=!!p.starOnly;
+      pile=(p.pile==="review"||p.pile==="known"||p.pile==="unassigned")?p.pile:"";
+      cat=(typeof p.cat==="string")?p.cat:"all";
+      if(catSel){ catSel.value=cat; if(catSel.value!==cat){ cat="all"; catSel.value="all"; } }   // saved category no longer exists -> fall back
+      $("starBtn").classList.toggle("active", starOnly);
+      $("reviewOnlyBtn").classList.toggle("active", pile==="review");
+      $("knownPileBtn").classList.toggle("active", pile==="known");
+      $("unassignedBtn").classList.toggle("active", pile==="unassigned");
+    }
+    updateOrderUI();
+  }
+
   const PASS = 12; // civics test: answer at least 12 of up to 20 questions correctly to pass
   function knownCount(){ return Object.values(progress).filter(v=>v==="known").length; }
 
@@ -1878,6 +1896,7 @@ const CARDS = [
   }
   function buildDeck(keepPos){
     searchMode = false;
+    savePrefs();   // capture the current order/filter/category selection so it survives a relaunch
     // NOTE: the "N results" count is left standing so it can be re-applied by clicking it or pressing Enter;
     // it is cleared only by the search ✕ or by emptying the box.
     let list = CARDS.filter(c =>
@@ -3153,8 +3172,9 @@ const CARDS = [
     setTimeout(collapse, 3500);
     window.__hdrCollapse = collapse;   // Quick Start triggers this once it closes
   })();
-  updateOrderUI();
+  loadPrefs();
   buildDeck(false);
+  if(!deck.length) unfilterDeck();   // saved filters produced an empty deck on launch -> show the full deck instead of a blank card
   const recomputeH=()=>requestAnimationFrame(()=>{ computeDefaultH(); if(!flipped) renderNoAnim(); });
   // settle layout (fonts + card height), then auto-run the Quick Start once on first visit
   const afterLayout=()=>{ recomputeH(); if(!qsDone()) requestAnimationFrame(()=>requestAnimationFrame(qsStart)); };
