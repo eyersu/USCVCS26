@@ -1312,9 +1312,9 @@
   #guideModal .g-sarr:hover{background:rgba(255,255,255,.12);color:#fff}
   #guideModal .g-search.open .g-searchtoggle{color:#fff}
   #guideModal .g-search.open .g-searchtoggle:hover{background:rgba(255,255,255,.2)}
-  #guideModal .g-search.open .g-searchfield input{color:#fff}
+  #guideModal .g-search.open .g-searchfield input{color:#fff;font-weight:600}
   #guideModal .g-search.open .g-searchfield input::placeholder{color:rgba(255,255,255,.75)}
-  #guideModal .g-search.open .g-count{color:rgba(255,255,255,.92)}
+  #guideModal .g-search.open .g-count{color:rgba(255,255,255,.92);font-weight:600}
   #guideModal .g-search.open .g-sdiv{background:rgba(255,255,255,.45)}
   #guideModal .g-search.open .g-sarr{color:rgba(255,255,255,.92)}
   #guideModal .g-search.open .g-sarr:hover{background:rgba(255,255,255,.2);color:#fff}
@@ -2210,7 +2210,7 @@ const CARDS = [
     }
     return el;
   }
-  function showAudioPrompt(){ if(audioPrimed) return; ensureAudioPrompt().classList.add("show"); }
+  function showAudioPrompt(){ if(audioPrimed || document.body.classList.contains("qs-open")) return; ensureAudioPrompt().classList.add("show"); }
   function hideAudioPrompt(){ const el=document.getElementById("audioPrompt"); if(el) el.classList.remove("show"); }
   function vcStop(){ try{ if(window.speechSynthesis) speechSynthesis.cancel(); }catch(e){} try{ if(vcAudio){vcAudio.onended=null;vcAudio.pause();vcAudio=null;} }catch(e){} vcQ=[]; }
   function vcSpeak(text, after){ try{ if(!("speechSynthesis" in window)){ if(after)after(); return; } speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text); if(typeof ttsVoice!=="undefined"&&ttsVoice){u.voice=ttsVoice;u.lang=ttsVoice.lang;} else u.lang="en-US"; u.rate=0.93; if(after)u.onend=after; speechSynthesis.speak(u); }catch(e){ if(after)after(); } }
@@ -2233,7 +2233,7 @@ const CARDS = [
       const ansHidden = $("bA").style.display==="none";
       ra.hidden = !on || ansHidden || !(c.a && c.a.length>1);   // hide on single-answer cards — nothing to "read all"
     }
-    if(on){ if(!flipped && lastVCn!==c.n){ lastVCn=c.n; if(audioPrimed) vcPlayQ(c); else showAudioPrompt(); } }
+    if(on){ if(!flipped && lastVCn!==c.n && !document.body.classList.contains("qs-open")){ lastVCn=c.n; if(audioPrimed) vcPlayQ(c); else showAudioPrompt(); } }
     else { vcStop(); lastVCn=null; }
   }
   function setVoiceMode(v){ voiceMode=!!v; try{ localStorage.setItem("civics2025.voicemode.v1", v?"1":"0"); }catch(e){}
@@ -3209,7 +3209,7 @@ const CARDS = [
   function qsNext(){ if(qsSteps[qsI].last){ qsEnd(); return; } qsI++; qsPlace(); }
   function qsPrev(){ if(qsI>0){ qsI--; qsPlace(); } }
   function qsEnd(){ $("qsVeil").style.display="none"; document.body.classList.remove("qs-open"); try{ localStorage.setItem(QUICKSTART_LS,"1"); }catch(e){} setTimeout(function(){ document.body.classList.add("hdr-compact"); }, 500); }   // minimize the headline once the tour closes
-  function qsStart(){ qsI=0; document.body.classList.add("qs-open"); document.body.classList.remove("hdr-compact"); try{ if(document.activeElement && document.activeElement.blur) document.activeElement.blur(); }catch(e){} try{ window.scrollTo({top:0,behavior:"auto"}); }catch(e){ window.scrollTo(0,0); } $("qsVeil").style.display="block"; requestAnimationFrame(function(){ requestAnimationFrame(qsPlace); }); }
+  function qsStart(){ qsI=0; document.body.classList.add("qs-open"); try{ vcStop(); hideAudioPrompt(); }catch(e){} document.body.classList.remove("hdr-compact"); try{ if(document.activeElement && document.activeElement.blur) document.activeElement.blur(); }catch(e){} try{ window.scrollTo({top:0,behavior:"auto"}); }catch(e){ window.scrollTo(0,0); } $("qsVeil").style.display="block"; requestAnimationFrame(function(){ requestAnimationFrame(qsPlace); }); }
   function qsWire(){
     const dots=$("qsDots"), veil=$("qsVeil"); if(!veil) return;
     dots.innerHTML=qsSteps.map((s,k)=>'<i data-k="'+k+'"></i>').join("");
