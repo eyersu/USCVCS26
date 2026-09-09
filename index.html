@@ -2289,7 +2289,7 @@ const CARDS = [
         toast("🎉 "+k+" known!");
       }
     }
-    if((pile && !inPile(n)) || (shuffled && pile==="" && progress[n]==="known")){ buildDeck(true); return; }
+    if((pile && !inPile(n)) || (shuffled && pile==="" && progress[n]==="known")){ render(); setTimeout(()=>{ buildDeck(true); scrollToCard(); }, 180); return; }
     render();
     if(progress[n]===kind) setTimeout(next,180);
   }
