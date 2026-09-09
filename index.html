@@ -264,7 +264,7 @@
   .pilegroup button.active{background:var(--gold);color:#25200a}
   .crow-div{width:1px;align-self:stretch;min-height:26px;background:rgba(255,255,255,.16);margin:0 4px}
   button.danger{border:1px dashed rgba(224,133,124,.5);background:none;color:#e0857c}
-  button.danger:hover{background:rgba(192,57,43,.14);border-color:#e0857c;color:#eda49c}
+  @media(hover:hover){button.danger:hover{background:rgba(192,57,43,.14);border-color:#e0857c;color:#eda49c}}
   /* 5 · progress bar reads (and behaves) as a slider */
   .bar{outline-offset:4px}
   .bhandle{position:absolute;top:50%;transform:translate(-50%,-50%);width:16px;height:16px;border-radius:50%;
@@ -487,6 +487,7 @@
     /* even vertical spacing between fields */
     .controls{gap:14px}
     .controls .crow{column-gap:12px;row-gap:14px}
+    .controls .crow.center{row-gap:20px;margin-top:6px}   /* more breathing room between the filter trio and the two reset buttons */
   }
 
   /* prominent primary button (TEST + in-test actions) */
