@@ -772,6 +772,7 @@
   #testModal .exam-celeb .ccont:hover{background:rgba(255,255,255,.26)}
   @keyframes examflick{0%,100%{opacity:0;transform:scale(.6)}50%{opacity:1;transform:scale(1)}}
   #testModal .exam-celeb .ff,#testModal .tresults .ff{position:absolute;width:13px;height:13px;background:#fff;clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);filter:drop-shadow(0 0 4px rgba(255,255,255,.9));animation:examflick 1.3s ease-in-out infinite}
+  @media (max-width:520px){#testModal .exam-celeb,#testModal .tresults{position:fixed;inset:0;border-radius:0;z-index:100;padding:44px 28px}}   /* phones: pass/results overlays go full-screen */
 </style>
 </head>
 <body>
