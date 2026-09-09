@@ -2196,7 +2196,7 @@ const CARDS = [
   let vcAudio=null, lastVCn=null, vcQ=[];
   // Browsers block audio that starts without a user gesture. Prime on the first interaction; until then,
   // a card that would auto-read shows a one-time prompt instead of silently failing.
-  let audioPrimed=false;
+  let audioPrimed=false, barScrubbing=false;
   function primeAudio(){ if(audioPrimed) return; audioPrimed=true; }   // unlock audio silently; the prompt is dismissed only by a real audio action, not by scrolling
   addEventListener("pointerdown", primeAudio, true);
   addEventListener("keydown", primeAudio, true);
@@ -2233,7 +2233,7 @@ const CARDS = [
       const ansHidden = $("bA").style.display==="none";
       ra.hidden = !on || ansHidden || !(c.a && c.a.length>1);   // hide on single-answer cards — nothing to "read all"
     }
-    if(on){ if(!flipped && lastVCn!==c.n && !document.body.classList.contains("qs-open")){ lastVCn=c.n; if(audioPrimed) vcPlayQ(c); else showAudioPrompt(); } }
+    if(on){ if(!flipped && lastVCn!==c.n && !barScrubbing && !document.body.classList.contains("qs-open")){ lastVCn=c.n; if(audioPrimed) vcPlayQ(c); else showAudioPrompt(); } }
     else { vcStop(); lastVCn=null; }
   }
   function setVoiceMode(v){ voiceMode=!!v; try{ localStorage.setItem("civics2025.voicemode.v1", v?"1":"0"); }catch(e){}
@@ -2634,9 +2634,9 @@ const CARDS = [
   function barTargetFromX(clientX){ const r=$("bar").getBoundingClientRect(); const frac=Math.max(0,Math.min(1,(clientX-r.left)/r.width)); return frac*128; }
   (function(){
     const bar=$("bar"); let dragging=false;
-    bar.addEventListener("pointerdown", e=>{ dragging=true; try{ bar.setPointerCapture(e.pointerId); }catch(_){} barJumpToTarget(barTargetFromX(e.clientX)); });
+    bar.addEventListener("pointerdown", e=>{ dragging=true; barScrubbing=true; try{ vcStop(); hideAudioPrompt(); }catch(_){} try{ bar.setPointerCapture(e.pointerId); }catch(_){} barJumpToTarget(barTargetFromX(e.clientX)); });
     bar.addEventListener("pointermove", e=>{ if(dragging) barJumpToTarget(barTargetFromX(e.clientX)); });
-    const end=e=>{ dragging=false; try{ bar.releasePointerCapture(e.pointerId); }catch(_){} };
+    const end=e=>{ dragging=false; barScrubbing=false; try{ bar.releasePointerCapture(e.pointerId); }catch(_){} if(voiceMode && !flipped && deck[idx]){ const c=deck[idx]; if(lastVCn!==c.n){ lastVCn=c.n; if(audioPrimed) vcPlayQ(c); else showAudioPrompt(); } } };
     bar.addEventListener("pointerup", end); bar.addEventListener("pointercancel", end);
     bar.addEventListener("keydown", e=>{
       if(!deck.length) return;
