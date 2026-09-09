@@ -3169,7 +3169,7 @@ const CARDS = [
   const qsSteps = [
     {sel:"#locChip",     title:"Set your location (optional)", body:"Some of the answers are specific to your STATE & DISTRICT. Setting your location fills in those answers throughout the study guide.", place:"bottom"},
     {sel:".modetoggle",  title:"Study by sight or by sound",   body:"Read the cards as FLASHCARDS, or switch to VOICE CARDS to hear each question — and every answer — read aloud.", place:"bottom"},
-    {sel:"#card",        title:"Flip through the questions",   body:"Every card is one exam question. Press SPACE BAR or click the card to flip and reveal all the accepted answers.", place:"right", mplace:"top", rad:16},
+    {sel:"#card",        title:"Flip through the questions",   body:"Every card is one exam question. Press SPACE BAR or click the card to flip and reveal all the accepted answers.", mbody:"Every card is one exam question. TAP the card to flip and reveal all acceptable answers.", place:"right", mplace:"top", rad:16},
     {sel:"#cardCtl",     title:"Track what you know",          body:"Mark each card KNOWN or flag it for REVIEW as you go. Your progress saves on this device automatically.", place:"bottom", msel:".nav .review, .nav .know", rad:14},
     {sel:".examrow",     title:"Test yourself",                body:"When you're ready, take a 20-question practice exam — ORAL or WRITTEN. Get 12 right to pass, just like the interview.", place:"top", rad:13},
     {sel:"#guideBtn",    title:"Everything's in the guide",    body:"Learn more about every function of this guide whenever you like. It's right here for the full walkthrough, anytime.", place:"bottom", last:true}
@@ -3198,7 +3198,7 @@ const CARDS = [
     const rc=v=>{ v=parseFloat(v)||0; return v>=r.height/2-1 ? spotH/2 : (v?v+pad:0); };
     spot.style.borderRadius=(s.rad!=null)?(s.rad+pad)+"px":[rc(cs.borderTopLeftRadius),rc(cs.borderTopRightRadius),rc(cs.borderBottomRightRadius),rc(cs.borderBottomLeftRadius)].map(n=>n+"px").join(" ");
     $("qsStep").textContent="Quick Start · "+(qsI+1)+" of "+qsSteps.length;
-    $("qsTitle").textContent=s.title; $("qsBody").textContent=s.body;
+    $("qsTitle").textContent=s.title; $("qsBody").textContent=(mob && s.mbody) ? s.mbody : s.body;
     $("qsDots").querySelectorAll("i").forEach((d,k)=>d.classList.toggle("on",k===qsI));
     $("qsSkip").style.display = s.last ? "none" : "";
     $("qsNext").textContent = s.last ? "Start studying" : "Next";
