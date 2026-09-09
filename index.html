@@ -2587,8 +2587,8 @@ const CARDS = [
     }
     if(i<0) return;
     idx = i; flipped = false; renderNoAnim();
-    const st = document.querySelector(".stage");
-    if(st) st.scrollIntoView({behavior:"smooth", block:"center"});
+    if(window.innerWidth<=520){ scrollToCard(); }   // mobile: pin the card top under the fixed bar, same as Prev/Next
+    else { const st = document.querySelector(".stage"); if(st) st.scrollIntoView({behavior:"smooth", block:"center"}); }
   }
   // condensed cheat sheet: surface each person's Q# into its collapsed row (kept clickable)
   document.querySelectorAll("#peoplePanel .person").forEach(p=>{
