@@ -2091,15 +2091,17 @@ const CARDS = [
     if(arr.length) picks[c.n]=arr; else delete picks[c.n];
     savePicks();
     showAllFor = (arr.length>=need) ? null : c.n;   // collapse to picks once `need` chosen; otherwise keep the full list
-    renderAnswers(c); sizeCard();
-    if(arr.length>=need) scrollToCard();   // just collapsed to the picked set -> return to the card top (mobile)
+    if(arr.length>=need){   // collapse instantly (suppress the height transition) so the scroll lands on the whole card top, exactly like Prev/Next
+      const card=$("card"); card.style.transition="none"; renderAnswers(c); sizeCard(); void card.offsetWidth; card.style.transition=""; scrollToCard();
+    } else { renderAnswers(c); sizeCard(); }
   }
   function pickAction(c, act){
     if(act==="showall") showAllFor=c.n;
     else if(act==="showpicks") showAllFor=null;
     else if(act==="reset"){ delete picks[c.n]; savePicks(); showAllFor=null; }
-    renderAnswers(c); sizeCard();
-    if(act==="showpicks") scrollToCard();   // collapsed back to the picks -> return to the card top (mobile)
+    if(act==="showpicks"){   // collapse instantly then pin to the whole card top, like Prev/Next
+      const card=$("card"); card.style.transition="none"; renderAnswers(c); sizeCard(); void card.offsetWidth; card.style.transition=""; scrollToCard();
+    } else { renderAnswers(c); sizeCard(); }
   }
 
   // ===== Voice cards =====
