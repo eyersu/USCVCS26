@@ -636,6 +636,10 @@
   .prole,.ptag{display:inline-flex;align-items:center;font-family:var(--serif-body);font-size:.84rem;line-height:1;
     color:#fff;padding:6px 13px 5px;border-radius:20px;border:1px solid transparent}
   .ptag{background:var(--blue);border-color:var(--blue)}
+  @media (max-width:520px){
+    .person > summary .srow{grid-template-columns:1fr;align-items:start;gap:8px 0}   /* phones: stack name / tags / Q# like the officeholders */
+    .person .pq{justify-self:start;margin-top:2px}
+  }
 
   /* collapsible sub-section (compare table) */
   .subsec{margin-bottom:18px;border:1px solid #ece3d2;border-radius:12px;overflow:hidden;background:#fff}
