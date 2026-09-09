@@ -419,6 +419,7 @@
        directly below it with a matching rounded bottom (its bottom curve = the card's top curve). */
     .stage{margin-bottom:0}
     .face{border-radius:16px 16px 0 0;box-shadow:none}
+    .empty{border-radius:16px 16px 0 0}   /* flat bottom so the blank deck meets the nav bar like a card */
     .nav{margin:0 auto 26px;background:#14283f;border-radius:0 0 16px 16px;padding:0;gap:0;box-shadow:0 16px 40px rgba(0,0,0,.34)}
     .nav button{flex:1;border:0;border-radius:0;padding:13px 4px;background:transparent}
     .nav button:first-child{border-bottom-left-radius:16px}
@@ -2117,13 +2118,13 @@ const CARDS = [
     $("vcReadAll").onclick=(e)=>{ e.stopPropagation(); if(deck.length) vcReadAllNow(deck[idx]); };
     $("modeVoice").classList.toggle("on", voiceMode); $("modeFlash").classList.toggle("on", !voiceMode);
   }
-  function flip(){ flipped=!flipped; render(); }
-  function scrollToCard(){   // mobile: after Prev/Next, pin the new card's top just under the fixed top bar so a long answer list can't leave you mid-page
+  function flip(){ flipped=!flipped; render(); scrollToCard(); }   // mobile: a long side (question or answers) shouldn't leave you scrolled past the card
+  function scrollToCard(){   // mobile: pin the card's top just under the fixed top bar (used by Prev/Next and flip)
     if(window.innerWidth>520) return;                                  // mobile only — desktop scroll behavior unchanged
     const card=$("card"); if(!card) return;
-    const bar=$("topbar"), off=(bar?bar.getBoundingClientRect().height:0)+12;
-    const y=window.pageYOffset + card.getBoundingClientRect().top - off;
-    window.scrollTo({top:Math.max(0,y), behavior:"auto"});
+    const bar=$("topbar"), off=(bar?bar.offsetHeight:0)+12;
+    let y=0; for(let el=card; el; el=el.offsetParent) y+=el.offsetTop;  // offset-based, so the flip's 3-D rotateY can't distort the measurement mid-animation
+    window.scrollTo({top:Math.max(0,y-off), behavior:"auto"});
   }
   function next(){ if(deck.length){ vcStop(); idx=(idx+1)%deck.length; flipped=false; renderNoAnim(); scrollToCard(); } }
   function prev(){ if(deck.length){ vcStop(); idx=(idx-1+deck.length)%deck.length; flipped=false; renderNoAnim(); scrollToCard(); } }
