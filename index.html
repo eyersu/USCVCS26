@@ -2092,7 +2092,7 @@ const CARDS = [
   function vcHush(){ try{ if(window.speechSynthesis) speechSynthesis.cancel(); }catch(e){} try{ if(vcAudio){vcAudio.onended=null;vcAudio.pause();vcAudio=null;} }catch(e){} }
   function vcNextInQueue(){ if(!vcQ.length) return; const t=vcQ.shift(); const src=(window.AAUDIO||{})[t]; const after=()=>{ if(vcQ.length) vcNextInQueue(); }; vcHush(); if(src){ try{ vcAudio=new Audio(src); vcAudio.onended=after; vcAudio.play().catch(()=>{vcAudio=null;vcSpeak(t,after);}); return; }catch(e){} } vcSpeak(t, after); }
   function vcPlayBtn(){ return voiceMode ? '<button class="vc-aplay" type="button" aria-label="Play answer"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v5h3.5L12 18V6L7.5 9.5H4Z" fill="currentColor" stroke="none"/><path d="M15.5 9a4 4 0 0 1 0 6"/></svg></button>' : ''; }
-  function vcWireAns(c){ $("bA").querySelectorAll(".vc-aplay").forEach(b=>{ b.onclick=(e)=>{ e.stopPropagation(); const li=b.closest("li"); vcPlayA(c.a[+li.dataset.i]); }; }); const ra=$("vcReadAll"); if(ra) ra.hidden = !voiceMode; }
+  function vcWireAns(c){ $("bA").querySelectorAll(".vc-aplay").forEach(b=>{ b.onclick=(e)=>{ e.stopPropagation(); const li=b.closest("li"); vcPlayA(c.a[+li.dataset.i]); }; }); const ra=$("vcReadAll"); if(ra) ra.hidden = !voiceMode || !(c.a && c.a.length>1); }   // Read all only makes sense with 2+ answers
   function vcRender(c){
     const on=voiceMode;
     $("vcFront").hidden=!on; $("vcBack").hidden=!on;
@@ -2101,7 +2101,7 @@ const CARDS = [
       // "Read all" sits beside the back question speaker (top-left); hide it only when there are no
       // answers to read — i.e. an un-localized officeholder card showing the set-location prompt.
       const ansHidden = $("bA").style.display==="none";
-      ra.hidden = !on || ansHidden;
+      ra.hidden = !on || ansHidden || !(c.a && c.a.length>1);   // hide on single-answer cards — nothing to "read all"
     }
     if(on){ if(!flipped && lastVCn!==c.n){ lastVCn=c.n; if(audioPrimed) vcPlayQ(c); else showAudioPrompt(); } }
     else { vcStop(); lastVCn=null; }
