@@ -836,52 +836,77 @@
 
 <!-- Settings panel -->
 <div id="setScrim"></div>
+<div id="setScrim"></div>
 <aside id="setPanel" role="dialog" aria-label="Settings" aria-hidden="true">
   <div class="set-h"><b>Settings</b><button id="setClose" type="button" aria-label="Close settings">✕</button></div>
-  <div class="set-g">
-    <p class="set-gl">Theme color</p>
-    <div class="set-sw" id="setSwatches"></div>
-  </div>
-  <div class="set-g">
-    <p class="set-gl">Text size</p>
-    <div class="set-seg" id="textSizeSeg">
-      <button type="button" data-size="sm">Small</button>
-      <button type="button" data-size="md">Medium</button>
-      <button type="button" data-size="lg">Large</button>
-    </div>
-  </div>
-  <div class="set-g">
-    <p class="set-gl">Animations</p>
-    <button id="animToggle" class="switch on" role="switch" aria-checked="true" aria-label="Toggle animations"><span class="knob"></span><span class="swlabel">On</span></button>
-    <p class="set-rml" id="setRml">Reduce Motion is on for this device — animations are held off.</p>
-    <p class="set-note">Off skips the per-question “correct” burst, makes the passing celebration static, and turns off card-flip motion. Follows your device’s Reduce Motion setting.</p>
-  </div>
+  <div class="set-body">
 
-  <div class="set-g">
-    <p class="set-gl">Voice cards</p>
-    <p class="set-sub2">Auto-play questions</p>
-    <button id="autoplayToggle" class="switch on" role="switch" aria-checked="true" aria-label="Auto-play questions"><span class="knob"></span><span class="swlabel">On</span></button>
-    <p class="set-note">Reads each new card aloud automatically as you go. Off: tap the speaker to hear a card — handy when you reopen without headphones.</p>
-    <p class="set-sub2" style="margin-top:24px">Speed</p>
-    <div class="set-seg" id="voiceSpeedSeg">
-      <button type="button" data-rate="slow">Slow</button>
-      <button type="button" data-rate="normal">Normal</button>
-      <button type="button" data-rate="fast">Fast</button>
+    <div class="set-sec">
+      <p class="set-seclbl">Appearance</p>
+      <div class="set-card">
+        <div class="set-row stack">
+          <span class="set-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="8.5" cy="10" r="1.2" fill="currentColor" stroke="none"/><circle cx="15.5" cy="10" r="1.2" fill="currentColor" stroke="none"/><circle cx="12" cy="15" r="1.2" fill="currentColor" stroke="none"/></svg></span>
+          <div class="set-rmain"><div class="set-rt">Theme color</div></div>
+          <div class="set-wide"><div class="set-sw" id="setSwatches"></div></div>
+        </div>
+        <div class="set-row stack">
+          <span class="set-ic"><svg viewBox="0 0 24 24"><path d="M4 7V5h16v2"/><path d="M9 19h6"/><path d="M12 5v14"/></svg></span>
+          <div class="set-rmain"><div class="set-rt">Card text size</div><div class="set-rs">Flashcard &amp; exam question text</div></div>
+          <div class="set-wide"><div class="set-seg" id="textSizeSeg">
+            <button type="button" data-size="sm">Small</button>
+            <button type="button" data-size="md">Medium</button>
+            <button type="button" data-size="lg">Large</button>
+          </div></div>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <div class="set-g">
-    <p class="set-gl">Reset</p>
-    <div class="set-resetrow">
-      <button id="resetBtn" class="set-reset" title="Clear all Known/Review marks">↺ Review / Known marks</button>
-      <button id="resetPicksBtn" class="set-reset" title="Clear all your saved answer picks">↺ Answer picks</button>
+    <div class="set-sec">
+      <p class="set-seclbl">Voice cards</p>
+      <div class="set-card">
+        <div class="set-row">
+          <span class="set-ic"><svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4Z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/></svg></span>
+          <div class="set-rmain"><div class="set-rt">Auto-play questions</div><div class="set-rs">Read each card aloud as you go</div></div>
+          <button id="autoplayToggle" class="set-toggle on" role="switch" aria-checked="true" aria-label="Auto-play questions"><span class="knob"></span></button>
+        </div>
+        <div class="set-row stack">
+          <span class="set-ic"><svg viewBox="0 0 24 24"><path d="M12 14a5 5 0 1 0-5-5"/><path d="M12 14l3-3"/><path d="M4 19h16"/></svg></span>
+          <div class="set-rmain"><div class="set-rt">Speech speed</div></div>
+          <div class="set-wide"><div class="set-seg" id="voiceSpeedSeg">
+            <button type="button" data-rate="slow">Slow</button>
+            <button type="button" data-rate="normal">Normal</button>
+            <button type="button" data-rate="fast">Fast</button>
+          </div></div>
+        </div>
+      </div>
     </div>
-    <p class="set-note">Clears progress saved on this device. This can’t be undone.</p>
-  </div>
 
-  <div class="set-g">
-    <p class="set-gl">About</p>
-    <p class="set-note" style="margin-top:0">128 official USCIS civics questions — test <b style="color:#cdd8e4">M-1778</b> (09/25). An independent study tool, not affiliated with USCIS. Officeholders change with elections — verify current names at <b style="color:#cdd8e4">uscis.gov</b> and <b style="color:#cdd8e4">house.gov</b>. All progress is saved on this device only.</p>
+    <div class="set-sec">
+      <p class="set-seclbl">Motion</p>
+      <div class="set-card">
+        <div class="set-row">
+          <span class="set-ic"><svg viewBox="0 0 24 24"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg></span>
+          <div class="set-rmain"><div class="set-rt">Animations</div><div class="set-rs">Confetti &amp; card-flip motion</div></div>
+          <button id="animToggle" class="set-toggle on" role="switch" aria-checked="true" aria-label="Toggle animations"><span class="knob"></span></button>
+        </div>
+      </div>
+      <p class="set-rml" id="setRml">Reduce Motion is on for this device — animations are held off.</p>
+    </div>
+
+    <div class="set-sec">
+      <p class="set-seclbl">Reset</p>
+      <div class="set-card">
+        <button id="resetBtn" class="set-row set-danger" type="button" title="Clear all Known/Review marks"><span class="set-ic"><svg viewBox="0 0 24 24"><path d="M4 4v5h5"/><path d="M4.6 15a8 8 0 1 0 1.4-8.5L4 9"/></svg></span><div class="set-rmain"><div class="set-rt">Reset Review &amp; Known marks</div></div></button>
+        <button id="resetPicksBtn" class="set-row set-danger" type="button" title="Clear all your saved answer picks"><span class="set-ic"><svg viewBox="0 0 24 24"><path d="M4 4v5h5"/><path d="M4.6 15a8 8 0 1 0 1.4-8.5L4 9"/></svg></span><div class="set-rmain"><div class="set-rt">Reset answer picks</div></div></button>
+      </div>
+      <p class="set-help">Clears progress saved on this device. Can’t be undone.</p>
+    </div>
+
+    <div class="set-sec">
+      <p class="set-seclbl">About</p>
+      <p class="set-about">128 official USCIS questions — test <b>M-1778</b> (09/25). An independent study tool, not affiliated with USCIS. Officeholders change with elections — verify at <b>uscis.gov</b> and <b>house.gov</b>. Progress is saved on this device only.</p>
+    </div>
+
   </div>
 </aside>
 
@@ -1366,32 +1391,41 @@
   /* Settings panel (right drawer) */
   #setScrim{position:fixed;inset:0;background:rgba(6,12,20,.55);z-index:9998;opacity:0;pointer-events:none;transition:opacity .2s}
   #setScrim.open{opacity:1;pointer-events:auto}
-  #setPanel{position:fixed;top:0;right:0;height:100%;width:344px;max-width:90vw;background:#101f30;border-left:1px solid rgba(255,255,255,.14);z-index:9999;transform:translateX(102%);transition:transform .28s cubic-bezier(.3,.1,.2,1);box-shadow:-24px 0 64px rgba(0,0,0,.55);padding:calc(48px + env(safe-area-inset-top)) 24px calc(26px + env(safe-area-inset-bottom));overflow:auto;color:#eaf1f8;box-sizing:border-box}
+  #setPanel{position:fixed;top:0;right:0;height:100%;width:360px;max-width:92vw;background:#0d1b2a;border-left:1px solid rgba(255,255,255,.14);z-index:9999;transform:translateX(102%);transition:transform .28s cubic-bezier(.3,.1,.2,1);box-shadow:-24px 0 64px rgba(0,0,0,.55);overflow:auto;color:#eef3f8;box-sizing:border-box}
   #setPanel.open{transform:translateX(0)}
-  #setPanel .set-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:36px}
-  #setPanel .set-h b{font-family:var(--serif);font-weight:900;font-size:1.4rem;color:#fff}
-  #setPanel .set-h button{background:none;border:0;color:var(--muted);font-size:1.35rem;cursor:pointer;line-height:1;padding:4px}
-  #setPanel .set-sub{font-family:var(--mono);font-size:.58rem;letter-spacing:1px;text-transform:uppercase;color:#6f8296;margin:0 0 40px}
-  #setPanel .set-g{margin-bottom:46px}
-  #setPanel .set-gl{font-family:var(--serif);font-weight:600;font-size:1.12rem;letter-spacing:-.2px;color:#eaf1f8;margin:0 0 20px;display:flex;align-items:center;gap:9px}
-  #setPanel .set-sw{display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start}
-  #setPanel .swwrap{display:flex;flex-direction:column;align-items:center;gap:6px}
-  #setPanel .swz{width:46px;height:46px;border-radius:12px;border:2px solid transparent;box-shadow:inset 0 0 0 1px rgba(255,255,255,.15);cursor:pointer;position:relative;padding:0}
-  #setPanel .swz.sel{border-color:#fff;cursor:default}
-  #setPanel .swz.sel::after{content:"\2713";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.05rem;text-shadow:0 1px 3px rgba(0,0,0,.6)}
-  #setPanel .set-rml{font-size:.86rem;color:#e6b980;margin:11px 2px 0;line-height:1.5;display:none}
-  #setPanel .set-note{font-size:.86rem;color:#b9c6d2;margin:20px 2px 0;line-height:1.6}
-  #setPanel #animToggle{margin-top:6px}
-  /* center On/Off within the space beside the knob, not across the whole switch */
-  #setPanel #animToggle .swlabel{text-align:center;padding:0 0 0 36px}
-  #setPanel #animToggle.on .swlabel{text-align:center;padding:0 36px 0 0}
-  #setPanel .set-sub2{font-family:var(--mono);font-size:.6rem;letter-spacing:1px;text-transform:uppercase;font-weight:600;color:#8fa2b5;margin:0 0 11px}
-  #setPanel .set-seg{display:flex;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:11px;padding:4px;gap:4px;max-width:280px}
-  #setPanel .set-seg button{flex:1;font-family:var(--mono);font-size:.74rem;font-weight:700;padding:10px 6px;border-radius:8px;border:0;background:none;color:#9fb3c8;cursor:pointer}
+  #setPanel .set-h{position:sticky;top:0;background:#0d1b2a;z-index:2;display:flex;align-items:center;justify-content:space-between;padding:calc(24px + env(safe-area-inset-top)) 22px 18px;border-bottom:1px solid rgba(255,255,255,.08)}
+  #setPanel .set-h b{font-family:var(--serif);font-weight:900;font-size:1.75rem;color:#fff;letter-spacing:-.02em}
+  #setPanel .set-h button{width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,.16);background:none;color:#9fb3c8;font-size:1rem;cursor:pointer;line-height:1;flex:none}
+  #setPanel .set-body{padding:22px 20px calc(30px + env(safe-area-inset-bottom))}
+  #setPanel .set-sec{margin-bottom:26px}
+  #setPanel .set-seclbl{font-family:var(--serif);font-weight:600;font-size:1.16rem;color:#93a6ba;margin:0 0 12px;padding-left:4px;letter-spacing:-.01em}
+  #setPanel .set-card{background:#16273a;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:4px 0}
+  #setPanel .set-row{display:flex;align-items:center;gap:15px;padding:15px 17px;position:relative;width:100%;text-align:left;background:none;border:0;font:inherit;color:inherit}
+  #setPanel .set-row + .set-row::before{content:"";position:absolute;top:0;left:53px;right:17px;height:1px;background:rgba(255,255,255,.08)}
+  #setPanel .set-ic{width:26px;height:26px;flex:none;color:#eef3f8;display:flex;align-items:center;justify-content:center}
+  #setPanel .set-ic svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  #setPanel .set-rmain{flex:1;min-width:0}
+  #setPanel .set-rt{font-family:var(--serif-body);font-size:1.08rem;font-weight:600;color:#eef3f8;letter-spacing:-.005em}
+  #setPanel .set-rs{font-family:var(--serif-body);font-size:.9rem;color:#9fb3c8;margin-top:2px;line-height:1.35}
+  #setPanel .set-row.stack{flex-wrap:wrap}
+  #setPanel .set-wide{flex-basis:100%;padding-left:41px;margin-top:13px}
+  #setPanel .set-toggle{position:relative;width:46px;height:26px;border-radius:99px;border:0;background:#3a4a5c;cursor:pointer;padding:0;flex:none;transition:background .2s}
+  #setPanel .set-toggle .knob{position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.4);transition:left .2s}
+  #setPanel .set-toggle.on{background:var(--orange)} #setPanel .set-toggle.on .knob{left:23px}
+  #setPanel .set-seg{display:flex;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:4px;gap:4px}
+  #setPanel .set-seg button{flex:1;font-family:var(--mono);font-size:.74rem;font-weight:700;padding:9px 6px;border-radius:7px;border:0;background:none;color:#9fb3c8;cursor:pointer}
   #setPanel .set-seg button.act{background:var(--orange);color:#fff}
-  #setPanel .set-resetrow{display:flex;flex-direction:column;gap:10px;max-width:290px}
-  #setPanel .set-reset{font-family:var(--mono);font-size:.8rem;font-weight:600;text-align:left;color:#eac0bc;background:rgba(192,57,43,.14);border:1px solid rgba(192,57,43,.42);border-radius:10px;padding:12px 15px;cursor:pointer}
-  @media (hover:hover){ #setPanel .set-reset:hover{background:rgba(192,57,43,.26);border-color:#e0857c;color:#fff} }
+  #setPanel .set-sw{display:flex;gap:12px;flex-wrap:wrap}
+  #setPanel .set-sw .swz{width:44px;height:44px;border-radius:11px;border:2px solid transparent;box-shadow:inset 0 0 0 1px rgba(255,255,255,.16);cursor:pointer;position:relative;padding:0}
+  #setPanel .set-sw .swz.sel{border-color:#fff;cursor:default}
+  #setPanel .set-sw .swz.sel::after{content:"\2713";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+  #setPanel .set-row.set-danger{cursor:pointer}
+  #setPanel .set-row.set-danger .set-ic{color:#e0857c} #setPanel .set-row.set-danger .set-rt{color:#e0857c}
+  @media (hover:hover){ #setPanel .set-row.set-danger:hover{background:rgba(192,57,43,.1)} }
+  #setPanel .set-help{font-family:var(--serif-body);font-size:.85rem;color:#6f8296;line-height:1.5;margin:11px 6px 0}
+  #setPanel .set-rml{font-family:var(--serif-body);font-size:.9rem;color:#e6b980;line-height:1.5;margin:12px 6px 0;display:none}
+  #setPanel .set-about{font-family:var(--serif-body);font-size:.98rem;color:#9fb3c8;line-height:1.6;padding:0 6px;margin:0}
+  #setPanel .set-about b{color:#eef3f8}
   /* manual "animations off" — freeze the celebration star flicker into a static image (canvas FX are gated in JS) */
   body.anim-off #testModal .exam-celeb .ff, body.anim-off #testModal .tresults .ff{animation:none!important;opacity:1!important;transform:none!important}
   body.anim-off .card{transition:none!important}   /* animations off: flip instantly, no card motion */
@@ -3552,18 +3586,16 @@ const CARDS = [
   function renderSwatches(){
     var cur=curTheme(); sw.innerHTML="";
     THEMES.forEach(function(t){
-      var wrap=document.createElement("div"); wrap.className="swwrap";
       var b=document.createElement("button"); b.type="button"; b.className="swz"+(t[0]===cur?" sel":"");
       b.style.background="linear-gradient(135deg,"+t[2]+" 58%,"+t[3]+" 58%)"; b.title=t[1]; b.setAttribute("aria-label",t[1]);
       if(t[0]!==cur) b.addEventListener("click",function(){ applyTheme(t[0]); });
-      wrap.appendChild(b); sw.appendChild(wrap);
+      sw.appendChild(b);
     });
   }
   renderSwatches();
 
   /* animations — a switch matching the shuffle toggle */
   var tog=document.getElementById("animToggle"),
-      togLbl=tog.querySelector('.swlabel'),
       rml=document.getElementById("setRml");
   function reduce(){ try{ return matchMedia("(prefers-reduced-motion: reduce)").matches; }catch(e){ return false; } }
   function curAnim(){ try{ return localStorage.getItem(ANIM_LS)==="off"?"off":"on"; }catch(e){ return "on"; } }
@@ -3574,7 +3606,6 @@ const CARDS = [
     tog.setAttribute("aria-checked", on?"true":"false");
     tog.setAttribute("aria-disabled", r?"true":"false");
     tog.style.opacity=r?".45":""; tog.style.pointerEvents=r?"none":"";
-    togLbl.textContent = on ? "On" : "Off";
     rml.style.display=r?"block":"none";
     document.body.classList.toggle("anim-off", !on);
   }
@@ -3584,9 +3615,9 @@ const CARDS = [
 
   /* voice: auto-play switch + speed segmented */
   var AP_LS="civics2025.autoplay.v1", VR_LS="civics2025.voicerate.v1";
-  var ap=document.getElementById("autoplayToggle"), apLbl=ap&&ap.querySelector('.swlabel');
+  var ap=document.getElementById("autoplayToggle");
   function apOn(){ try{ return localStorage.getItem(AP_LS)!=="off"; }catch(e){ return true; } }
-  function renderAp(){ if(!ap) return; var on=apOn(); ap.classList.toggle("on",on); ap.setAttribute("aria-checked",on?"true":"false"); apLbl.textContent=on?"On":"Off"; }
+  function renderAp(){ if(!ap) return; var on=apOn(); ap.classList.toggle("on",on); ap.setAttribute("aria-checked",on?"true":"false"); }
   if(ap){ ap.addEventListener("click",function(){ try{ localStorage.setItem(AP_LS, apOn()?"off":"on"); }catch(e){} renderAp(); }); renderAp(); }
   var vseg=document.getElementById("voiceSpeedSeg");
   function curRate(){ try{ return localStorage.getItem(VR_LS)||"normal"; }catch(e){ return "normal"; } }
