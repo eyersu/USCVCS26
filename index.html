@@ -445,6 +445,7 @@
   .navarrow.right{right:-78px}
   .cardctl{position:absolute;top:16px;right:16px;display:flex;gap:10px;z-index:6}
   .cardctl .mutebtn{background-color:#d7dde4!important}
+  .cardctl .mutebtn[hidden]{display:none!important}
   .cardctl .mutebtn.on{background-color:rgba(var(--accent-rgb),.22)!important;color:var(--orange)!important}
   @media (max-width:859px){ .cardctl .mutebtn{box-shadow:none} }
   @media (max-width:859px){ .cardctl .cReview, .cardctl .cKnown{display:none} }
@@ -2527,6 +2528,7 @@ const CARDS = [
   }
   function setVoiceMode(v){ voiceMode=!!v; try{ localStorage.setItem("civics2025.voicemode.v1", v?"1":"0"); }catch(e){}
     $("modeVoice").classList.toggle("on", voiceMode); $("modeFlash").classList.toggle("on", !voiceMode);
+    var _mv=$("muteBtn"); if(_mv) _mv.hidden = !voiceMode;
     lastVCn=null; if(!voiceMode) hideAudioPrompt(); if(deck.length) render(); }
   function wireVoiceCards(){
     $("modeFlash").onclick=()=>setVoiceMode(false);
@@ -2910,7 +2912,7 @@ const CARDS = [
   };
   // Location in Settings + reset explanations + Reset App
   (function(){
-    var chg=document.getElementById("setLocChange"); if(chg) chg.onclick=function(){ ofOpen(); };
+    var chg=document.getElementById("setLocChange"); if(chg) chg.onclick=function(){ var sc=document.getElementById("setClose"); if(sc) sc.click(); ofOpen(); };
     function resetLoc(){ var h=$("ofReset"); if(h && h.onclick) h.onclick(); }
     var ri=document.getElementById("setLocResetInline"); if(ri) ri.onclick=resetLoc;
     var rl=document.getElementById("resetLocBtn"); if(rl) rl.onclick=resetLoc;
@@ -3468,8 +3470,9 @@ const CARDS = [
     {sel:"#locChip",     title:"Set your location (optional)", body:"Some of the answers are specific to your STATE & DISTRICT. Setting your location fills in those answers throughout the study guide.", place:"bottom"},
     {sel:".modetoggle",  title:"Study by sight or by sound",   body:"Read the cards as FLASHCARDS, or switch to VOICE CARDS to hear each question — and every answer — read aloud.", place:"bottom"},
     {sel:"#card",        title:"Flip through the questions",   body:"Every card is one exam question. Press SPACE BAR or click the card to flip and reveal all the accepted answers.", mbody:"Every card is one exam question. TAP the card to flip and reveal all acceptable answers.", place:"right", mplace:"top", rad:16},
-    {sel:"#cardCtl",     title:"Track what you know",          body:"Mark each card KNOWN or flag it for REVIEW as you go. Your progress saves on this device automatically.", place:"bottom", msel:".nav .review, .nav .know", rad:14},
+    {sel:"#reviewIcon, #knownIcon", title:"Track what you know",          body:"Mark each card KNOWN or flag it for REVIEW as you go. Your progress saves on this device automatically.", place:"bottom", msel:".nav .review, .nav .know", rad:14},
     {sel:".examrow",     title:"Test yourself",                body:"When you're ready, take a 20-question practice exam — ORAL or WRITTEN. Get 12 right to pass, just like the interview.", place:"top", rad:13},
+    {sel:"#settingsBtn", title:"Make it yours",                body:"Adjust the theme color, text size, and voice speed here. It's also where you set your location and reset your progress.", place:"bottom"},
     {sel:"#guideBtn",    title:"Everything's in the guide",    body:"Learn more about every function of this guide whenever you like. It's right here for the full walkthrough, anytime.", place:"bottom", last:true}
   ];
   let qsI = 0;
@@ -3488,7 +3491,8 @@ const CARDS = [
     document.body.classList.remove("hdr-compact");   // keep the headline full-size while the tour is open, so the layout can't shift under the spotlight
     if(s.last){ try{ window.scrollTo({top:0,behavior:"auto"}); }catch(e){ window.scrollTo(0,0); } }   // last step: bring the page to the very top
     const rr=qsUnionRect(sel);   // union of every matched element (one or two), then re-place if it's off-screen
-    if(rr.bottom < 60 || rr.top > window.innerHeight-60){ el.scrollIntoView({block:"center",behavior:"auto"}); requestAnimationFrame(qsPlace); return; }
+    const elFixed=(function(x){ for(;x && x!==document.body; x=x.parentElement){ try{ if(getComputedStyle(x).position==="fixed") return true; }catch(e){} } return false; })(el);
+    if(!elFixed && (rr.bottom < 60 || rr.top > window.innerHeight-60)){ el.scrollIntoView({block:"center",behavior:"auto"}); requestAnimationFrame(qsPlace); return; }
     const r=rr, pad=8, spot=$("qsSpot"), tip=$("qsTip"), caret=$("qsCaret");
     spot.style.left=(r.left-pad)+"px"; spot.style.top=(r.top-pad)+"px";
     spot.style.width=(r.width+pad*2)+"px"; spot.style.height=(r.height+pad*2)+"px";
@@ -3636,7 +3640,7 @@ const CARDS = [
   applyOfficials(); updateLocChip(); maybeShowCallout();
 
   wireVoiceCards();
-  try{ var _mb=document.getElementById("muteBtn"); if(_mb) _mb.onclick=function(){ setMuted(!isMuted()); }; renderMute(); }catch(e){}
+  try{ var _mb=document.getElementById("muteBtn"); if(_mb){ _mb.onclick=function(){ setMuted(!isMuted()); }; _mb.hidden=!voiceMode; } renderMute(); }catch(e){}
   qsWire();
   gBuildSteps(); gSearchInit();
   // header: roomy two-line hero first, then ease the title down to a single line after a short beat (or first scroll).
