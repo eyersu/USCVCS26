@@ -2487,7 +2487,7 @@ const CARDS = [
   let vcAudio=null, lastVCn=null, vcQ=[];
   // Browsers block audio that starts without a user gesture. Prime on the first interaction; until then,
   // a card that would auto-read shows a one-time prompt instead of silently failing.
-  let audioPrimed=false, barScrubbing=false, lastVCAns=null;
+  let audioPrimed=false, barScrubbing=false, flipAudioArm=false;
   function autoplayOn(){ try{ return localStorage.getItem("civics2025.autoplay.v1")!=="off"; }catch(e){ return true; } }
   function autoAnswerOn(){ try{ return localStorage.getItem("civics2025.autoanswer.v1")==="on"; }catch(e){ return false; } }
   var MUTE_LS="civics2025.muted.v1";
@@ -2534,7 +2534,7 @@ const CARDS = [
       const ansHidden = $("bA").style.display==="none";
       ra.hidden = !on || ansHidden || !(c.a && c.a.length>1);   // hide on single-answer cards — nothing to "read all"
     }
-    if(on){ if(!flipped){ lastVCAns=null; if(lastVCn!==c.n && !barScrubbing && !document.body.classList.contains("qs-open")){ lastVCn=c.n; if(autoplayOn() && !isMuted()){ if(audioPrimed) vcPlayQ(c); else showAudioPrompt(); } } } else { if(autoAnswerOn() && !isMuted() && lastVCAns!==c.n && !barScrubbing && !document.body.classList.contains("qs-open") && $("bA").style.display!=="none"){ lastVCAns=c.n; primeAudio(); vcReadShownNow(c); } } }
+    if(on){ if(!flipped){ if(lastVCn!==c.n && !barScrubbing && !document.body.classList.contains("qs-open")){ lastVCn=c.n; if(autoplayOn() && !isMuted()){ if(audioPrimed) vcPlayQ(c); else showAudioPrompt(); } } } else { if(flipAudioArm){ flipAudioArm=false; if(autoAnswerOn() && !isMuted() && !barScrubbing && !document.body.classList.contains("qs-open") && $("bA").style.display!=="none"){ primeAudio(); vcReadShownNow(c); } } } }
     else { vcStop(); lastVCn=null; }
   }
   function setVoiceMode(v){ voiceMode=!!v; try{ localStorage.setItem("civics2025.voicemode.v1", v?"1":"0"); }catch(e){}
@@ -2549,7 +2549,7 @@ const CARDS = [
     $("vcReadAll").onclick=(e)=>{ e.stopPropagation(); if(deck.length) vcReadAllNow(deck[idx]); };
     $("modeVoice").classList.toggle("on", voiceMode); $("modeFlash").classList.toggle("on", !voiceMode);
   }
-  function flip(){ flipped=!flipped; render(); scrollToCard(); }   // mobile: a long side (question or answers) shouldn't leave you scrolled past the card
+  function flip(){ flipped=!flipped; if(flipped && voiceMode) flipAudioArm=true; render(); scrollToCard(); }   // mobile: a long side (question or answers) shouldn't leave you scrolled past the card
   function scrollToCard(){   // mobile: pin the card's top just under the fixed top bar (used by Prev/Next and flip)
     if(window.innerWidth>520) return;                                  // mobile only — desktop scroll behavior unchanged
     const card=$("card"); if(!card) return;
