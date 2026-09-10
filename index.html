@@ -843,6 +843,33 @@
     <p class="set-rml" id="setRml">Reduce Motion is on for this device — animations are held off.</p>
     <p class="set-note">Off skips the per-question “correct” burst, makes the passing celebration static, and turns off card-flip motion. Follows your device’s Reduce Motion setting.</p>
   </div>
+
+  <div class="set-g">
+    <p class="set-gl">Voice cards</p>
+    <p class="set-sub2">Auto-play questions</p>
+    <button id="autoplayToggle" class="switch on" role="switch" aria-checked="true" aria-label="Auto-play questions"><span class="knob"></span><span class="swlabel">On</span></button>
+    <p class="set-note">Reads each new card aloud automatically as you go. Off: tap the speaker to hear a card — handy when you reopen without headphones.</p>
+    <p class="set-sub2" style="margin-top:24px">Speed</p>
+    <div class="set-seg" id="voiceSpeedSeg">
+      <button type="button" data-rate="slow">Slow</button>
+      <button type="button" data-rate="normal">Normal</button>
+      <button type="button" data-rate="fast">Fast</button>
+    </div>
+  </div>
+
+  <div class="set-g">
+    <p class="set-gl">Reset</p>
+    <div class="set-resetrow">
+      <button id="resetBtn" class="set-reset" title="Clear all Known/Review marks">↺ Review / Known marks</button>
+      <button id="resetPicksBtn" class="set-reset" title="Clear all your saved answer picks">↺ Answer picks</button>
+    </div>
+    <p class="set-note">Clears progress saved on this device. This can’t be undone.</p>
+  </div>
+
+  <div class="set-g">
+    <p class="set-gl">About</p>
+    <p class="set-note" style="margin-top:0">128 official USCIS civics questions — test <b style="color:#cdd8e4">M-1778</b> (09/25). An independent study tool, not affiliated with USCIS. Officeholders change with elections — verify current names at <b style="color:#cdd8e4">uscis.gov</b> and <b style="color:#cdd8e4">house.gov</b>. All progress is saved on this device only.</p>
+  </div>
 </aside>
 
 <header>
@@ -970,9 +997,6 @@
       <button id="knownPileBtn" title="Study only cards you marked known">✓ Known</button>
       <button id="unassignedBtn" title="Study only cards you haven’t marked yet">○ Unassigned</button>
     </div>
-    <span class="crow-div" aria-hidden="true"></span>
-    <button id="resetBtn" class="danger" title="Clear all Known/Review marks">↺ Reset Review/Known</button>
-    <button id="resetPicksBtn" class="danger" title="Clear all your saved answer picks">↺ Reset answer picks</button>
   </div>
 </div>
 
@@ -1348,6 +1372,13 @@
   /* center On/Off within the space beside the knob, not across the whole switch */
   #setPanel #animToggle .swlabel{text-align:center;padding:0 0 0 36px}
   #setPanel #animToggle.on .swlabel{text-align:center;padding:0 36px 0 0}
+  #setPanel .set-sub2{font-family:var(--mono);font-size:.6rem;letter-spacing:1px;text-transform:uppercase;font-weight:600;color:#8fa2b5;margin:0 0 11px}
+  #setPanel .set-seg{display:flex;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:11px;padding:4px;gap:4px;max-width:280px}
+  #setPanel .set-seg button{flex:1;font-family:var(--mono);font-size:.74rem;font-weight:700;padding:10px 6px;border-radius:8px;border:0;background:none;color:#9fb3c8;cursor:pointer}
+  #setPanel .set-seg button.act{background:var(--orange);color:#fff}
+  #setPanel .set-resetrow{display:flex;flex-direction:column;gap:10px;max-width:290px}
+  #setPanel .set-reset{font-family:var(--mono);font-size:.8rem;font-weight:600;text-align:left;color:#eac0bc;background:rgba(192,57,43,.14);border:1px solid rgba(192,57,43,.42);border-radius:10px;padding:12px 15px;cursor:pointer}
+  @media (hover:hover){ #setPanel .set-reset:hover{background:rgba(192,57,43,.26);border-color:#e0857c;color:#fff} }
   /* manual "animations off" — freeze the celebration star flicker into a static image (canvas FX are gated in JS) */
   body.anim-off #testModal .exam-celeb .ff, body.anim-off #testModal .tresults .ff{animation:none!important;opacity:1!important;transform:none!important}
   body.anim-off .card{transition:none!important}   /* animations off: flip instantly, no card motion */
@@ -2322,6 +2353,8 @@ const CARDS = [
   // Browsers block audio that starts without a user gesture. Prime on the first interaction; until then,
   // a card that would auto-read shows a one-time prompt instead of silently failing.
   let audioPrimed=false, barScrubbing=false;
+  function autoplayOn(){ try{ return localStorage.getItem("civics2025.autoplay.v1")!=="off"; }catch(e){ return true; } }   // Voice cards: read each new card automatically
+  function ttsRate(){ try{ var r=localStorage.getItem("civics2025.voicerate.v1"); return r==="slow"?0.8:r==="fast"?1.15:0.93; }catch(e){ return 0.93; } }
   function primeAudio(){ if(audioPrimed) return; audioPrimed=true; }   // unlock audio silently; the prompt is dismissed only by a real audio action, not by scrolling
   addEventListener("pointerdown", primeAudio, true);
   addEventListener("keydown", primeAudio, true);
@@ -2338,7 +2371,7 @@ const CARDS = [
   function showAudioPrompt(){ if(audioPrimed || document.body.classList.contains("qs-open")) return; ensureAudioPrompt().classList.add("show"); }
   function hideAudioPrompt(){ const el=document.getElementById("audioPrompt"); if(el) el.classList.remove("show"); }
   function vcStop(){ try{ if(window.speechSynthesis) speechSynthesis.cancel(); }catch(e){} try{ if(vcAudio){vcAudio.onended=null;vcAudio.pause();vcAudio=null;} }catch(e){} vcQ=[]; }
-  function vcSpeak(text, after){ try{ if(!("speechSynthesis" in window)){ if(after)after(); return; } speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text); if(typeof ttsVoice!=="undefined"&&ttsVoice){u.voice=ttsVoice;u.lang=ttsVoice.lang;} else u.lang="en-US"; u.rate=0.93; if(after)u.onend=after; speechSynthesis.speak(u); }catch(e){ if(after)after(); } }
+  function vcSpeak(text, after){ try{ if(!("speechSynthesis" in window)){ if(after)after(); return; } speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text); if(typeof ttsVoice!=="undefined"&&ttsVoice){u.voice=ttsVoice;u.lang=ttsVoice.lang;} else u.lang="en-US"; u.rate=ttsRate(); if(after)u.onend=after; speechSynthesis.speak(u); }catch(e){ if(after)after(); } }
   function vcPlay(src, text, after){ hideAudioPrompt(); vcStop(); if(src){ try{ vcAudio=new Audio(src); if(after)vcAudio.onended=after; vcAudio.play().catch(()=>{vcAudio=null;vcSpeak(text,after);}); return; }catch(e){} } vcSpeak(text, after); }
   function vcPlayQ(c){ vcPlay((window.QAUDIO||{})[c.n], c.q); }
   function vcPlayA(t){ vcPlay((window.AAUDIO||{})[t], t); }
@@ -2358,7 +2391,7 @@ const CARDS = [
       const ansHidden = $("bA").style.display==="none";
       ra.hidden = !on || ansHidden || !(c.a && c.a.length>1);   // hide on single-answer cards — nothing to "read all"
     }
-    if(on){ if(!flipped && lastVCn!==c.n && !barScrubbing && !document.body.classList.contains("qs-open")){ lastVCn=c.n; if(audioPrimed) vcPlayQ(c); else showAudioPrompt(); } }
+    if(on){ if(!flipped && lastVCn!==c.n && !barScrubbing && !document.body.classList.contains("qs-open")){ lastVCn=c.n; if(autoplayOn()){ if(audioPrimed) vcPlayQ(c); else showAudioPrompt(); } } }
     else { vcStop(); lastVCn=null; }
   }
   function setVoiceMode(v){ voiceMode=!!v; try{ localStorage.setItem("civics2025.voicemode.v1", v?"1":"0"); }catch(e){}
@@ -2503,7 +2536,7 @@ const CARDS = [
       const u = new SpeechSynthesisUtterance(text);
       if(!ttsVoice) ttsVoice=pickVoice();
       if(ttsVoice){ u.voice=ttsVoice; u.lang=ttsVoice.lang; } else { u.lang="en-US"; }
-      u.rate = 0.93; u.pitch = 1;
+      u.rate = ttsRate(); u.pitch = 1;
       window.speechSynthesis.speak(u);
     }catch(e){}
   }
@@ -2761,7 +2794,7 @@ const CARDS = [
     const bar=$("bar"); let dragging=false;
     bar.addEventListener("pointerdown", e=>{ dragging=true; barScrubbing=true; try{ vcStop(); hideAudioPrompt(); }catch(_){} try{ bar.setPointerCapture(e.pointerId); }catch(_){} barJumpToTarget(barTargetFromX(e.clientX)); });
     bar.addEventListener("pointermove", e=>{ if(dragging) barJumpToTarget(barTargetFromX(e.clientX)); });
-    const end=e=>{ dragging=false; barScrubbing=false; try{ bar.releasePointerCapture(e.pointerId); }catch(_){} if(voiceMode && !flipped && deck[idx]){ const c=deck[idx]; if(lastVCn!==c.n){ lastVCn=c.n; if(audioPrimed) vcPlayQ(c); else showAudioPrompt(); } } };
+    const end=e=>{ dragging=false; barScrubbing=false; try{ bar.releasePointerCapture(e.pointerId); }catch(_){} if(voiceMode && !flipped && deck[idx]){ const c=deck[idx]; if(lastVCn!==c.n){ lastVCn=c.n; if(autoplayOn()){ if(audioPrimed) vcPlayQ(c); else showAudioPrompt(); } } } };
     bar.addEventListener("pointerup", end); bar.addEventListener("pointercancel", end);
     bar.addEventListener("keydown", e=>{
       if(!deck.length) return;
@@ -3534,6 +3567,17 @@ const CARDS = [
   tog.addEventListener("click",function(){ if(reduce()) return; applyAnim(curAnim()==="on"?"off":"on"); });
   try{ matchMedia("(prefers-reduced-motion: reduce)").addEventListener("change",renderAnim); }catch(e){}
   renderAnim();
+
+  /* voice: auto-play switch + speed segmented */
+  var AP_LS="civics2025.autoplay.v1", VR_LS="civics2025.voicerate.v1";
+  var ap=document.getElementById("autoplayToggle"), apLbl=ap&&ap.querySelector('.swlabel');
+  function apOn(){ try{ return localStorage.getItem(AP_LS)!=="off"; }catch(e){ return true; } }
+  function renderAp(){ if(!ap) return; var on=apOn(); ap.classList.toggle("on",on); ap.setAttribute("aria-checked",on?"true":"false"); apLbl.textContent=on?"On":"Off"; }
+  if(ap){ ap.addEventListener("click",function(){ try{ localStorage.setItem(AP_LS, apOn()?"off":"on"); }catch(e){} renderAp(); }); renderAp(); }
+  var vseg=document.getElementById("voiceSpeedSeg");
+  function curRate(){ try{ return localStorage.getItem(VR_LS)||"normal"; }catch(e){ return "normal"; } }
+  function renderRate(){ if(!vseg) return; var r=curRate(); vseg.querySelectorAll("[data-rate]").forEach(function(b){ b.classList.toggle("act", b.dataset.rate===r); }); }
+  if(vseg){ vseg.addEventListener("click",function(e){ var b=e.target.closest("[data-rate]"); if(!b) return; try{ localStorage.setItem(VR_LS,b.dataset.rate); }catch(e){} renderRate(); }); renderRate(); }
 })();
 </script>
 </body>
