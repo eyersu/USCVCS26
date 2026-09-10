@@ -1562,14 +1562,15 @@
   #qsTip .qs-step{font-family:"IBM Plex Mono",monospace;font-size:.56rem;letter-spacing:2px;text-transform:uppercase;font-weight:700;color:var(--orange);margin:0 0 7px}
   #qsTip h3{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:1.16rem;line-height:1.2;margin:0 0 7px;color:#0d1b2a}
   #qsTip p.qs-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-size:.95rem;line-height:1.5;margin:0;color:#3c4a56}
-  #qsTip .qs-foot{display:flex;align-items:center;justify-content:space-between;margin-top:18px;gap:12px}
-  #qsTip .qs-dots{display:flex;gap:6px}
+  #qsTip .qs-foot{display:flex;flex-direction:column;align-items:stretch;margin-top:18px;gap:15px}
+  #qsTip .qs-dots{display:flex;gap:6px;justify-content:center}
   #qsTip .qs-dots i{width:6px;height:6px;border-radius:50%;background:#d8cdb8;position:relative;cursor:pointer}
   #qsTip .qs-dots i::after{content:"";position:absolute;inset:-8px}
   @media (hover:hover){ #qsTip .qs-dots i:hover{background:#c0a878} }
   #qsTip .qs-dots i.on{background:var(--orange);width:16px;border-radius:6px}
-  #qsTip .qs-btns{display:flex;align-items:center;gap:6px}
-  #qsTip .qs-skip{font-family:inherit;font-size:.82rem;font-weight:500;background:none;border:none;color:#8a95a0;cursor:pointer;padding:9px 10px;border-radius:9px;white-space:nowrap}
+  #qsTip .qs-btns{display:flex;align-items:center;gap:10px}
+  #qsTip .qs-next{margin-left:auto}
+  #qsTip .qs-skip{font-family:inherit;font-size:.82rem;font-weight:500;background:none;border:none;color:#8a95a0;cursor:pointer;padding:9px 10px;border-radius:9px;white-space:nowrap;margin-left:-10px}
   @media (hover:hover){ #qsTip .qs-skip:hover{color:#5a6b7d} }
   #qsTip .qs-next{font-family:inherit;font-size:.86rem;font-weight:700;background:var(--orange);color:#fff;border:none;cursor:pointer;padding:10px 16px;border-radius:10px;white-space:nowrap}
   @media (hover:hover){ #qsTip .qs-next:hover{background:var(--accent-dk)} }   /* hover-capable only, so a tap on touch devices doesn't leave Next stuck dark */
