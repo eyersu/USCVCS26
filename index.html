@@ -1570,6 +1570,8 @@
   #qsTip .qs-dots i.on{background:var(--orange);width:16px;border-radius:6px}
   #qsTip .qs-btns{display:flex;align-items:center;gap:10px}
   #qsTip .qs-next{margin-left:auto}
+  #qsTip.qs-islast .qs-btns{justify-content:center}
+  #qsTip.qs-islast .qs-next{margin-left:0}
   #qsTip .qs-skip{font-family:inherit;font-size:.82rem;font-weight:500;background:none;border:none;color:#8a95a0;cursor:pointer;padding:9px 10px;border-radius:9px;white-space:nowrap;margin-left:-10px}
   @media (hover:hover){ #qsTip .qs-skip:hover{color:#5a6b7d} }
   #qsTip .qs-next{font-family:inherit;font-size:.86rem;font-weight:700;background:var(--orange);color:#fff;border:none;cursor:pointer;padding:10px 16px;border-radius:10px;white-space:nowrap}
@@ -3527,6 +3529,7 @@ const CARDS = [
     $("qsTitle").textContent=s.title; $("qsBody").textContent=(mob && s.mbody) ? s.mbody : s.body;
     $("qsDots").querySelectorAll("i").forEach((d,k)=>d.classList.toggle("on",k===qsI));
     $("qsSkip").style.display = s.last ? "none" : "";
+    $("qsTip").classList.toggle("qs-islast", !!s.last);
     $("qsNext").textContent = s.last ? "Start studying" : "Next";
     const tw=Math.min(320,window.innerWidth*0.88), th=tip.offsetHeight||200, gap=16;
     let left, top, place=(mob && s.mplace) ? s.mplace : s.place;
