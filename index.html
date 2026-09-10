@@ -71,7 +71,7 @@
     --orange:#e2620c;
     /* accent tokens — default = Classic Orange (unchanged). Overridden by [data-theme] for other accents. */
     --accent-dk:#b8500a; --accent-dk2:#c9560a; --accent-lt:#ffd766;
-    --accent-rgb:226,98,12; --gold-rgb:247,148,29; --veil-rgb:254,201,110;
+    --accent-rgb:226,98,12; --gold-rgb:247,148,29; --veil:rgba(254,201,110,.85);
     --chip-text:#f4d9a6; --callout-bg:#ffe27a; --callout-ink:#9a4a12;
     --soft-text:#f7b27a; --badge-ink:#b0521a; --tint:#f3e7d3;
     --serif:"Fraunces","Iowan Old Style",Georgia,"Times New Roman",serif;
@@ -83,7 +83,7 @@
   :root[data-theme="azure"]{
     --red:#3d82f2; --orange:#3d82f2; --gold:#58a9f5;
     --accent-dk:#2b66cf; --accent-dk2:#2b66cf; --accent-lt:#9fd4ff;
-    --accent-rgb:61,130,242; --gold-rgb:88,169,245; --veil-rgb:128,172,238;
+    --accent-rgb:61,130,242; --gold-rgb:88,169,245; --veil:rgba(150,190,242,.92);
     --chip-text:#bcd6f5; --callout-bg:#bcd8f7; --callout-ink:#1f4e9e;
     --soft-text:#9dc4f7; --badge-ink:#2c62c0; --tint:#e2ecfb;
   }
@@ -206,15 +206,15 @@
   @media (hover:hover){ .of-reset:hover{background:var(--tint);border-color:#d3b98f} }
   .of-dchip{font-family:var(--mono);font-size:.72rem;font-weight:600;color:var(--navy);background:#fff;border:1px solid #d9cdb6;border-radius:20px;padding:6px 13px}
   .of-dchip b{color:var(--orange)}
-  .of-verify-tag{font-family:var(--mono);font-size:.74rem;letter-spacing:.2px;font-weight:600;color:#111;background:var(--callout-bg);padding:3px 6px;border-radius:3px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+  .of-verify-tag{font-family:var(--mono);font-size:.74rem;letter-spacing:.2px;font-weight:600;color:#111;background:#ffe27a;padding:3px 6px;border-radius:3px;box-decoration-break:clone;-webkit-box-decoration-break:clone}   /* caution — stays amber in every theme */
   .of-verify-tag a{color:#7a3300;text-decoration:underline}
-  .of-alert{display:flex;gap:10px;background:rgba(var(--gold-rgb),.1);border:1px solid rgba(var(--gold-rgb),.4);border-radius:12px;padding:11px 13px;margin-bottom:16px}
+  .of-alert{display:flex;gap:10px;background:rgba(247,148,29,.1);border:1px solid rgba(247,148,29,.4);border-radius:12px;padding:11px 13px;margin-bottom:16px}   /* caution — stays amber in every theme */
   .of-alert p{margin:0;font-size:.84rem;line-height:1.45;color:#5a4a2c}
   .of-alert a{color:#b06a2a;font-weight:600}
   .of-offline{display:flex;gap:10px;background:rgba(178,34,52,.08);border:1px solid rgba(178,34,52,.4);border-radius:12px;padding:11px 13px;margin-bottom:15px}
   .of-offline p{margin:0;font-size:.84rem;line-height:1.45;color:#8a2b2b}
   .of-offline b{color:#6a1f1f;font-weight:600}
-  .of-unreachable{display:flex;gap:10px;background:rgba(var(--gold-rgb),.12);border:1px solid rgba(var(--gold-rgb),.5);border-radius:12px;padding:11px 13px;margin-bottom:15px}
+  .of-unreachable{display:flex;gap:10px;background:rgba(247,148,29,.12);border:1px solid rgba(247,148,29,.5);border-radius:12px;padding:11px 13px;margin-bottom:15px}   /* caution — stays amber in every theme */
   .of-unreachable p{margin:0;font-size:.84rem;line-height:1.45;color:#8a5a1c}
   .of-group{font-family:var(--mono);font-size:.66rem;letter-spacing:1.7px;text-transform:uppercase;color:#6b5a33;font-weight:700;margin:15px 0 6px;padding-top:12px;border-top:2px solid #d8cbb0}
   .of-group:first-of-type{margin-top:26px}
@@ -1302,12 +1302,17 @@
   #settingsBtn .set-ic svg{width:15px;height:15px;fill:currentColor;display:block}
   @media (hover:hover){ #settingsBtn:hover{background:rgba(var(--gold-rgb),.16);border-color:rgba(var(--gold-rgb),.5);color:var(--gold)} }
   @media (max-width:768px){ #settingsBtn{top:124px;padding:13px 15px;gap:0} #settingsBtn .set-lb{display:none} }
-  /* desktop: even out Quick Start & Settings to identical width + height */
+  /* desktop: unified equal tabs — cream How-to (accent) + dark Quick Start & Settings, even circular icons */
   @media (min-width:769px){
-    #quickstartBtn, #settingsBtn{width:162px;height:32px;box-sizing:border-box;padding:0 16px;justify-content:flex-start;gap:9px}
-    #quickstartBtn .qs-ic, #settingsBtn .set-ic{width:16px;flex:none;display:inline-flex;align-items:center;justify-content:center}
-    #settingsBtn .set-ic svg{width:15px;height:15px}
-    #quickstartBtn .qs-ic{font-size:.95rem}
+    #guideBtn, #quickstartBtn, #settingsBtn{width:140px;height:40px;box-sizing:border-box;padding:0 14px 0 7px;justify-content:flex-start;gap:12px;border-radius:999px 0 0 999px}
+    #guideBtn{top:54px}
+    #settingsBtn{top:94px}
+    #quickstartBtn{top:134px}
+    #guideBtn .q, #quickstartBtn .qs-ic, #settingsBtn .set-ic{width:28px;height:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex:none}
+    #guideBtn .q{background:var(--orange);color:#fff;font-weight:800;font-size:.82rem}
+    #quickstartBtn .qs-ic, #settingsBtn .set-ic{background:rgba(255,255,255,.14);color:#a3b3c6}
+    #quickstartBtn .qs-ic{font-size:1.05rem}
+    #settingsBtn .set-ic svg{width:16px;height:16px;fill:currentColor}
   }
 
   /* Settings panel (right drawer) */
@@ -1320,7 +1325,7 @@
   #setPanel .set-h button{background:none;border:0;color:var(--muted);font-size:1.35rem;cursor:pointer;line-height:1;padding:4px}
   #setPanel .set-sub{font-family:var(--mono);font-size:.58rem;letter-spacing:1px;text-transform:uppercase;color:#6f8296;margin:0 0 24px}
   #setPanel .set-g{margin-bottom:26px}
-  #setPanel .set-gl{font-family:var(--mono);font-size:.58rem;letter-spacing:1.4px;text-transform:uppercase;font-weight:600;color:#9fb3c8;margin:0 0 13px;display:flex;align-items:center;gap:8px}
+  #setPanel .set-gl{font-family:var(--serif);font-weight:600;font-size:1.12rem;letter-spacing:-.2px;color:#eaf1f8;margin:0 0 13px;display:flex;align-items:center;gap:9px}
   #setPanel .set-sw{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-start}
   #setPanel .swwrap{display:flex;flex-direction:column;align-items:center;gap:6px}
   #setPanel .swz{width:46px;height:46px;border-radius:12px;border:2px solid transparent;box-shadow:inset 0 0 0 1px rgba(255,255,255,.15);cursor:pointer;position:relative;padding:0}
@@ -1332,9 +1337,9 @@
   #setPanel .set-seg button{flex:1;font-family:var(--mono);font-size:.74rem;font-weight:700;padding:10px 6px;border-radius:7px;border:0;background:none;color:#9fb3c8;cursor:pointer}
   #setPanel .set-seg button.act{background:var(--orange);color:#fff}
   #setPanel .set-seg button[disabled]{opacity:.4;cursor:not-allowed}
-  #setPanel .set-rml{font-family:var(--mono);font-size:.62rem;color:#e6b980;margin:10px 2px 0;line-height:1.45;display:none}
-  #setPanel .set-note{font-family:var(--mono);font-size:.62rem;color:#6f8296;margin:10px 2px 0;line-height:1.5}
-  #setPanel .set-soon{font-family:var(--mono);font-size:.6rem;color:#6f8296;border:1px dashed rgba(255,255,255,.16);border-radius:10px;padding:11px 13px;opacity:.75}
+  #setPanel .set-rml{font-size:.86rem;color:#e6b980;margin:11px 2px 0;line-height:1.5;display:none}
+  #setPanel .set-note{font-size:.86rem;color:#b9c6d2;margin:11px 2px 0;line-height:1.55}
+  #setPanel .set-soon{font-size:.82rem;color:#6f8296;border:1px dashed rgba(255,255,255,.16);border-radius:10px;padding:12px 14px;opacity:.85}
   /* manual "animations off" — freeze the celebration star flicker into a static image (canvas FX are gated in JS) */
   body.anim-off #testModal .exam-celeb .ff, body.anim-off #testModal .tresults .ff{animation:none!important;opacity:1!important;transform:none!important}
 
@@ -1371,7 +1376,7 @@
   }
   /* Quick Start coach-mark tour */
   #qsVeil{position:fixed;inset:0;z-index:90;display:none}
-  #qsSpot{position:absolute;box-shadow:0 0 0 9999px rgba(var(--veil-rgb),.85);transition:all .32s cubic-bezier(.4,.1,.2,1);pointer-events:none}
+  #qsSpot{position:absolute;box-shadow:0 0 0 9999px var(--veil);transition:all .32s cubic-bezier(.4,.1,.2,1);pointer-events:none}
   #qsTip{position:absolute;z-index:92;width:320px;max-width:88vw;background:#fff;color:#22303c;border-radius:16px;box-shadow:0 20px 50px rgba(0,0,0,.5);padding:24px 24px 20px}
   #qsTip .qs-step{font-family:"IBM Plex Mono",monospace;font-size:.56rem;letter-spacing:2px;text-transform:uppercase;font-weight:700;color:var(--orange);margin:0 0 7px}
   #qsTip h3{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:1.16rem;line-height:1.2;margin:0 0 7px;color:#0d1b2a}
