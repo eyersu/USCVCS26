@@ -121,10 +121,16 @@
     background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);
     padding:18px;border-radius:16px;margin:14px auto 34px;width:min(900px,95vw);
   }
-  .deckintro{width:min(900px,95vw);margin:22px auto 0;display:flex;align-items:center;gap:14px}
+  .deckintro{width:min(900px,95vw);margin:36px auto 0;display:flex;align-items:center;gap:14px}
   .deckintro-lbl{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:.62rem;letter-spacing:2.4px;text-transform:uppercase;font-weight:600;color:var(--soft-text);white-space:nowrap;flex:none}
   .deckintro-lbl .mi{width:15px;height:15px;fill:currentColor;flex:none}
   .deckintro::after{content:"";flex:1;height:1px;background:rgba(255,255,255,.14)}
+  .deckintro.aidsintro{margin:46px auto 14px}
+  @media (max-width:520px){
+    .deckintro{justify-content:center}
+    .deckintro::after{display:none}
+    .aidsintro .deckintro-lbl{letter-spacing:1.6px}
+  }
   .crow{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center}
   .crow.center{justify-content:center;margin-top:10px}
   #testBtn{flex:1 1 auto}
@@ -1114,6 +1120,7 @@
 </div>
 
 
+<div class="deckintro aidsintro"><span class="deckintro-lbl"><svg class="mi" viewBox="0 -960 960 960" aria-hidden="true"><path d="M480-120 200-272v-240L40-600l440-240 440 240v320h-80v-276l-80 44v240L480-120Zm0-332 274-148-274-148-274 148 274 148Zm0 241 200-108v-151L480-360 280-470v151l200 108Z"/></svg>Review similar subjects at a glance</span></div>
 <details class="people" id="peoplePanel">
   <summary><div class="srow">
     <span class="ic">👥</span>
