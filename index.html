@@ -836,22 +836,20 @@
 
 <!-- Settings panel -->
 <div id="setScrim"></div>
-<div id="setScrim"></div>
 <aside id="setPanel" role="dialog" aria-label="Settings" aria-hidden="true">
   <div class="set-h"><b>Settings</b><button id="setClose" type="button" aria-label="Close settings">✕</button></div>
   <div class="set-body">
 
     <div class="set-sec">
       <p class="set-seclbl">Appearance</p>
-      <div class="set-card">
-        <div class="set-row stack">
-          <span class="set-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="8.5" cy="10" r="1.2" fill="currentColor" stroke="none"/><circle cx="15.5" cy="10" r="1.2" fill="currentColor" stroke="none"/><circle cx="12" cy="15" r="1.2" fill="currentColor" stroke="none"/></svg></span>
-          <div class="set-rmain"><div class="set-rt">Theme color</div></div>
-          <div class="set-wide"><div class="set-sw" id="setSwatches"></div></div>
-        </div>
-        <div class="set-row stack">
-          <span class="set-ic"><svg viewBox="0 0 24 24"><path d="M4 7V5h16v2"/><path d="M9 19h6"/><path d="M12 5v14"/></svg></span>
-          <div class="set-rmain"><div class="set-rt">Card text size</div><div class="set-rs">Flashcard &amp; exam question text</div></div>
+      <div class="set-row toggle-row">
+        <span class="set-ic"><svg viewBox="0 -960 960 960"><path d="M480-80q-82 0-155-31.5t-127.5-86Q143-252 111.5-325T80-480q0-83 32.5-156t88-127Q256-817 330-848.5T488-880q80 0 151 27.5t124.5 76q53.5 48.5 85 115T880-518q0 115-70 176.5T640-280h-74q-9 0-12.5 5t-3.5 11q0 12 15 34.5t15 51.5q0 50-27.5 74T480-80Zm0-400Zm-177 23q17-17 17-43t-17-43q-17-17-43-17t-43 17q-17 17-17 43t17 43q17 17 43 17t43-17Zm120-160q17-17 17-43t-17-43q-17-17-43-17t-43 17q-17 17-17 43t17 43q17 17 43 17t43-17Zm200 0q17-17 17-43t-17-43q-17-17-43-17t-43 17q-17 17-17 43t17 43q17 17 43 17t43-17Zm120 160q17-17 17-43t-17-43q-17-17-43-17t-43 17q-17 17-17 43t17 43q17 17 43 17t43-17ZM480-160q9 0 14.5-5t5.5-13q0-14-15-33t-15-57q0-42 29-67t71-25h70q66 0 113-38.5T800-518q0-121-92.5-201.5T488-800q-136 0-232 93t-96 227q0 133 93.5 226.5T480-160Z"/></svg></span>
+        <div class="set-rmain"><div class="set-rt">Theme color</div></div>
+        <div class="set-sw" id="setSwatches"></div>
+      </div>
+      <div class="set-row">
+        <span class="set-ic"><svg viewBox="0 -960 960 960"><path d="M560-160v-520H360v-120h520v120H680v520H560Zm-360 0v-320H80v-120h360v120H320v320H200Z"/></svg></span>
+        <div class="set-rmain"><div class="set-rt">Flashcard Text Size</div>
           <div class="set-wide"><div class="set-seg" id="textSizeSeg">
             <button type="button" data-size="sm">Small</button>
             <button type="button" data-size="md">Medium</button>
@@ -863,15 +861,14 @@
 
     <div class="set-sec">
       <p class="set-seclbl">Voice cards</p>
-      <div class="set-card">
-        <div class="set-row">
-          <span class="set-ic"><svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4Z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/></svg></span>
-          <div class="set-rmain"><div class="set-rt">Auto-play questions</div><div class="set-rs">Read each card aloud as you go</div></div>
-          <button id="autoplayToggle" class="set-toggle on" role="switch" aria-checked="true" aria-label="Auto-play questions"><span class="knob"></span></button>
-        </div>
-        <div class="set-row stack">
-          <span class="set-ic"><svg viewBox="0 0 24 24"><path d="M12 14a5 5 0 1 0-5-5"/><path d="M12 14l3-3"/><path d="M4 19h16"/></svg></span>
-          <div class="set-rmain"><div class="set-rt">Speech speed</div></div>
+      <div class="set-row toggle-row">
+        <span class="set-ic"><svg viewBox="0 -960 960 960"><path d="M560-131v-82q90-26 145-100t55-168q0-94-55-168T560-749v-82q124 28 202 125.5T840-483q0 125-78 222.5T560-131ZM120-360v-240h160l200-200v640L280-360H120Zm440 40v-322q47 22 73.5 66t26.5 96q0 51-26.5 94.5T560-320Z"/></svg></span>
+        <div class="set-rmain"><div class="set-rt">Auto-play questions</div></div>
+        <button id="autoplayToggle" class="set-toggle on" role="switch" aria-checked="true" aria-label="Auto-play questions"><span class="knob"></span></button>
+      </div>
+      <div class="set-row">
+        <span class="set-ic"><svg viewBox="0 -960 960 960"><path d="M204-160q-22 0-40.5-9.5T134-198q-26-47-40-97.5T80-400q0-83 31.5-156T197-683q54-54 127-85.5T480-800q23 0 46 3t46 8l-53 72q-10-2-19.5-2.5T480-720q-134 0-227 93t-93 227q0 42 11.5 82.5T204-240h551q22-36 33-77t11-83q0-66-25.5-126T700-631l21-87q75 57 116.5 140.5T879-400q1 54-13 105t-41 97q-11 19-29.5 28.5T755-160H204Zm243-168q32 14 64.5 1.5T554-372q29-97 52.5-194T649-762q-63 79-122.5 159T409-440q-20 29-8 63t46 49Zm32-73Z"/></svg></span>
+        <div class="set-rmain"><div class="set-rt">Speech speed</div>
           <div class="set-wide"><div class="set-seg" id="voiceSpeedSeg">
             <button type="button" data-rate="slow">Slow</button>
             <button type="button" data-rate="normal">Normal</button>
@@ -883,21 +880,19 @@
 
     <div class="set-sec">
       <p class="set-seclbl">Motion</p>
-      <div class="set-card">
-        <div class="set-row">
-          <span class="set-ic"><svg viewBox="0 0 24 24"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg></span>
-          <div class="set-rmain"><div class="set-rt">Animations</div><div class="set-rs">Confetti &amp; card-flip motion</div></div>
-          <button id="animToggle" class="set-toggle on" role="switch" aria-checked="true" aria-label="Toggle animations"><span class="knob"></span></button>
-        </div>
+      <div class="set-row toggle-row">
+        <span class="set-ic"><svg viewBox="0 -960 960 960"><path d="M360-80q-58 0-109-22t-89-60q-38-38-60-89T80-360q0-81 42-148t110-102q20-39 49.5-68.5T350-728q33-68 101-110t149-42q58 0 109 22t89 60q38 38 60 89t22 109q0 85-42 150T728-350q-20 39-49.5 68.5T610-232q-35 68-102 110T360-80Zm0-80q33 0 63.5-10t56.5-30q-58 0-109-22t-89-60q-38-38-60-89t-22-109q-20 26-30 56.5T160-360q0 42 16 78t43 63q27 27 63 43t78 16Zm120-120q33 0 64.5-10t57.5-30q-59 0-110-22.5T403-403q-38-38-60.5-89T320-602q-20 26-30 57.5T280-480q0 42 15.5 78t43.5 63q27 28 63 43.5t78 15.5Zm120-120q18 0 34.5-3t33.5-9q22-60 6.5-115.5T621-621q-38-38-93.5-53.5T412-668q-6 17-9 33.5t-3 34.5q0 42 15.5 78t43.5 63q27 28 63 43.5t78 15.5Zm160-78q20-26 30-57.5t10-64.5q0-42-15.5-78T741-741q-27-28-63-43.5T600-800q-35 0-65.5 10T478-760q59 0 110 22.5t89 60.5q38 38 60.5 89T760-478ZM600-600Z"/></svg></span>
+        <div class="set-rmain"><div class="set-rt">Reduce motion</div></div>
+        <button id="animToggle" class="set-toggle" role="switch" aria-checked="false" aria-label="Reduce motion"><span class="knob"></span></button>
       </div>
       <p class="set-rml" id="setRml">Reduce Motion is on for this device — animations are held off.</p>
     </div>
 
     <div class="set-sec">
       <p class="set-seclbl">Reset</p>
-      <div class="set-card">
-        <button id="resetBtn" class="set-row set-danger" type="button" title="Clear all Known/Review marks"><span class="set-ic"><svg viewBox="0 0 24 24"><path d="M4 4v5h5"/><path d="M4.6 15a8 8 0 1 0 1.4-8.5L4 9"/></svg></span><div class="set-rmain"><div class="set-rt">Reset Review &amp; Known marks</div></div></button>
-        <button id="resetPicksBtn" class="set-row set-danger" type="button" title="Clear all your saved answer picks"><span class="set-ic"><svg viewBox="0 0 24 24"><path d="M4 4v5h5"/><path d="M4.6 15a8 8 0 1 0 1.4-8.5L4 9"/></svg></span><div class="set-rmain"><div class="set-rt">Reset answer picks</div></div></button>
+      <div class="set-resetbtns">
+        <button id="resetBtn" class="set-reset" type="button" title="Clear all Known/Review marks"><span class="set-ic"><svg viewBox="0 -960 960 960"><path d="M440-122q-121-15-200.5-105.5T160-440q0-66 26-126.5T260-672l57 57q-38 34-57.5 79T240-440q0 88 56 155.5T440-202v80Zm80 0v-80q87-16 143.5-83T720-440q0-100-70-170t-170-70h-3l44 44-56 56-140-140 140-140 56 56-44 44h3q134 0 227 93t93 227q0 121-79.5 211.5T520-122Z"/></svg></span> Reset Review &amp; Known marks</button>
+        <button id="resetPicksBtn" class="set-reset" type="button" title="Clear all your saved answer picks"><span class="set-ic"><svg viewBox="0 -960 960 960"><path d="M440-122q-121-15-200.5-105.5T160-440q0-66 26-126.5T260-672l57 57q-38 34-57.5 79T240-440q0 88 56 155.5T440-202v80Zm80 0v-80q87-16 143.5-83T720-440q0-100-70-170t-170-70h-3l44 44-56 56-140-140 140-140 56 56-44 44h3q134 0 227 93t93 227q0 121-79.5 211.5T520-122Z"/></svg></span> Reset all answer picks</button>
       </div>
       <p class="set-help">Clears progress saved on this device. Can’t be undone.</p>
     </div>
@@ -1389,43 +1384,42 @@
   }
 
   /* Settings panel (right drawer) */
-  #setScrim{position:fixed;inset:0;background:rgba(6,12,20,.55);z-index:9998;opacity:0;pointer-events:none;transition:opacity .2s}
+  #setScrim{position:fixed;inset:0;background:rgba(6,12,20,.55);z-index:9998;opacity:0;pointer-events:none;transition:opacity .2s;overscroll-behavior:contain}
   #setScrim.open{opacity:1;pointer-events:auto}
   #setPanel{position:fixed;top:0;right:0;height:100%;width:360px;max-width:92vw;background:#0d1b2a;border-left:1px solid rgba(255,255,255,.14);z-index:9999;transform:translateX(102%);transition:transform .28s cubic-bezier(.3,.1,.2,1);box-shadow:-24px 0 64px rgba(0,0,0,.55);overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;color:#eef3f8;box-sizing:border-box}
-  #setScrim{overscroll-behavior:contain}
   #setPanel.open{transform:translateX(0)}
   #setPanel .set-h{position:sticky;top:0;background:#0d1b2a;z-index:2;display:flex;align-items:center;justify-content:space-between;padding:calc(12px + env(safe-area-inset-top)) 20px 14px;border-bottom:1px solid rgba(255,255,255,.08)}
   #setPanel .set-h b{font-family:var(--serif);font-weight:900;font-size:1.75rem;color:#fff;letter-spacing:-.02em}
   #setPanel .set-h button{width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,.16);background:none;color:#9fb3c8;font-size:1rem;cursor:pointer;line-height:1;flex:none}
-  #setPanel .set-body{padding:22px 20px calc(30px + env(safe-area-inset-bottom))}
-  #setPanel .set-sec{margin-bottom:26px}
-  #setPanel .set-seclbl{font-family:var(--serif);font-weight:600;font-size:1.16rem;color:#93a6ba;margin:0 0 12px;padding-left:4px;letter-spacing:-.01em}
-  #setPanel .set-card{background:#16273a;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:4px 0}
-  #setPanel .set-row{display:flex;align-items:center;gap:15px;padding:15px 17px;position:relative;width:100%;text-align:left;background:none;border:0;font:inherit;color:inherit}
-  #setPanel .set-row + .set-row::before{content:"";position:absolute;top:0;left:53px;right:17px;height:1px;background:rgba(255,255,255,.08)}
+  #setPanel .set-body{padding:0 22px calc(28px + env(safe-area-inset-bottom))}
+  #setPanel .set-sec{padding:38px 0}
+  #setPanel .set-sec:first-child{padding-top:26px}
+  #setPanel .set-sec:last-child{padding-bottom:0}
+  #setPanel .set-sec + .set-sec{border-top:1px solid rgba(255,255,255,.12)}
+  #setPanel .set-seclbl{font-family:var(--serif);font-weight:600;font-size:1.16rem;color:#93a6ba;margin:0 0 30px;letter-spacing:-.01em}
+  #setPanel .set-row{display:flex;align-items:flex-start;gap:15px;margin-bottom:30px} #setPanel .set-row:last-child{margin-bottom:0}
+  #setPanel .set-row.toggle-row{align-items:center}
   #setPanel .set-ic{width:26px;height:26px;flex:none;color:#eef3f8;display:flex;align-items:center;justify-content:center}
-  #setPanel .set-ic svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  #setPanel .set-ic svg{width:24px;height:24px;fill:currentColor;stroke:none}
   #setPanel .set-rmain{flex:1;min-width:0}
-  #setPanel .set-rt{font-family:var(--serif-body);font-size:1.08rem;font-weight:600;color:#eef3f8;letter-spacing:-.005em}
-  #setPanel .set-rs{font-family:var(--serif-body);font-size:.9rem;color:#9fb3c8;margin-top:2px;line-height:1.35}
-  #setPanel .set-row.stack{flex-wrap:wrap}
-  #setPanel .set-wide{flex-basis:100%;padding-left:41px;margin-top:13px}
+  #setPanel .set-rt{font-family:var(--serif-body);font-size:1.08rem;font-weight:600;color:#eef3f8;letter-spacing:-.005em;line-height:1.15;padding-top:1px}
+  #setPanel .set-wide{margin-top:16px}
   #setPanel .set-toggle{position:relative;width:46px;height:26px;border-radius:99px;border:0;background:#3a4a5c;cursor:pointer;padding:0;flex:none;transition:background .2s}
   #setPanel .set-toggle .knob{position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.4);transition:left .2s}
   #setPanel .set-toggle.on{background:var(--orange)} #setPanel .set-toggle.on .knob{left:23px}
-  #setPanel .set-seg{display:flex;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:4px;gap:4px}
-  #setPanel .set-seg button{flex:1;font-family:var(--mono);font-size:.74rem;font-weight:700;padding:9px 6px;border-radius:7px;border:0;background:none;color:#9fb3c8;cursor:pointer}
+  #setPanel .set-seg{display:flex;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:4px;gap:4px;max-width:300px}
+  #setPanel .set-seg button{flex:1;font-family:var(--mono);font-size:.76rem;font-weight:700;padding:10px 6px;border-radius:7px;border:0;background:none;color:#9fb3c8;cursor:pointer}
   #setPanel .set-seg button.act{background:var(--orange);color:#fff}
-  #setPanel .set-sw{display:flex;gap:12px;flex-wrap:wrap}
-  #setPanel .set-sw .swz{width:44px;height:44px;border-radius:11px;border:2px solid transparent;box-shadow:inset 0 0 0 1px rgba(255,255,255,.16);cursor:pointer;position:relative;padding:0}
-  #setPanel .set-sw .swz.sel{border-color:#fff;cursor:default}
-  #setPanel .set-sw .swz.sel::after{content:"\2713";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,.6)}
-  #setPanel .set-row.set-danger{cursor:pointer}
-  #setPanel .set-row.set-danger .set-ic{color:#e0857c} #setPanel .set-row.set-danger .set-rt{color:#e0857c}
-  @media (hover:hover){ #setPanel .set-row.set-danger:hover{background:rgba(192,57,43,.1)} }
-  #setPanel .set-help{font-family:var(--serif-body);font-size:.85rem;color:#6f8296;line-height:1.5;margin:11px 6px 0}
-  #setPanel .set-rml{font-family:var(--serif-body);font-size:.9rem;color:#e6b980;line-height:1.5;margin:12px 6px 0;display:none}
-  #setPanel .set-about{font-family:var(--serif-body);font-size:.98rem;color:#9fb3c8;line-height:1.6;padding:0 6px;margin:0}
+  #setPanel .set-sw{display:flex;gap:13px}
+  #setPanel .set-sw .swz{width:46px;height:46px;border-radius:12px;border:2px solid transparent;box-shadow:inset 0 0 0 1px rgba(255,255,255,.16);cursor:pointer;position:relative;padding:0}
+  #setPanel .set-sw .swz.sel{border-color:#fff} #setPanel .set-sw .swz.sel::after{content:"\2713";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+  #setPanel .set-resetbtns{display:flex;flex-direction:column;gap:12px;max-width:330px}
+  #setPanel .set-reset{display:flex;align-items:center;gap:12px;font-family:var(--serif-body);font-size:1.02rem;font-weight:600;text-align:left;color:#e0857c;background:rgba(192,57,43,.15);border:1px solid rgba(192,57,43,.45);border-radius:12px;padding:13px 16px;cursor:pointer;width:100%}
+  #setPanel .set-reset .set-ic{width:22px;height:22px;color:#e0857c} #setPanel .set-reset .set-ic svg{width:20px;height:20px}
+  @media (hover:hover){ #setPanel .set-reset:hover{background:rgba(192,57,43,.26);border-color:#e0857c} }
+  #setPanel .set-help{font-family:var(--serif-body);font-size:.85rem;color:#6f8296;line-height:1.5;margin:14px 0 0}
+  #setPanel .set-rml{font-family:var(--serif-body);font-size:.9rem;color:#e6b980;line-height:1.5;margin:14px 0 0;display:none}
+  #setPanel .set-about{font-family:var(--serif-body);font-size:.9rem;color:#9fb3c8;line-height:1.6;margin:0}
   #setPanel .set-about b{color:#eef3f8}
   /* manual "animations off" — freeze the celebration star flicker into a static image (canvas FX are gated in JS) */
   body.anim-off #testModal .exam-celeb .ff, body.anim-off #testModal .tresults .ff{animation:none!important;opacity:1!important;transform:none!important}
@@ -3604,13 +3598,14 @@ const CARDS = [
   function curAnim(){ try{ return localStorage.getItem(ANIM_LS)==="off"?"off":"on"; }catch(e){ return "on"; } }
   function applyAnim(v){ try{ localStorage.setItem(ANIM_LS,v); }catch(e){} renderAnim(); }
   function renderAnim(){
-    var r=reduce(), on=!r && curAnim()==="on";
-    tog.classList.toggle("on",on);
-    tog.setAttribute("aria-checked", on?"true":"false");
-    tog.setAttribute("aria-disabled", r?"true":"false");
-    tog.style.opacity=r?".45":""; tog.style.pointerEvents=r?"none":"";
-    rml.style.display=r?"block":"none";
-    document.body.classList.toggle("anim-off", !on);
+    var sys=reduce();                          // system Reduce Motion
+    var reduced = sys || curAnim()==="off";    // is motion reduced? (toggle ON = reduce)
+    tog.classList.toggle("on",reduced);
+    tog.setAttribute("aria-checked", reduced?"true":"false");
+    tog.setAttribute("aria-disabled", sys?"true":"false");
+    tog.style.opacity=sys?".55":""; tog.style.pointerEvents=sys?"none":"";
+    rml.style.display=sys?"block":"none";
+    document.body.classList.toggle("anim-off", reduced);
   }
   tog.addEventListener("click",function(){ if(reduce()) return; applyAnim(curAnim()==="on"?"off":"on"); });
   try{ matchMedia("(prefers-reduced-motion: reduce)").addEventListener("change",renderAnim); }catch(e){}
