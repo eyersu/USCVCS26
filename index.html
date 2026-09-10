@@ -139,11 +139,25 @@
   @media (hover:hover){ .switch.on:hover{border-color:var(--gold)} }
   .switch.on .knob{left:calc(100% - 32px)}
   .switch.on .swlabel{text-align:left;padding:0 40px 0 15px;color:#2a2205}
+  /* robust order-toggle on-state (id-scoped so it always wins) */
+  #orderToggle .knob{left:8px;right:auto}
+  #orderToggle.on .knob{left:auto;right:8px}
+  #orderToggle.on{background-color:var(--gold)!important;border-color:var(--gold)!important}
+  #orderToggle.on .swlabel{color:#2a2205}
+  /* selected/active buttons fill with accent (background-color !important beats the base button rule) */
+  #starBtn.active{background-color:var(--gold)!important;border-color:var(--gold)!important;color:#25200a!important}
+  .controls .pilegroup button.active{background-color:var(--gold)!important;border-color:var(--gold)!important;color:#25200a!important}
+  /* Review/Known/Unassigned: larger, clearly Material */
+  .controls .pilegroup button .mi{width:18px;height:18px}
 
   /* search */
   .searchwrap{position:relative;width:100%}
   .search{width:100%;font:inherit;padding:10px 34px 10px 16px;border-radius:22px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.08);color:#eaf1f8;outline:none}
-  .search:focus{border-color:var(--orange);background:rgba(255,255,255,.13)}
+  .search:focus{border-color:var(--orange);background:rgba(var(--accent-rgb),.12);box-shadow:0 0 0 2px rgba(var(--accent-rgb),.3)}
+  .searchwrap .search{padding-left:46px}
+  .search-ic{position:absolute;left:17px;top:50%;transform:translateY(-50%);color:#8fa3b8;pointer-events:none;display:flex}
+  .search-ic svg{width:19px;height:19px}
+  .search:focus + .searchmeta ~ .search-ic, .searchwrap:focus-within .search-ic{color:var(--orange)}
   .search::placeholder{color:#8fa3b8}
   .searchmeta{position:absolute;right:8px;top:50%;transform:translateY(-50%);display:flex;align-items:center;gap:9px}
   .searchcount{font-family:var(--mono);font-size:.68rem;font-weight:600;color:var(--soft-text);white-space:nowrap;letter-spacing:.3px;cursor:pointer;text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(247,178,122,.4)}
@@ -282,12 +296,12 @@
   /* ==== deck-controls layout to match mockup (desktop ≥521px): pile row · filters · search ==== */
   @media (min-width:521px){
     .controls .pilegroup{display:flex;width:100%;gap:12px;background:none;border:none;border-radius:0;padding:0}
-    .controls .pilegroup button{flex:1;height:52px;padding:0 10px;border-radius:12px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.05);color:#e8eef5;font-size:.95rem;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap}
+    .controls .pilegroup button{flex:1;height:52px;padding:0 14px;border-radius:999px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.05);color:#e8eef5;font-size:.95rem;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap}
     .controls .pilegroup button.active{background:var(--gold);border-color:var(--gold);color:#25200a}
-    .controls #catSel{flex:2 1 300px;height:52px;border-radius:12px;background-color:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.10);color:#e8eef5}
-    .controls #starBtn{flex:1.3 1 150px;height:52px;border-radius:12px;background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.10)}
-    .controls #orderToggle.switch{flex:1.3 1 150px;width:auto;height:52px;border-radius:14px}
-    .controls .searchwrap .search{height:52px;border-radius:14px;box-sizing:border-box}
+    .controls #catSel{flex:2 1 300px;height:52px;border-radius:999px;background-color:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.10);color:#e8eef5}
+    .controls #starBtn{flex:1.3 1 150px;height:52px;border-radius:999px;background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.10)}
+    .controls #orderToggle.switch{flex:1.3 1 150px;width:auto;height:52px;border-radius:999px}
+    .controls .searchwrap .search{height:52px;border-radius:999px;box-sizing:border-box}
   }
   .crow-div{width:1px;align-self:stretch;min-height:26px;background:rgba(255,255,255,.16);margin:0 4px}
   button.danger{border:1px dashed rgba(224,133,124,.5);background:none;color:#e0857c}
@@ -842,7 +856,7 @@
 <div id="topbar">
 <button id="quickstartBtn" type="button" title="Replay the Quick Start tour"><span class="qs-ic"><svg class="mi" viewBox="0 -960 960 960" aria-hidden="true"><path d="m98-537 168-168q14-14 33-20t39-2l77 14q-55 62-89 117.5T263-466L98-537Zm202 89q27-73 68-137.5T461-702q88-88 201-131.5T873-860q17 98-26 211T716-448q-52 52-117 93t-138 68L300-448Zm335.5-105q29.5 0 49.5-20t20-49.5q0-29.5-20-49.5t-49.5-20q-29.5 0-49.5 20t-20 49.5q0 29.5 20 49.5t49.5 20ZM551-85l-72-165q74-29 129.5-63T726-402l14 77q4 20-2 39.5T718-252L551-85ZM162-318q35-35 85-35.5t85 34.5q35 35 35 85t-35 85q-26 26-81 43T87-74q15-109 32-163.5t43-80.5Z"/></svg></span><span class="qs-lb">Quick Start</span></button>
 <button id="settingsBtn" type="button" title="Settings" aria-label="Settings"><span class="set-ic"><svg viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="m388-80-20-126q-19-7-40-19t-37-25l-118 54-93-164 108-79q-2-9-2.5-20.5T185-480q0-9 .5-20.5T188-521L80-600l93-164 118 54q16-13 37-25t40-18l20-127h184l20 126q19 7 40.5 18.5T669-710l118-54 93 164-108 77q2 10 2.5 21.5t.5 21.5q0 10-.5 21t-2.5 21l108 78-93 164-118-54q-16 13-36.5 25.5T592-206L572-80H388Zm92-270q54 0 92-38t38-92q0-54-38-92t-92-38q-54 0-92 38t-38 92q0 54 38 92t92 38Z"/></svg></span><span class="set-lb">Settings</span></button>
-<button id="guideBtn" type="button" title="How to use this app"><span class="q">?</span><span class="glabel">How to use</span></button>
+<button id="guideBtn" type="button" title="How to use this app"><span class="q"><svg class="mi" viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="M431-330q1-72 16.5-105t58.5-72q42-38 64.5-70.5T593-647q0-45-30-75t-84-30q-52 0-80 29.5T358-661l-84-37q22-59 74.5-100.5T479-840q100 0 154 55.5T687-651q0 48-20.5 87T601-482q-49 47-59 72t-11 80H431Zm48 250q-29 0-49.5-20.5T409-150q0-29 20.5-49.5T479-220q29 0 49.5 20.5T549-150q0 29-20.5 49.5T479-80Z"/></svg></span><span class="glabel">How to use</span></button>
 </div>
 
 <!-- Settings panel -->
@@ -1034,6 +1048,7 @@
   </div>
   <div class="crow">
     <div class="searchwrap">
+      <span class="search-ic" aria-hidden="true"><svg viewBox="0 -960 960 960" fill="currentColor"><path d="M796-121 533-384q-30 26-70 40.5T378-329q-108 0-183-75t-75-181q0-106 75-181t182-75q106 0 180.5 75T632-585q0 43-14 83t-42 75l264 262-44 44ZM377-389q81 0 138-57.5T572-585q0-81-57-138.5T377-781q-82 0-139.5 57.5T180-585q0 81 57.5 138.5T377-389Z"/></svg></span>
       <input type="text" id="searchInput" class="search" placeholder="Search questions &amp; answers…" autocomplete="off" autocapitalize="off" spellcheck="false">
       <div class="searchmeta">
         <span id="searchCount" class="searchcount" style="display:none" aria-live="polite"></span>
@@ -1408,13 +1423,13 @@
   #setPanel .set-sec:last-child{padding-bottom:0}
   #setPanel .set-sec + .set-sec{border-top:1px solid rgba(255,255,255,.12)}
   #setPanel .set-seclbl{font-family:var(--serif);font-weight:600;font-size:1.16rem;color:#93a6ba;margin:0 0 30px;letter-spacing:-.01em}
-  #setPanel .set-row{display:flex;align-items:flex-start;gap:15px;margin-bottom:30px} #setPanel .set-row:last-child{margin-bottom:0}
+  #setPanel .set-row{display:flex;align-items:flex-start;gap:15px;margin-bottom:30px} #setPanel .set-row:has(+ .set-rml){margin-bottom:0} #setPanel .set-row:last-child{margin-bottom:0}
   #setPanel .set-row.toggle-row{align-items:center}
   #setPanel .set-ic{width:26px;height:26px;flex:none;color:#eef3f8;display:flex;align-items:center;justify-content:center}
   #setPanel .set-ic svg{width:24px;height:24px;fill:currentColor;stroke:none}
   #setPanel .set-rmain{flex:1;min-width:0}
   #setPanel .set-rt{font-family:var(--serif-body);font-size:1.08rem;font-weight:600;color:#eef3f8;letter-spacing:-.005em;line-height:1.15;padding-top:1px}
-  #setPanel .set-wide{margin-top:24px}
+  #setPanel .set-wide{margin-top:24px;margin-left:calc(-22px - 15px)}
   #setPanel .set-toggle{position:relative;width:46px;height:26px;border-radius:99px;border:0;background:#3a4a5c;cursor:pointer;padding:0;flex:none;transition:background .2s}
   #setPanel .set-toggle .knob{position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.4);transition:left .2s}
   #setPanel .set-toggle.on{background:var(--orange)} #setPanel .set-toggle.on .knob{left:23px}
@@ -1459,8 +1474,8 @@
     #topbar #guideBtn .glabel{display:inline}
     #topbar #guideBtn .q{width:auto;height:auto;background:transparent;color:inherit;font-weight:700;font-size:.92rem}
     #topbar #quickstartBtn .qs-lb{display:inline}
-    #topbar #quickstartBtn .qs-ic{font-size:0;width:.95rem;text-align:center}
-    #topbar #quickstartBtn .qs-ic::before{content:"⏻";font-size:.92rem}
+    #topbar #quickstartBtn .qs-ic{font-size:1.05rem}
+    #topbar #quickstartBtn .qs-ic::before{content:none}
     /* clear the fixed bar */
     body{padding-top:calc(52px + env(safe-area-inset-top))}
     /* centred, non-clipping header + a two-line progress block */
