@@ -71,7 +71,7 @@
     --orange:#e2620c;
     /* accent tokens — default = Classic Orange (unchanged). Overridden by [data-theme] for other accents. */
     --accent-dk:#b8500a; --accent-dk2:#c9560a; --accent-lt:#ffd766;
-    --accent-rgb:226,98,12; --gold-rgb:247,148,29;
+    --accent-rgb:226,98,12; --gold-rgb:247,148,29; --veil-rgb:254,201,110;
     --chip-text:#f4d9a6; --callout-bg:#ffe27a; --callout-ink:#9a4a12;
     --soft-text:#f7b27a; --badge-ink:#b0521a; --tint:#f3e7d3;
     --serif:"Fraunces","Iowan Old Style",Georgia,"Times New Roman",serif;
@@ -83,7 +83,7 @@
   :root[data-theme="azure"]{
     --red:#3d82f2; --orange:#3d82f2; --gold:#58a9f5;
     --accent-dk:#2b66cf; --accent-dk2:#2b66cf; --accent-lt:#9fd4ff;
-    --accent-rgb:61,130,242; --gold-rgb:88,169,245;
+    --accent-rgb:61,130,242; --gold-rgb:88,169,245; --veil-rgb:128,172,238;
     --chip-text:#bcd6f5; --callout-bg:#bcd8f7; --callout-ink:#1f4e9e;
     --soft-text:#9dc4f7; --badge-ink:#2c62c0; --tint:#e2ecfb;
   }
@@ -1371,7 +1371,7 @@
   }
   /* Quick Start coach-mark tour */
   #qsVeil{position:fixed;inset:0;z-index:90;display:none}
-  #qsSpot{position:absolute;box-shadow:0 0 0 9999px rgba(254,201,110,.85);transition:all .32s cubic-bezier(.4,.1,.2,1);pointer-events:none}
+  #qsSpot{position:absolute;box-shadow:0 0 0 9999px rgba(var(--veil-rgb),.85);transition:all .32s cubic-bezier(.4,.1,.2,1);pointer-events:none}
   #qsTip{position:absolute;z-index:92;width:320px;max-width:88vw;background:#fff;color:#22303c;border-radius:16px;box-shadow:0 20px 50px rgba(0,0,0,.5);padding:24px 24px 20px}
   #qsTip .qs-step{font-family:"IBM Plex Mono",monospace;font-size:.56rem;letter-spacing:2px;text-transform:uppercase;font-weight:700;color:var(--orange);margin:0 0 7px}
   #qsTip h3{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:1.16rem;line-height:1.2;margin:0 0 7px;color:#0d1b2a}
