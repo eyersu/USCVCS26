@@ -2461,9 +2461,9 @@ const CARDS = [
   function vcStop(){ try{ if(window.speechSynthesis) speechSynthesis.cancel(); }catch(e){} try{ if(vcAudio){vcAudio.onended=null;vcAudio.pause();vcAudio=null;} }catch(e){} vcQ=[]; }
   function vcSpeak(text, after){ if(isMuted()) return; try{ if(!("speechSynthesis" in window)){ if(after)after(); return; } speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text); if(typeof ttsVoice!=="undefined"&&ttsVoice){u.voice=ttsVoice;u.lang=ttsVoice.lang;} else u.lang="en-US"; u.rate=ttsRate(); if(after)u.onend=after; speechSynthesis.speak(u); }catch(e){ if(after)after(); } }
   function vcPlay(src, text, after){ hideAudioPrompt(); vcStop(); if(isMuted()) return; if(src){ try{ vcAudio=new Audio(src); vcAudio.playbackRate=audioRate(); if(after)vcAudio.onended=after; vcAudio.play().catch(()=>{vcAudio=null;vcSpeak(text,after);}); return; }catch(e){} } vcSpeak(text, after); }
-  function vcPlayQ(c){ vcPlay((window.QAUDIO||{})[c.n], c.q); }
-  function vcPlayA(t){ vcPlay((window.AAUDIO||{})[t], t); }
-  function vcReadAllNow(c){ hideAudioPrompt(); vcStop(); vcQ=c.a.slice(); vcNextInQueue(); }
+  function vcPlayQ(c){ if(isMuted()) setMuted(false); vcPlay((window.QAUDIO||{})[c.n], c.q); }
+  function vcPlayA(t){ if(isMuted()) setMuted(false); vcPlay((window.AAUDIO||{})[t], t); }
+  function vcReadAllNow(c){ if(isMuted()) setMuted(false); hideAudioPrompt(); vcStop(); vcQ=c.a.slice(); vcNextInQueue(); }
   // stop the CURRENTLY playing clip/speech but leave vcQ intact, so a "Read all" run can advance
   function vcHush(){ try{ if(window.speechSynthesis) speechSynthesis.cancel(); }catch(e){} try{ if(vcAudio){vcAudio.onended=null;vcAudio.pause();vcAudio=null;} }catch(e){} }
   function vcNextInQueue(){ if(!vcQ.length) return; if(isMuted()){ vcQ=[]; return; } const t=vcQ.shift(); const src=(window.AAUDIO||{})[t]; const after=()=>{ if(vcQ.length) vcNextInQueue(); }; vcHush(); if(src){ try{ vcAudio=new Audio(src); vcAudio.playbackRate=audioRate(); vcAudio.onended=after; vcAudio.play().catch(()=>{vcAudio=null;vcSpeak(t,after);}); return; }catch(e){} } vcSpeak(t, after); }
@@ -2631,7 +2631,7 @@ const CARDS = [
   let clipAudio=null;
   function stopSpeech(){ try{ if(window.speechSynthesis) window.speechSynthesis.cancel(); }catch(e){} try{ if(clipAudio){clipAudio.pause();clipAudio=null;} }catch(e){} }
   function speakCard(c){ stopSpeech(); if(isMuted()) return; const src=(window.QAUDIO||{})[c.n]; if(src){ try{ clipAudio=new Audio(src); clipAudio.playbackRate=audioRate(); clipAudio.play().catch(()=>{clipAudio=null;speakQuestion(c.q);}); return; }catch(e){} } speakQuestion(c.q); }
-  function playAnswer(t){ stopSpeech(); if(isMuted()) return; const src=(window.AAUDIO||{})[t]; if(src){ try{ clipAudio=new Audio(src); clipAudio.playbackRate=audioRate(); clipAudio.play().catch(()=>{clipAudio=null;speakQuestion(t);}); return; }catch(e){} } speakQuestion(t); }
+  function playAnswer(t){ stopSpeech(); if(isMuted()) setMuted(false); const src=(window.AAUDIO||{})[t]; if(src){ try{ clipAudio=new Audio(src); clipAudio.playbackRate=audioRate(); clipAudio.play().catch(()=>{clipAudio=null;speakQuestion(t);}); return; }catch(e){} } speakQuestion(t); }
   function scoreText(){ return "Correct: "+test.correct+" · need "+TEST_PASS+" of "+TEST_TOTAL+" to pass"; }
   function updateExamHead(){
     $("tGhostNum").textContent = test.correct;
@@ -2999,7 +2999,7 @@ const CARDS = [
   $("tCelebCont").onclick = hideCeleb;
   $("tInput").addEventListener("keydown", e=>{ if(e.key==="Enter"){ e.preventDefault(); submitTest(); } });
   $("oralBtn").onclick = startOral;
-  $("tReadBtn").onclick = ()=>{ if(test && test.oral) speakCard(test.deck[test.i]); };
+  $("tReadBtn").onclick = ()=>{ if(test && test.oral){ if(isMuted()) setMuted(false); speakCard(test.deck[test.i]); } };
   $("tCorrect").addEventListener("pointerdown", ()=> $("tCorrect").classList.add("chosen"));
   $("tWrong").addEventListener("pointerdown", ()=> $("tWrong").classList.add("chosen"));
   $("tCorrect").onclick = ()=> gradeOral(true);
