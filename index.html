@@ -946,8 +946,8 @@
       <p class="set-seclbl">Reset</p>
       <div class="set-resetbtns">
         <div class="set-rrow">
-          <div class="set-rr"><button id="resetBtn" class="set-reset" type="button"><span class="set-ic"><svg viewBox="0 -960 960 960"><path d="M440-122q-121-15-200.5-105.5T160-440q0-66 26-126.5T260-672l57 57q-38 34-57.5 79T240-440q0 88 56 155.5T440-202v80Zm80 0v-80q87-16 143.5-83T720-440q0-100-70-170t-170-70h-3l44 44-56 56-140-140 140-140 56 56-44 44h3q134 0 227 93t93 227q0 121-79.5 211.5T520-122Z"/></svg></span> Reset Review &amp; Known marks</button><button class="set-info" type="button" data-x="setExpl1" aria-label="What this does">i</button></div>
-          <div class="set-expl" id="setExpl1" hidden>Clears your <b>Known / Review</b> marks and returns the deck to the full 128 questions in order. Your answer picks remain untouched.</div>
+          <div class="set-rr"><button id="resetBtn" class="set-reset" type="button"><span class="set-ic"><svg viewBox="0 -960 960 960"><path d="M440-122q-121-15-200.5-105.5T160-440q0-66 26-126.5T260-672l57 57q-38 34-57.5 79T240-440q0 88 56 155.5T440-202v80Zm80 0v-80q87-16 143.5-83T720-440q0-100-70-170t-170-70h-3l44 44-56 56-140-140 140-140 56 56-44 44h3q134 0 227 93t93 227q0 121-79.5 211.5T520-122Z"/></svg></span> Reset Review/Known</button><button class="set-info" type="button" data-x="setExpl1" aria-label="What this does">i</button></div>
+          <div class="set-expl" id="setExpl1" hidden>Clears your <b>Review/Known</b> marks and returns the deck to the full 128 questions in order. Your answer picks remain untouched.</div>
         </div>
         <div class="set-rrow">
           <div class="set-rr"><button id="resetPicksBtn" class="set-reset" type="button"><span class="set-ic"><svg viewBox="0 -960 960 960"><path d="M440-122q-121-15-200.5-105.5T160-440q0-66 26-126.5T260-672l57 57q-38 34-57.5 79T240-440q0 88 56 155.5T440-202v80Zm80 0v-80q87-16 143.5-83T720-440q0-100-70-170t-170-70h-3l44 44-56 56-140-140 140-140 56 56-44 44h3q134 0 227 93t93 227q0 121-79.5 211.5T520-122Z"/></svg></span> Reset all answer picks</button><button class="set-info" type="button" data-x="setExpl2" aria-label="What this does">i</button></div>
@@ -1490,9 +1490,9 @@
   #setPanel .set-locpill{font-family:var(--mono);font-size:.66rem;font-weight:600;letter-spacing:.8px;text-transform:uppercase;background:none;border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:8px 13px;cursor:pointer;white-space:nowrap;color:#9fb3c8}
   #setPanel .set-locchange{color:var(--chip-text);border-color:rgba(var(--accent-rgb),.42);background:rgba(var(--accent-rgb),.1)}
   #setPanel .set-locreset{color:#e0857c;border-color:rgba(224,133,124,.45)}
-  #setPanel .set-rr{display:flex;align-items:stretch;gap:8px}
+  #setPanel .set-rr{display:flex;align-items:center;gap:8px}
   #setPanel .set-rr .set-reset{flex:1}
-  #setPanel .set-info{flex:none;width:34px;border-radius:10px;border:1px solid rgba(255,255,255,.14);background:none;color:#9fb3c8;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-style:italic;font-weight:600;font-size:.95rem}
+  #setPanel .set-info{flex:none;width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,.16);background:none;color:#9fb3c8;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-style:italic;font-weight:600;font-size:.9rem}
   #setPanel .set-info.open{color:#eef3f8;border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.05)}
   #setPanel .set-expl{font-family:var(--serif-body);font-size:.85rem;color:#9fb3c8;line-height:1.45;margin:8px 2px 2px;padding:10px 12px;background:rgba(255,255,255,.035);border-radius:8px}
   #setPanel .set-expl b{color:#dbe6f1;font-weight:600}
@@ -1751,7 +1751,7 @@
         <div class="g-rail"><div class="num">01</div><div class="lab">Study modes</div></div>
         <div class="g-body">
           <h3>Two ways to study — by sight or by sound</h3>
-          <p class="g-intro">A toggle above the deck sets how you study it — <b>Flashcards</b> to read, <b>Voice cards</b> to hear. It's the same deck either way: your Known / Review marks, filters, and answer picks carry across both.</p>
+          <p class="g-intro">A toggle above the deck sets how you study it — <b>Flashcards</b> to read, <b>Voice cards</b> to hear. It's the same deck either way: your Review/Known marks, filters, and answer picks carry across both.</p>
           <div class="g-ref">
             <div class="g-rr"><div class="c"><span class="g-chip"><span class="ic"><svg viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="m152-145-23-7q-32-14-43.5-48t6.5-67l60-136v258Zm186 78q-34 0-58-24t-24-58v-207l92 262q2 8 6 14t10 13h-26Zm188-24q-21 9-44-4t-33-36L258-650q-10-23 2-45t37-32l318-115q23-8 45 4t32 36l191 513q7 25-3 49t-35 33L526-91Zm-61-504q9-9 9-21t-9-21q-9-9-21-9t-21 9q-9 9-9 21t9 21q9 9 21 9t21-9Z"/></svg></span> Flashcards</span><span class="g-chip acc"><span class="ic"><svg viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="M560-131v-62q97-28 158.5-107.5T780-481q0-101-61-181T560-769v-62q124 28 202 125.5T840-481q0 127-78 224.5T560-131ZM120-360v-240h160l200-200v640L280-360H120Zm420 48v-337q55 17 87.5 64T660-480q0 57-33 104t-87 64Z"/></svg></span> Voice cards</span></div><div class="d">The toggle sits centered above the deck — tap either side to switch modes at any time.</div></div>
           </div>
@@ -1791,7 +1791,7 @@
               <div class="g-rr"><div class="c"><span class="g-chip"><span class="ic"><svg viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="M560-131v-62q97-28 158.5-107.5T780-481q0-101-61-181T560-769v-62q124 28 202 125.5T840-481q0 127-78 224.5T560-131ZM120-360v-240h160l200-200v640L280-360H120Zm420 48v-337q55 17 87.5 64T660-480q0 57-33 104t-87 64Z"/></svg></span> Each answer</span></div><div class="d">Flip the card and tap any answer to hear it read on its own.</div></div>
               <div class="g-rr"><div class="c"><span class="g-chip"><span class="ic"><svg viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="M320-203v-560l440 280-440 280Z"/></svg></span> Read all</span></div><div class="d">Plays every accepted answer in order, top to bottom — a hands-free way to hear the whole set, and it reads just your top picks if you've narrowed the card.</div></div>
             </div>
-            <div class="g-note"><p class="l">Carries over</p><p>Everything from Flashcards still applies — your <b>starred picks</b>, filters, and Known / Review marks. Narrowed a card to your top answers? Voice cards read just those until you <b>Show all</b>.</p></div>
+            <div class="g-note"><p class="l">Carries over</p><p>Everything from Flashcards still applies — your <b>starred picks</b>, filters, and Review/Known marks. Narrowed a card to your top answers? Voice cards read just those until you <b>Show all</b>.</p></div>
           </div>
         </div>
       </section>
@@ -1832,7 +1832,7 @@
             <div class="g-rr"><div class="c"><span class="g-chip"><span class="g-star"><svg class="mi" viewBox="0 -960 960 960" aria-hidden="true"><path d="m233-120 65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Z"/></svg></span> 65/20</span></div><div class="d">Only the <b>20 starred questions</b> for applicants who are 65+ and have been permanent residents 20+ years.</div></div>
             <div class="g-rr"><div class="c"><span class="g-chip">Shuffle / In order</span></div><div class="d">Toggle between the official order and a <b>shuffle</b> — <kbd>S</kbd> shuffles too.</div></div>
             <div class="g-rr"><div class="c"><span class="g-chip"><span class="ic"><svg class="mi" viewBox="0 -960 960 960" aria-hidden="true"><path d="M339.5-108Q274-136 225-185t-77-114.5Q120-365 120-440h60q0 125 87.5 212.5T480-140q125 0 212.5-87.5T780-440q0-125-85-212.5T485-740h-23l73 73-41 42-147-147 147-147 41 41-78 78h23q75 0 140.5 28T735-695q49 49 77 114.5T840-440q0 75-28 140.5T735-185q-49 49-114.5 77T480-80q-75 0-140.5-28Z"/></svg></span> Review</span><span class="g-chip"><span class="ic"><svg class="mi" viewBox="0 -960 960 960" aria-hidden="true"><path d="M378-246 154-470l43-43 181 181 384-384 43 43-427 427Z"/></svg></span> Known</span><span class="g-chip"><span class="ic"><svg class="mi" viewBox="0 -960 960 960" aria-hidden="true"><path d="M480-80q-82 0-155-31.5t-127.5-86Q143-252 111.5-325T80-480q0-83 31.5-156t86-127Q252-817 325-848.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 82-31.5 155T763-197.5q-54 54.5-127 86T480-80Zm0-60q142 0 241-99.5T820-480q0-142-99-241t-241-99q-141 0-240.5 99T140-480q0 141 99.5 240.5T480-140Z"/></svg></span> Unassigned</span></div><div class="d">Show a single pile at a time.</div></div>
-            <div class="g-rr"><div class="c"><span class="g-chip"><span class="ic"><svg class="mi" viewBox="0 -960 960 960" aria-hidden="true"><path d="M451-122q-123-10-207-101t-84-216q0-77 35.5-145T295-695l43 43q-56 33-87 90.5T220-439q0 100 66 173t165 84v60Zm60 0v-60q100-12 165-84.5T741-439q0-109-75.5-184.5T481-699h-20l60 60-43 43-133-133 133-133 43 43-60 60h20q134 0 227 93.5T801-439q0 125-83.5 216T511-122Z"/></svg></span> Reset Review/Known</span></div><div class="d"><b>Clears your Known / Review marks</b> and returns to the full 128 questions in order. Your answer picks stay put — those have their own reset.</div></div>
+            <div class="g-rr"><div class="c"><span class="g-chip"><span class="ic"><svg class="mi" viewBox="0 -960 960 960" aria-hidden="true"><path d="M451-122q-123-10-207-101t-84-216q0-77 35.5-145T295-695l43 43q-56 33-87 90.5T220-439q0 100 66 173t165 84v60Zm60 0v-60q100-12 165-84.5T741-439q0-109-75.5-184.5T481-699h-20l60 60-43 43-133-133 133-133 43 43-60 60h20q134 0 227 93.5T801-439q0 125-83.5 216T511-122Z"/></svg></span> Reset Review/Known</span></div><div class="d"><b>Clears your Review/Known marks</b> and returns to the full 128 questions in order. Your answer picks stay put — those have their own reset.</div></div>
             <div class="g-rr"><div class="c"><span class="g-chip"><span class="ic"><svg class="mi" viewBox="0 -960 960 960" aria-hidden="true"><path d="M451-122q-123-10-207-101t-84-216q0-77 35.5-145T295-695l43 43q-56 33-87 90.5T220-439q0 100 66 173t165 84v60Zm60 0v-60q100-12 165-84.5T741-439q0-109-75.5-184.5T481-699h-20l60 60-43 43-133-133 133-133 43 43-60 60h20q134 0 227 93.5T801-439q0 125-83.5 216T511-122Z"/></svg></span> Reset answer picks</span></div><div class="d"><b>Releases every answer pick at once</b>, so all questions show all of their accepted answers again — different from the <b>Reset picks</b> button inside a single card, which clears only that card.</div></div>
           </div>
         </div>
@@ -2904,7 +2904,7 @@ const CARDS = [
   }
   $("orderToggle").onclick = ()=>{ shuffled=!shuffled; updateOrderUI(); buildDeck(false); };
   $("resetBtn").onclick = ()=>{
-    if(!confirm("Clear all known/review marks?")) return;
+    if(!confirm("Clear all Review/Known marks?")) return;
     progress = {};
     save();
     pile = ""; starOnly = false; shuffled = false; cat = "all";
@@ -3237,7 +3237,7 @@ const CARDS = [
     var rr=document.getElementById("setLocResetRow"); if(rr) rr.hidden = !set;
   }
   function resetApp(){
-    if(!confirm("Reset the app to a fresh install?\n\nThis erases everything \u2014 Known/Review marks, answer picks, location, all settings, and your place in the deck. This can't be undone.")) return;
+    if(!confirm("Reset the app to a fresh install?\n\nThis erases everything \u2014 Review/Known marks, answer picks, location, all settings, and your place in the deck. This can't be undone.")) return;
     try{ var rm=[]; for(var i=0;i<localStorage.length;i++){ var k=localStorage.key(i); if(k && k.indexOf("civics2025.")===0) rm.push(k); } for(var j=0;j<rm.length;j++) localStorage.removeItem(rm[j]); }catch(e){}
     location.reload();
   }
