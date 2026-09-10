@@ -74,6 +74,7 @@
     --accent-rgb:226,98,12; --gold-rgb:247,148,29; --veil:rgba(254,201,110,.85);
     --chip-text:#f4d9a6; --callout-bg:#ffe27a; --callout-ink:#9a4a12;
     --soft-text:#f7b27a; --badge-ink:#b0521a; --tint:#f3e7d3;
+    --read-scale:1;   /* Text size setting scales the core reading text */
     --serif:"Fraunces","Iowan Old Style",Georgia,"Times New Roman",serif;
     --serif-body:"Newsreader",Georgia,serif;
     --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
@@ -87,6 +88,8 @@
     --chip-text:#bcd6f5; --callout-bg:#bcd8f7; --callout-ink:#1f4e9e;
     --soft-text:#9dc4f7; --badge-ink:#2c62c0; --tint:#e2ecfb;
   }
+  :root[data-text="sm"]{--read-scale:.9}
+  :root[data-text="lg"]{--read-scale:1.16}
   *{box-sizing:border-box}
   html,body{margin:0;height:100%}
   html{background:var(--bg)}
@@ -345,9 +348,9 @@
   .rule{width:34px;height:3px;background:var(--orange);margin:14px 0 12px;position:relative;z-index:1;flex:none}
   .front .rule{margin-top:116px}
   .label{display:none}
-  .qtext{font-family:var(--serif);font-size:1.6rem;font-weight:600;line-height:1.32;letter-spacing:-.01em;color:#202e3a;position:relative;z-index:1}
+  .qtext{font-family:var(--serif);font-size:calc(1.6rem * var(--read-scale));font-weight:600;line-height:1.32;letter-spacing:-.01em;color:#202e3a;position:relative;z-index:1}
   .front .qtext{min-height:94px}
-  .back .qtext{font-size:1.06rem;font-style:italic;font-weight:400;color:#7a6d5a;margin:14px 0 0}
+  .back .qtext{font-size:calc(1.06rem * var(--read-scale));font-style:italic;font-weight:400;color:#7a6d5a;margin:14px 0 0}
   .back ul.ans{margin-top:2px}
   .back ul.ans li{position:relative;padding-left:26px}
   .back ul.ans li::before{content:"★";position:absolute;left:0;top:10px;color:var(--gold);font-size:.78rem}
@@ -366,7 +369,7 @@
   @media (hover:hover){ .pbtn:hover{border-color:var(--orange);background:rgba(var(--accent-rgb),.1)} }
   .pbtn:active{background:rgba(var(--accent-rgb),.2)}
   ul.ans{margin:0;padding:0;list-style:none;position:relative;z-index:1;font-family:var(--serif-body)}
-  ul.ans li{padding:9px 0;font-size:1.22rem;line-height:1.55;border-bottom:1px solid #e7ddca;color:#26333d}
+  ul.ans li{padding:9px 0;font-size:calc(1.22rem * var(--read-scale));line-height:1.55;border-bottom:1px solid #e7ddca;color:#26333d}
   ul.ans li:last-child{border-bottom:none}
   /* caution + "localized" line live in a group pinned to the card bottom */
   .face.back .bottomgroup{position:absolute;left:30px;right:30px;bottom:20px}
@@ -434,7 +437,7 @@
   kbd{background:#26374a;color:#eaf1f8;border-radius:5px;padding:1px 6px;font-size:.72rem;font-family:var(--mono);border:1px solid rgba(255,255,255,.12)}
   .foot{color:#7d92a8;font-size:.72rem;margin-top:20px;text-align:center;max-width:560px;line-height:1.5}
   @media (max-width:520px){
-    .qtext{font-size:1.12rem}
+    .qtext{font-size:calc(1.12rem * var(--read-scale))}
     .ghost{font-size:6rem}                         /* big card numeral: smaller on phones */
     .fliphint{display:none}                        /* no space bar on phones; the tour already says to tap the card */
     /* Card + controls as one unit: card is flat-bottomed; the Prev/Review/Known/Next bar attaches
@@ -565,7 +568,7 @@
   .tbar{height:8px;background:#e9eef4;border-radius:99px;overflow:hidden;margin-bottom:10px}
   .tbar > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue),#5b7bc9);transition:width .2s}
   .tscore{font-size:.8rem;color:var(--muted);margin-bottom:18px;font-weight:600}
-  .tqtext{font-family:var(--serif);font-size:1.5rem;font-weight:600;line-height:1.22;letter-spacing:-.01em;margin:6px 0 4px;color:#202e3a}
+  .tqtext{font-family:var(--serif);font-size:calc(1.5rem * var(--read-scale));font-weight:600;line-height:1.22;letter-spacing:-.01em;margin:6px 0 4px;color:#202e3a}
   .tpick{font-size:.74rem;color:var(--blue);font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;min-height:1em}
   .tinput{width:100%;font:inherit;font-size:1.05rem;padding:12px 14px;border-radius:12px;border:2px solid var(--line);background:#fff;color:var(--ink);outline:none}
   .tinput:focus{border-color:var(--blue)}
@@ -771,7 +774,7 @@
   #testModal .ghlbl{font-family:var(--mono);font-size:.64rem;letter-spacing:1.8px;text-transform:uppercase;font-weight:600;color:#3f5c86;margin-top:9px}
   #testModal .meta{margin:60px 0 16px}
   #testModal .cat{color:#3f5c86;order:1} #testModal .star{order:2} #testModal .qnum{order:3;color:#9aa9b8}
-  #testModal .tqtext{color:#20303f;font-size:1.6rem;line-height:1.38;margin:0}
+  #testModal .tqtext{color:#20303f;font-size:calc(1.6rem * var(--read-scale));line-height:1.38;margin:0}
   #testModal .tpick{font-family:var(--mono);font-size:.62rem;letter-spacing:1.2px;color:#3f5c86;font-weight:600;text-transform:uppercase;margin:56px 0 16px;min-height:0}
   #testModal .tpick:empty{margin:56px 0 0}
   #testModal .tinput{border:1.5px solid #c9d3df;background:#fff;color:#20303f;font-family:var(--serif-body);font-size:1.15rem;padding:17px 20px;border-radius:14px}
@@ -815,6 +818,8 @@
     try{
       var t=localStorage.getItem("civics2025.theme.v1");
       if(t && t!=="orange") document.documentElement.setAttribute("data-theme", t);
+      var ts=localStorage.getItem("civics2025.textsize.v1");
+      if(ts && ts!=="md") document.documentElement.setAttribute("data-text", ts);
       var a=localStorage.getItem("civics2025.anim.v1");
       var reduce=false; try{ reduce=matchMedia("(prefers-reduced-motion: reduce)").matches; }catch(e){}
       if(a==="off" || reduce) document.body.classList.add("anim-off");
@@ -836,6 +841,14 @@
   <div class="set-g">
     <p class="set-gl">Theme color</p>
     <div class="set-sw" id="setSwatches"></div>
+  </div>
+  <div class="set-g">
+    <p class="set-gl">Text size</p>
+    <div class="set-seg" id="textSizeSeg">
+      <button type="button" data-size="sm">Small</button>
+      <button type="button" data-size="md">Medium</button>
+      <button type="button" data-size="lg">Large</button>
+    </div>
   </div>
   <div class="set-g">
     <p class="set-gl">Animations</p>
@@ -3578,6 +3591,13 @@ const CARDS = [
   function curRate(){ try{ return localStorage.getItem(VR_LS)||"normal"; }catch(e){ return "normal"; } }
   function renderRate(){ if(!vseg) return; var r=curRate(); vseg.querySelectorAll("[data-rate]").forEach(function(b){ b.classList.toggle("act", b.dataset.rate===r); }); }
   if(vseg){ vseg.addEventListener("click",function(e){ var b=e.target.closest("[data-rate]"); if(!b) return; try{ localStorage.setItem(VR_LS,b.dataset.rate); }catch(e){} renderRate(); }); renderRate(); }
+
+  /* text size */
+  var TS_LS="civics2025.textsize.v1", tseg=document.getElementById("textSizeSeg");
+  function curSize(){ try{ return localStorage.getItem(TS_LS)||"md"; }catch(e){ return "md"; } }
+  function renderSize(){ if(!tseg) return; var s=curSize(); tseg.querySelectorAll("[data-size]").forEach(function(b){ b.classList.toggle("act",b.dataset.size===s); }); }
+  function applySize(s){ if(s==="md") document.documentElement.removeAttribute("data-text"); else document.documentElement.setAttribute("data-text",s); try{ localStorage.setItem(TS_LS,s); }catch(e){} renderSize(); }
+  if(tseg){ tseg.addEventListener("click",function(e){ var b=e.target.closest("[data-size]"); if(!b) return; applySize(b.dataset.size); }); renderSize(); }
 })();
 </script>
 </body>
