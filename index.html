@@ -1388,9 +1388,9 @@
   #setScrim.open{opacity:1;pointer-events:auto}
   #setPanel{position:fixed;top:0;right:0;height:100%;width:360px;max-width:92vw;background:#0d1b2a;border-left:1px solid rgba(255,255,255,.14);z-index:9999;transform:translateX(102%);transition:transform .28s cubic-bezier(.3,.1,.2,1);box-shadow:-24px 0 64px rgba(0,0,0,.55);overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;color:#eef3f8;box-sizing:border-box}
   #setPanel.open{transform:translateX(0)}
-  #setPanel .set-h{position:sticky;top:0;background:#0d1b2a;z-index:2;display:flex;align-items:center;justify-content:space-between;padding:calc(12px + env(safe-area-inset-top)) 20px 14px;border-bottom:1px solid rgba(255,255,255,.08)}
+  #setPanel .set-h{position:sticky;top:0;background:#0d1b2a;z-index:2;display:flex;align-items:center;justify-content:space-between;padding:max(30px, calc(16px + env(safe-area-inset-top))) 20px 16px;border-bottom:1px solid rgba(255,255,255,.08)}
   #setPanel .set-h b{font-family:var(--serif);font-weight:900;font-size:1.75rem;color:#fff;letter-spacing:-.02em}
-  #setPanel .set-h button{width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,.16);background:none;color:#9fb3c8;font-size:1rem;cursor:pointer;line-height:1;flex:none}
+  #setPanel .set-h button{width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,255,255,.16);background:none;color:#9fb3c8;font-size:.95rem;cursor:pointer;flex:none;display:flex;align-items:center;justify-content:center;padding:0;line-height:1}
   #setPanel .set-body{padding:0 22px calc(28px + env(safe-area-inset-bottom))}
   #setPanel .set-sec{padding:38px 0}
   #setPanel .set-sec:first-child{padding-top:26px}
