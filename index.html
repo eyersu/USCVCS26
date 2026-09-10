@@ -1288,7 +1288,7 @@
   }
   /* Quick Start replay tab — a quieter right-edge tab tucked under How to use */
   #quickstartBtn{position:fixed;top:64px;right:0;z-index:20;font-family:"IBM Plex Mono",monospace;font-size:.58rem;letter-spacing:1.4px;text-transform:uppercase;font-weight:600;color:#d7e2ee;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-right:0;border-radius:999px 0 0 999px;padding:7px 14px 7px 12px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;line-height:1;box-shadow:-3px 4px 12px rgba(0,0,0,.3)}
-  @media (hover:hover){ #quickstartBtn:hover{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.32);color:#fff} }
+  @media (hover:hover){ #quickstartBtn:hover{background:var(--orange);border-color:var(--orange);color:#fff} }
   #quickstartBtn .qs-ic{font-size:.8rem}
   @media (max-width:768px){ #quickstartBtn{top:84px;padding:13px 15px;gap:0} #quickstartBtn .qs-lb{display:none} #quickstartBtn .qs-ic{font-size:1.25rem} }
 
@@ -1296,7 +1296,8 @@
   #settingsBtn{position:fixed;top:96px;right:0;z-index:20;font-family:"IBM Plex Mono",monospace;font-size:.58rem;letter-spacing:1.4px;text-transform:uppercase;font-weight:600;color:#d7e2ee;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-right:0;border-radius:999px 0 0 999px;padding:7px 14px 7px 12px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;line-height:1;box-shadow:-3px 4px 12px rgba(0,0,0,.3)}
   #settingsBtn .set-ic{display:inline-flex}
   #settingsBtn .set-ic svg{width:15px;height:15px;fill:currentColor;display:block}
-  @media (hover:hover){ #settingsBtn:hover{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.32);color:#fff} }
+  @media (hover:hover){ #settingsBtn:hover{background:var(--orange);border-color:var(--orange);color:#fff} }
+  @media (hover:hover){ #quickstartBtn:hover .qs-ic, #settingsBtn:hover .set-ic{background:rgba(255,255,255,.24);color:#fff} }
   @media (max-width:768px){ #settingsBtn{top:124px;padding:13px 15px;gap:0} #settingsBtn .set-lb{display:none} }
   /* desktop: unified equal tabs — cream How-to (accent) + dark Quick Start & Settings, even circular icons */
   @media (min-width:769px){
