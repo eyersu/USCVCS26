@@ -820,19 +820,15 @@
   <div class="set-h"><b>Settings</b><button id="setClose" type="button" aria-label="Close settings">✕</button></div>
   <p class="set-sub">Saved on this device</p>
   <div class="set-g">
-    <p class="set-gl">🎨 Theme color</p>
+    <p class="set-gl">Theme color</p>
     <div class="set-sw" id="setSwatches"></div>
   </div>
   <div class="set-g">
-    <p class="set-gl">✨ Animations</p>
-    <div class="set-seg" id="setAnimSeg">
-      <button type="button" data-anim="on">● On</button>
-      <button type="button" data-anim="off">○ Off</button>
-    </div>
-    <p class="set-rml" id="setRml">⚠ Reduce Motion is on for this device — animations are held off.</p>
-    <p class="set-note">Off skips the per-question “correct” burst and makes the passing celebration static. Follows your device’s Reduce Motion setting.</p>
+    <p class="set-gl">Animations</p>
+    <button id="animToggle" class="switch on" role="switch" aria-checked="true" aria-label="Toggle animations"><span class="knob"></span><span class="swlabel">On</span></button>
+    <p class="set-rml" id="setRml">Reduce Motion is on for this device — animations are held off.</p>
+    <p class="set-note">Off skips the per-question “correct” burst, makes the passing celebration static, and turns off card-flip motion. Follows your device’s Reduce Motion setting.</p>
   </div>
-  <div class="set-soon">＋ More settings will live here</div>
 </aside>
 
 <header>
@@ -1306,8 +1302,8 @@
   @media (min-width:769px){
     #guideBtn, #quickstartBtn, #settingsBtn{width:140px;height:40px;box-sizing:border-box;padding:0 14px 0 7px;justify-content:flex-start;gap:12px;border-radius:999px 0 0 999px}
     #guideBtn{top:54px}
-    #settingsBtn{top:94px}
-    #quickstartBtn{top:134px}
+    #settingsBtn{top:104px}
+    #quickstartBtn{top:154px}
     #guideBtn .q, #quickstartBtn .qs-ic, #settingsBtn .set-ic{width:28px;height:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex:none}
     #guideBtn .q{background:var(--orange);color:#fff;font-weight:800;font-size:.82rem}
     #quickstartBtn .qs-ic, #settingsBtn .set-ic{background:rgba(255,255,255,.14);color:#a3b3c6}
@@ -1318,7 +1314,7 @@
   /* Settings panel (right drawer) */
   #setScrim{position:fixed;inset:0;background:rgba(6,12,20,.55);z-index:9998;opacity:0;pointer-events:none;transition:opacity .2s}
   #setScrim.open{opacity:1;pointer-events:auto}
-  #setPanel{position:fixed;top:0;right:0;height:100%;width:344px;max-width:90vw;background:#101f30;border-left:1px solid rgba(255,255,255,.14);z-index:9999;transform:translateX(102%);transition:transform .28s cubic-bezier(.3,.1,.2,1);box-shadow:-24px 0 64px rgba(0,0,0,.55);padding:26px 24px calc(26px + env(safe-area-inset-bottom));overflow:auto;color:#eaf1f8;box-sizing:border-box}
+  #setPanel{position:fixed;top:0;right:0;height:100%;width:344px;max-width:90vw;background:#101f30;border-left:1px solid rgba(255,255,255,.14);z-index:9999;transform:translateX(102%);transition:transform .28s cubic-bezier(.3,.1,.2,1);box-shadow:-24px 0 64px rgba(0,0,0,.55);padding:calc(48px + env(safe-area-inset-top)) 24px calc(26px + env(safe-area-inset-bottom));overflow:auto;color:#eaf1f8;box-sizing:border-box}
   #setPanel.open{transform:translateX(0)}
   #setPanel .set-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:2px}
   #setPanel .set-h b{font-family:var(--serif);font-weight:900;font-size:1.4rem;color:#fff}
@@ -1331,17 +1327,13 @@
   #setPanel .swz{width:46px;height:46px;border-radius:12px;border:2px solid transparent;box-shadow:inset 0 0 0 1px rgba(255,255,255,.15);cursor:pointer;position:relative;padding:0}
   #setPanel .swz.sel{border-color:#fff;cursor:default}
   #setPanel .swz.sel::after{content:"\2713";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.05rem;text-shadow:0 1px 3px rgba(0,0,0,.6)}
-  #setPanel .swz.more{background:none;box-shadow:none;border:2px dashed rgba(255,255,255,.18);color:#6f8296;display:flex;align-items:center;justify-content:center;font-size:1.3rem;cursor:default}
   #setPanel .swl{font-family:var(--mono);font-size:.5rem;letter-spacing:.3px;color:#7d8ea1;text-align:center;width:54px;line-height:1.25}
-  #setPanel .set-seg{display:flex;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:4px;gap:4px;max-width:220px}
-  #setPanel .set-seg button{flex:1;font-family:var(--mono);font-size:.74rem;font-weight:700;padding:10px 6px;border-radius:7px;border:0;background:none;color:#9fb3c8;cursor:pointer}
-  #setPanel .set-seg button.act{background:var(--orange);color:#fff}
-  #setPanel .set-seg button[disabled]{opacity:.4;cursor:not-allowed}
   #setPanel .set-rml{font-size:.86rem;color:#e6b980;margin:11px 2px 0;line-height:1.5;display:none}
   #setPanel .set-note{font-size:.86rem;color:#b9c6d2;margin:11px 2px 0;line-height:1.55}
-  #setPanel .set-soon{font-size:.82rem;color:#6f8296;border:1px dashed rgba(255,255,255,.16);border-radius:10px;padding:12px 14px;opacity:.85}
+  #setPanel #animToggle{margin-top:2px}
   /* manual "animations off" — freeze the celebration star flicker into a static image (canvas FX are gated in JS) */
   body.anim-off #testModal .exam-celeb .ff, body.anim-off #testModal .tresults .ff{animation:none!important;opacity:1!important;transform:none!important}
+  body.anim-off .card{transition:none!important}   /* animations off: flip instantly, no card motion */
 
   /* ===== Phone: fold the two floating pills into one full-width top bar ===== */
   @media (max-width:600px){
@@ -3503,27 +3495,27 @@ const CARDS = [
       var l=document.createElement("span"); l.className="swl"; l.textContent=t[1];
       wrap.appendChild(b); wrap.appendChild(l); sw.appendChild(wrap);
     });
-    var more=document.createElement("div"); more.className="swwrap";
-    var m=document.createElement("div"); m.className="swz more"; m.textContent="+"; m.title="Room for more themes later";
-    var ml=document.createElement("span"); ml.className="swl"; ml.textContent="more soon";
-    more.appendChild(m); more.appendChild(ml); sw.appendChild(more);
   }
   renderSwatches();
 
-  /* animations */
-  var seg=document.getElementById("setAnimSeg"),
-      onB=seg.querySelector('[data-anim="on"]'), offB=seg.querySelector('[data-anim="off"]'),
+  /* animations — a switch matching the shuffle toggle */
+  var tog=document.getElementById("animToggle"),
+      togLbl=tog.querySelector('.swlabel'),
       rml=document.getElementById("setRml");
   function reduce(){ try{ return matchMedia("(prefers-reduced-motion: reduce)").matches; }catch(e){ return false; } }
   function curAnim(){ try{ return localStorage.getItem(ANIM_LS)==="off"?"off":"on"; }catch(e){ return "on"; } }
   function applyAnim(v){ try{ localStorage.setItem(ANIM_LS,v); }catch(e){} renderAnim(); }
   function renderAnim(){
     var r=reduce(), on=!r && curAnim()==="on";
-    onB.disabled=r; onB.classList.toggle("act",on); offB.classList.toggle("act",!on);
+    tog.classList.toggle("on",on);
+    tog.setAttribute("aria-checked", on?"true":"false");
+    tog.setAttribute("aria-disabled", r?"true":"false");
+    tog.style.opacity=r?".45":""; tog.style.pointerEvents=r?"none":"";
+    togLbl.textContent = on ? "On" : "Off";
     rml.style.display=r?"block":"none";
     document.body.classList.toggle("anim-off", !on);
   }
-  seg.addEventListener("click",function(e){ var b=e.target.closest("[data-anim]"); if(!b||b.disabled) return; applyAnim(b.dataset.anim); });
+  tog.addEventListener("click",function(){ if(reduce()) return; applyAnim(curAnim()==="on"?"off":"on"); });
   try{ matchMedia("(prefers-reduced-motion: reduce)").addEventListener("change",renderAnim); }catch(e){}
   renderAnim();
 })();
