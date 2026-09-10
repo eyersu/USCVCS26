@@ -1391,7 +1391,8 @@
   /* Settings panel (right drawer) */
   #setScrim{position:fixed;inset:0;background:rgba(6,12,20,.55);z-index:9998;opacity:0;pointer-events:none;transition:opacity .2s}
   #setScrim.open{opacity:1;pointer-events:auto}
-  #setPanel{position:fixed;top:0;right:0;height:100%;width:360px;max-width:92vw;background:#0d1b2a;border-left:1px solid rgba(255,255,255,.14);z-index:9999;transform:translateX(102%);transition:transform .28s cubic-bezier(.3,.1,.2,1);box-shadow:-24px 0 64px rgba(0,0,0,.55);overflow:auto;color:#eef3f8;box-sizing:border-box}
+  #setPanel{position:fixed;top:0;right:0;height:100%;width:360px;max-width:92vw;background:#0d1b2a;border-left:1px solid rgba(255,255,255,.14);z-index:9999;transform:translateX(102%);transition:transform .28s cubic-bezier(.3,.1,.2,1);box-shadow:-24px 0 64px rgba(0,0,0,.55);overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;color:#eef3f8;box-sizing:border-box}
+  #setScrim{overscroll-behavior:contain}
   #setPanel.open{transform:translateX(0)}
   #setPanel .set-h{position:sticky;top:0;background:#0d1b2a;z-index:2;display:flex;align-items:center;justify-content:space-between;padding:calc(24px + env(safe-area-inset-top)) 22px 18px;border-bottom:1px solid rgba(255,255,255,.08)}
   #setPanel .set-h b{font-family:var(--serif);font-weight:900;font-size:1.75rem;color:#fff;letter-spacing:-.02em}
@@ -3568,8 +3569,10 @@ const CARDS = [
   var panel=document.getElementById("setPanel"), scrim=document.getElementById("setScrim"),
       btn=document.getElementById("settingsBtn"), closeB=document.getElementById("setClose");
   if(!panel||!btn) return;
-  function open(){ panel.classList.add("open"); scrim.classList.add("open"); panel.setAttribute("aria-hidden","false"); }
-  function shut(){ panel.classList.remove("open"); scrim.classList.remove("open"); panel.setAttribute("aria-hidden","true"); }
+  function lockBg(){ try{ if(document.body.dataset.slock!=null) return; var y=window.pageYOffset||document.documentElement.scrollTop||0; document.body.dataset.slock=String(y); var s=document.body.style; s.position="fixed"; s.top=(-y)+"px"; s.left="0"; s.right="0"; s.width="100%"; }catch(e){} }
+  function unlockBg(){ try{ if(document.body.dataset.slock==null) return; var y=parseInt(document.body.dataset.slock,10)||0; var s=document.body.style; s.position=""; s.top=""; s.left=""; s.right=""; s.width=""; delete document.body.dataset.slock; window.scrollTo(0,y); }catch(e){} }
+  function open(){ panel.classList.add("open"); scrim.classList.add("open"); panel.setAttribute("aria-hidden","false"); lockBg(); }
+  function shut(){ panel.classList.remove("open"); scrim.classList.remove("open"); panel.setAttribute("aria-hidden","true"); unlockBg(); }
   btn.addEventListener("click",open); closeB.addEventListener("click",shut); scrim.addEventListener("click",shut);
   document.addEventListener("keydown",function(e){ if(e.key==="Escape"&&panel.classList.contains("open")) shut(); });
 
