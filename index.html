@@ -539,7 +539,11 @@
   .primary{background:var(--red);color:#fff;border-color:var(--red);font-weight:700}
 
   /* Voice cards */
-  .modebar{display:flex;justify-content:center;margin:0 0 12px}
+  .modebar{display:flex;justify-content:center;align-items:center;gap:8px;margin:0 0 12px}
+  .modebar .mutebtn{width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:#c3d1df;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;flex:none}
+  .modebar .mutebtn svg{width:23px;height:23px}
+  .modebar .mutebtn.on{background:rgba(var(--accent-rgb),.16);border-color:var(--orange);color:var(--orange)}
+  @media (hover:hover){ .modebar .mutebtn:hover{border-color:rgba(255,255,255,.3);color:#eaf1f8} .modebar .mutebtn.on:hover{border-color:var(--orange);color:var(--orange)} }
   .modetoggle{display:inline-flex;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:4px}
   .mt{font:inherit;font-weight:700;font-size:.86rem;border:none;background:none;color:#9fb3c8;padding:8px 16px;border-radius:999px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:none}
   .mt.on{background:var(--red);color:#fff}
@@ -970,7 +974,7 @@
   <span id="statLabel" aria-live="polite"></span>
 </div>
 
-<div class="modebar"><div class="modetoggle" role="tablist"><button id="modeFlash" class="mt on" type="button"><svg viewBox="0 -960 960 960" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="m152-145-23-7q-32-14-43.5-48t6.5-67l60-136v258Zm186 78q-34 0-58-24t-24-58v-207l92 262q2 8 6 14t10 13h-26Zm188-24q-21 9-44-4t-33-36L258-650q-10-23 2-45t37-32l318-115q23-8 45 4t32 36l191 513q7 25-3 49t-35 33L526-91Zm-61-504q9-9 9-21t-9-21q-9-9-21-9t-21 9q-9 9-9 21t9 21q9 9 21 9t21-9Z"/></svg>Flashcards</button><button id="modeVoice" class="mt" type="button"><svg viewBox="0 -960 960 960" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M560-131v-62q97-28 158.5-107.5T780-481q0-101-61-181T560-769v-62q124 28 202 125.5T840-481q0 127-78 224.5T560-131ZM120-360v-240h160l200-200v640L280-360H120Zm420 48v-337q55 17 87.5 64T660-480q0 57-33 104t-87 64Z"/></svg>Voice cards</button></div></div>
+<div class="modebar"><div class="modetoggle" role="tablist"><button id="modeFlash" class="mt on" type="button"><svg viewBox="0 -960 960 960" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="m152-145-23-7q-32-14-43.5-48t6.5-67l60-136v258Zm186 78q-34 0-58-24t-24-58v-207l92 262q2 8 6 14t10 13h-26Zm188-24q-21 9-44-4t-33-36L258-650q-10-23 2-45t37-32l318-115q23-8 45 4t32 36l191 513q7 25-3 49t-35 33L526-91Zm-61-504q9-9 9-21t-9-21q-9-9-21-9t-21 9q-9 9-9 21t9 21q9 9 21 9t21-9Z"/></svg>Flashcards</button><button id="modeVoice" class="mt" type="button"><svg viewBox="0 -960 960 960" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M560-131v-62q97-28 158.5-107.5T780-481q0-101-61-181T560-769v-62q124 28 202 125.5T840-481q0 127-78 224.5T560-131ZM120-360v-240h160l200-200v640L280-360H120Zm420 48v-337q55 17 87.5 64T660-480q0 57-33 104t-87 64Z"/></svg>Voice cards</button></div><button id="muteBtn" class="mutebtn" type="button" aria-label="Mute audio" aria-pressed="false" title="Mute audio"><svg viewBox="0 -960 960 960" width="23" height="23" fill="currentColor" aria-hidden="true"><path d="M560-131v-62q97-28 158.5-107.5T780-481q0-101-61-181T560-769v-62q124 28 202 125.5T840-481q0 127-78 224.5T560-131ZM120-360v-240h160l200-200v640L280-360H120Zm420 48v-337q55 17 87.5 64T660-480q0 57-33 104t-87 64Z"/></svg></button></div>
 
 <div class="stage">
   <div class="card" id="card">
@@ -2430,7 +2434,12 @@ const CARDS = [
   // Browsers block audio that starts without a user gesture. Prime on the first interaction; until then,
   // a card that would auto-read shows a one-time prompt instead of silently failing.
   let audioPrimed=false, barScrubbing=false;
-  function autoplayOn(){ try{ return localStorage.getItem("civics2025.autoplay.v1")!=="off"; }catch(e){ return true; } }   // Voice cards: read each new card automatically
+  function autoplayOn(){ try{ return localStorage.getItem("civics2025.autoplay.v1")!=="off"; }catch(e){ return true; } }
+  var MUTE_LS="civics2025.muted.v1";
+  function isMuted(){ try{ return localStorage.getItem(MUTE_LS)==="1"; }catch(e){ return false; } }
+  function stopAllAudio(){ try{ if(window.speechSynthesis) speechSynthesis.cancel(); }catch(e){} try{ vcStop(); }catch(e){} try{ stopSpeech(); }catch(e){} try{ hideAudioPrompt(); }catch(e){} }
+  function renderMute(){ var b=document.getElementById("muteBtn"); if(!b) return; var m=isMuted(); b.classList.toggle("on",m); b.setAttribute("aria-pressed",m?"true":"false"); var lbl=m?"Unmute question audio":"Mute question audio"; b.setAttribute("aria-label",lbl); b.setAttribute("title", m?"Muted \u2014 tap to unmute":"Mute audio"); var p=b.querySelector("path"); if(p) p.setAttribute("d", m?'M813-56 681-188q-28 20-60.5 34.5T553-131v-62q23-7 44.5-15.5T638-231L473-397v237L273-360H113v-240h156L49-820l43-43 764 763-43 44Zm-36-232-43-43q20-34 29.5-72t9.5-78q0-103-60-184.5T553-769v-62q124 28 202 125.5T833-481q0 51-14 100t-42 93ZM643-422l-90-90v-130q47 22 73.5 66t26.5 96q0 15-2.5 29.5T643-422ZM473-592 369-696l104-104v208Z':'M560-131v-62q97-28 158.5-107.5T780-481q0-101-61-181T560-769v-62q124 28 202 125.5T840-481q0 127-78 224.5T560-131ZM120-360v-240h160l200-200v640L280-360H120Zm420 48v-337q55 17 87.5 64T660-480q0 57-33 104t-87 64Z'); }
+  function setMuted(m){ try{ localStorage.setItem(MUTE_LS, m?"1":"0"); }catch(e){} if(m) stopAllAudio(); renderMute(); }   // Voice cards: read each new card automatically
   function ttsRate(){ try{ var r=localStorage.getItem("civics2025.voicerate.v1"); return r==="slow"?0.7:r==="fast"?1.45:0.95; }catch(e){ return 0.95; } }
   function audioRate(){ try{ var r=localStorage.getItem("civics2025.voicerate.v1"); return r==="slow"?0.7:r==="fast"?1.5:1; }catch(e){ return 1; } }   // playbackRate for the pre-recorded QAUDIO/AAUDIO clips
   function primeAudio(){ if(audioPrimed) return; audioPrimed=true; }   // unlock audio silently; the prompt is dismissed only by a real audio action, not by scrolling
@@ -2449,14 +2458,14 @@ const CARDS = [
   function showAudioPrompt(){ if(audioPrimed || document.body.classList.contains("qs-open")) return; ensureAudioPrompt().classList.add("show"); }
   function hideAudioPrompt(){ const el=document.getElementById("audioPrompt"); if(el) el.classList.remove("show"); }
   function vcStop(){ try{ if(window.speechSynthesis) speechSynthesis.cancel(); }catch(e){} try{ if(vcAudio){vcAudio.onended=null;vcAudio.pause();vcAudio=null;} }catch(e){} vcQ=[]; }
-  function vcSpeak(text, after){ try{ if(!("speechSynthesis" in window)){ if(after)after(); return; } speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text); if(typeof ttsVoice!=="undefined"&&ttsVoice){u.voice=ttsVoice;u.lang=ttsVoice.lang;} else u.lang="en-US"; u.rate=ttsRate(); if(after)u.onend=after; speechSynthesis.speak(u); }catch(e){ if(after)after(); } }
-  function vcPlay(src, text, after){ hideAudioPrompt(); vcStop(); if(src){ try{ vcAudio=new Audio(src); vcAudio.playbackRate=audioRate(); if(after)vcAudio.onended=after; vcAudio.play().catch(()=>{vcAudio=null;vcSpeak(text,after);}); return; }catch(e){} } vcSpeak(text, after); }
+  function vcSpeak(text, after){ if(isMuted()) return; try{ if(!("speechSynthesis" in window)){ if(after)after(); return; } speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text); if(typeof ttsVoice!=="undefined"&&ttsVoice){u.voice=ttsVoice;u.lang=ttsVoice.lang;} else u.lang="en-US"; u.rate=ttsRate(); if(after)u.onend=after; speechSynthesis.speak(u); }catch(e){ if(after)after(); } }
+  function vcPlay(src, text, after){ hideAudioPrompt(); vcStop(); if(isMuted()) return; if(src){ try{ vcAudio=new Audio(src); vcAudio.playbackRate=audioRate(); if(after)vcAudio.onended=after; vcAudio.play().catch(()=>{vcAudio=null;vcSpeak(text,after);}); return; }catch(e){} } vcSpeak(text, after); }
   function vcPlayQ(c){ vcPlay((window.QAUDIO||{})[c.n], c.q); }
   function vcPlayA(t){ vcPlay((window.AAUDIO||{})[t], t); }
   function vcReadAllNow(c){ hideAudioPrompt(); vcStop(); vcQ=c.a.slice(); vcNextInQueue(); }
   // stop the CURRENTLY playing clip/speech but leave vcQ intact, so a "Read all" run can advance
   function vcHush(){ try{ if(window.speechSynthesis) speechSynthesis.cancel(); }catch(e){} try{ if(vcAudio){vcAudio.onended=null;vcAudio.pause();vcAudio=null;} }catch(e){} }
-  function vcNextInQueue(){ if(!vcQ.length) return; const t=vcQ.shift(); const src=(window.AAUDIO||{})[t]; const after=()=>{ if(vcQ.length) vcNextInQueue(); }; vcHush(); if(src){ try{ vcAudio=new Audio(src); vcAudio.playbackRate=audioRate(); vcAudio.onended=after; vcAudio.play().catch(()=>{vcAudio=null;vcSpeak(t,after);}); return; }catch(e){} } vcSpeak(t, after); }
+  function vcNextInQueue(){ if(!vcQ.length) return; if(isMuted()){ vcQ=[]; return; } const t=vcQ.shift(); const src=(window.AAUDIO||{})[t]; const after=()=>{ if(vcQ.length) vcNextInQueue(); }; vcHush(); if(src){ try{ vcAudio=new Audio(src); vcAudio.playbackRate=audioRate(); vcAudio.onended=after; vcAudio.play().catch(()=>{vcAudio=null;vcSpeak(t,after);}); return; }catch(e){} } vcSpeak(t, after); }
   function vcPlayBtn(){ return voiceMode ? '<button class="vc-aplay" type="button" aria-label="Play answer"><svg viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="M560-131v-62q97-28 158.5-107.5T780-481q0-101-61-181T560-769v-62q124 28 202 125.5T840-481q0 127-78 224.5T560-131ZM120-360v-240h160l200-200v640L280-360H120Zm420 48v-337q55 17 87.5 64T660-480q0 57-33 104t-87 64Z"/></svg></button>' : ''; }
   function vcWireAns(c){ $("bA").querySelectorAll(".vc-aplay").forEach(b=>{ b.onclick=(e)=>{ e.stopPropagation(); const li=b.closest("li"); vcPlayA(c.a[+li.dataset.i]); }; }); const ra=$("vcReadAll"); if(ra) ra.hidden = !voiceMode || !(c.a && c.a.length>1); }   // Read all only makes sense with 2+ answers
   function vcRender(c){
@@ -2469,7 +2478,7 @@ const CARDS = [
       const ansHidden = $("bA").style.display==="none";
       ra.hidden = !on || ansHidden || !(c.a && c.a.length>1);   // hide on single-answer cards — nothing to "read all"
     }
-    if(on){ if(!flipped && lastVCn!==c.n && !barScrubbing && !document.body.classList.contains("qs-open")){ lastVCn=c.n; if(autoplayOn()){ if(audioPrimed) vcPlayQ(c); else showAudioPrompt(); } } }
+    if(on){ if(!flipped && lastVCn!==c.n && !barScrubbing && !document.body.classList.contains("qs-open")){ lastVCn=c.n; if(autoplayOn() && !isMuted()){ if(audioPrimed) vcPlayQ(c); else showAudioPrompt(); } } }
     else { vcStop(); lastVCn=null; }
   }
   function setVoiceMode(v){ voiceMode=!!v; try{ localStorage.setItem("civics2025.voicemode.v1", v?"1":"0"); }catch(e){}
@@ -2607,7 +2616,7 @@ const CARDS = [
     }catch(e){ return null; }
   }
   function initVoices(){ try{ if(!("speechSynthesis" in window)) return; ttsVoice=pickVoice(); window.speechSynthesis.onvoiceschanged=()=>{ ttsVoice=pickVoice(); }; }catch(e){} }
-  function speakQuestion(text){
+  function speakQuestion(text){ if(isMuted()) return;
     try{
       if(!("speechSynthesis" in window)) return;
       window.speechSynthesis.cancel();
@@ -2620,8 +2629,8 @@ const CARDS = [
   }
   let clipAudio=null;
   function stopSpeech(){ try{ if(window.speechSynthesis) window.speechSynthesis.cancel(); }catch(e){} try{ if(clipAudio){clipAudio.pause();clipAudio=null;} }catch(e){} }
-  function speakCard(c){ stopSpeech(); const src=(window.QAUDIO||{})[c.n]; if(src){ try{ clipAudio=new Audio(src); clipAudio.playbackRate=audioRate(); clipAudio.play().catch(()=>{clipAudio=null;speakQuestion(c.q);}); return; }catch(e){} } speakQuestion(c.q); }
-  function playAnswer(t){ stopSpeech(); const src=(window.AAUDIO||{})[t]; if(src){ try{ clipAudio=new Audio(src); clipAudio.playbackRate=audioRate(); clipAudio.play().catch(()=>{clipAudio=null;speakQuestion(t);}); return; }catch(e){} } speakQuestion(t); }
+  function speakCard(c){ stopSpeech(); if(isMuted()) return; const src=(window.QAUDIO||{})[c.n]; if(src){ try{ clipAudio=new Audio(src); clipAudio.playbackRate=audioRate(); clipAudio.play().catch(()=>{clipAudio=null;speakQuestion(c.q);}); return; }catch(e){} } speakQuestion(c.q); }
+  function playAnswer(t){ stopSpeech(); if(isMuted()) return; const src=(window.AAUDIO||{})[t]; if(src){ try{ clipAudio=new Audio(src); clipAudio.playbackRate=audioRate(); clipAudio.play().catch(()=>{clipAudio=null;speakQuestion(t);}); return; }catch(e){} } speakQuestion(t); }
   function scoreText(){ return "Correct: "+test.correct+" · need "+TEST_PASS+" of "+TEST_TOTAL+" to pass"; }
   function updateExamHead(){
     $("tGhostNum").textContent = test.correct;
@@ -2872,7 +2881,7 @@ const CARDS = [
     const bar=$("bar"); let dragging=false;
     bar.addEventListener("pointerdown", e=>{ dragging=true; barScrubbing=true; try{ vcStop(); hideAudioPrompt(); }catch(_){} try{ bar.setPointerCapture(e.pointerId); }catch(_){} barJumpToTarget(barTargetFromX(e.clientX)); });
     bar.addEventListener("pointermove", e=>{ if(dragging) barJumpToTarget(barTargetFromX(e.clientX)); });
-    const end=e=>{ dragging=false; barScrubbing=false; try{ bar.releasePointerCapture(e.pointerId); }catch(_){} if(voiceMode && !flipped && deck[idx]){ const c=deck[idx]; if(lastVCn!==c.n){ lastVCn=c.n; if(autoplayOn()){ if(audioPrimed) vcPlayQ(c); else showAudioPrompt(); } } } };
+    const end=e=>{ dragging=false; barScrubbing=false; try{ bar.releasePointerCapture(e.pointerId); }catch(_){} if(voiceMode && !flipped && deck[idx]){ const c=deck[idx]; if(lastVCn!==c.n){ lastVCn=c.n; if(autoplayOn() && !isMuted()){ if(audioPrimed) vcPlayQ(c); else showAudioPrompt(); } } } };
     bar.addEventListener("pointerup", end); bar.addEventListener("pointercancel", end);
     bar.addEventListener("keydown", e=>{
       if(!deck.length) return;
@@ -3558,6 +3567,7 @@ const CARDS = [
   applyOfficials(); updateLocChip(); maybeShowCallout();
 
   wireVoiceCards();
+  try{ var _mb=document.getElementById("muteBtn"); if(_mb) _mb.onclick=function(){ setMuted(!isMuted()); }; renderMute(); }catch(e){}
   qsWire();
   gBuildSteps(); gSearchInit();
   // header: roomy two-line hero first, then ease the title down to a single line after a short beat (or first scroll).
