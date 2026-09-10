@@ -143,7 +143,9 @@
   #orderToggle .knob{left:8px;right:auto}
   #orderToggle.on .knob{left:auto;right:8px}
   #orderToggle.on{background-color:var(--gold)!important;border-color:var(--gold)!important}
-  #orderToggle.on .swlabel{color:#2a2205}
+  /* center the label in the space beside the knob (reserve the knob side) */
+  #orderToggle .swlabel{text-align:center;padding:0 14px 0 42px}
+  #orderToggle.on .swlabel{text-align:center;padding:0 42px 0 14px;color:#2a2205}
   /* selected/active buttons fill with accent (background-color !important beats the base button rule) */
   #starBtn.active{background-color:var(--gold)!important;border-color:var(--gold)!important;color:#25200a!important}
   .controls .pilegroup button.active{background-color:var(--gold)!important;border-color:var(--gold)!important;color:#25200a!important}
