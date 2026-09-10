@@ -818,7 +818,6 @@
 <div id="setScrim"></div>
 <aside id="setPanel" role="dialog" aria-label="Settings" aria-hidden="true">
   <div class="set-h"><b>Settings</b><button id="setClose" type="button" aria-label="Close settings">✕</button></div>
-  <p class="set-sub">Saved on this device</p>
   <div class="set-g">
     <p class="set-gl">Theme color</p>
     <div class="set-sw" id="setSwatches"></div>
@@ -1317,21 +1316,23 @@
   #setScrim.open{opacity:1;pointer-events:auto}
   #setPanel{position:fixed;top:0;right:0;height:100%;width:344px;max-width:90vw;background:#101f30;border-left:1px solid rgba(255,255,255,.14);z-index:9999;transform:translateX(102%);transition:transform .28s cubic-bezier(.3,.1,.2,1);box-shadow:-24px 0 64px rgba(0,0,0,.55);padding:calc(48px + env(safe-area-inset-top)) 24px calc(26px + env(safe-area-inset-bottom));overflow:auto;color:#eaf1f8;box-sizing:border-box}
   #setPanel.open{transform:translateX(0)}
-  #setPanel .set-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:2px}
+  #setPanel .set-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:36px}
   #setPanel .set-h b{font-family:var(--serif);font-weight:900;font-size:1.4rem;color:#fff}
   #setPanel .set-h button{background:none;border:0;color:var(--muted);font-size:1.35rem;cursor:pointer;line-height:1;padding:4px}
-  #setPanel .set-sub{font-family:var(--mono);font-size:.58rem;letter-spacing:1px;text-transform:uppercase;color:#6f8296;margin:0 0 24px}
-  #setPanel .set-g{margin-bottom:26px}
-  #setPanel .set-gl{font-family:var(--serif);font-weight:600;font-size:1.12rem;letter-spacing:-.2px;color:#eaf1f8;margin:0 0 13px;display:flex;align-items:center;gap:9px}
-  #setPanel .set-sw{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-start}
+  #setPanel .set-sub{font-family:var(--mono);font-size:.58rem;letter-spacing:1px;text-transform:uppercase;color:#6f8296;margin:0 0 40px}
+  #setPanel .set-g{margin-bottom:46px}
+  #setPanel .set-gl{font-family:var(--serif);font-weight:600;font-size:1.12rem;letter-spacing:-.2px;color:#eaf1f8;margin:0 0 20px;display:flex;align-items:center;gap:9px}
+  #setPanel .set-sw{display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start}
   #setPanel .swwrap{display:flex;flex-direction:column;align-items:center;gap:6px}
   #setPanel .swz{width:46px;height:46px;border-radius:12px;border:2px solid transparent;box-shadow:inset 0 0 0 1px rgba(255,255,255,.15);cursor:pointer;position:relative;padding:0}
   #setPanel .swz.sel{border-color:#fff;cursor:default}
   #setPanel .swz.sel::after{content:"\2713";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.05rem;text-shadow:0 1px 3px rgba(0,0,0,.6)}
-  #setPanel .swl{font-family:var(--mono);font-size:.5rem;letter-spacing:.3px;color:#7d8ea1;text-align:center;width:54px;line-height:1.25}
   #setPanel .set-rml{font-size:.86rem;color:#e6b980;margin:11px 2px 0;line-height:1.5;display:none}
-  #setPanel .set-note{font-size:.86rem;color:#b9c6d2;margin:11px 2px 0;line-height:1.55}
-  #setPanel #animToggle{margin-top:2px}
+  #setPanel .set-note{font-size:.86rem;color:#b9c6d2;margin:20px 2px 0;line-height:1.6}
+  #setPanel #animToggle{margin-top:6px}
+  /* center On/Off within the space beside the knob, not across the whole switch */
+  #setPanel #animToggle .swlabel{text-align:center;padding:0 0 0 36px}
+  #setPanel #animToggle.on .swlabel{text-align:center;padding:0 36px 0 0}
   /* manual "animations off" — freeze the celebration star flicker into a static image (canvas FX are gated in JS) */
   body.anim-off #testModal .exam-celeb .ff, body.anim-off #testModal .tresults .ff{animation:none!important;opacity:1!important;transform:none!important}
   body.anim-off .card{transition:none!important}   /* animations off: flip instantly, no card motion */
@@ -3493,8 +3494,7 @@ const CARDS = [
       var b=document.createElement("button"); b.type="button"; b.className="swz"+(t[0]===cur?" sel":"");
       b.style.background="linear-gradient(135deg,"+t[2]+" 58%,"+t[3]+" 58%)"; b.title=t[1]; b.setAttribute("aria-label",t[1]);
       if(t[0]!==cur) b.addEventListener("click",function(){ applyTheme(t[0]); });
-      var l=document.createElement("span"); l.className="swl"; l.textContent=t[1];
-      wrap.appendChild(b); wrap.appendChild(l); sw.appendChild(wrap);
+      wrap.appendChild(b); sw.appendChild(wrap);
     });
   }
   renderSwatches();
