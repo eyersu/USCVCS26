@@ -668,21 +668,19 @@
   /* dates table Q# column */
   table.ptable td.qref2{font-family:var(--mono);font-size:.72rem;font-weight:700;color:#3c5a99;white-space:nowrap}
 
-  /* phones: stack each table row into a card (name / tags / detail) instead of a sideways-scrolling table */
+  /* phones: stack the wide Compare table into cards (name / tags / detail). Dates & Amendments stay normal tables. */
   @media (max-width:600px){
-    .ptable-wrap{overflow-x:visible}
-    table.ptable, table.ptable tbody, table.ptable tr, table.ptable td{display:block;width:auto}
-    table.ptable thead{display:none}
-    table.ptable tr{padding:15px 15px;border-bottom:1px solid #ece3d2}
-    table.ptable tr:last-child{border-bottom:none}
-    table.ptable td{padding:0;border:none;white-space:normal}
-    table.ptable td.nm{font-size:1.08rem;margin-bottom:9px;white-space:normal}
-    table.ptable td.pnum, table.ptable td.era, table.ptable td.qref2{display:inline-block;font-size:.62rem;letter-spacing:.6px;
+    table.ptable-stack, table.ptable-stack tbody, table.ptable-stack tr, table.ptable-stack td{display:block;width:auto}
+    table.ptable-stack thead{display:none}
+    table.ptable-stack tr{padding:15px 15px;border-bottom:1px solid #ece3d2}
+    table.ptable-stack tr:last-child{border-bottom:none}
+    table.ptable-stack td{padding:0;border:none;white-space:normal}
+    table.ptable-stack td.nm{font-size:1.08rem;margin-bottom:9px;white-space:normal}
+    table.ptable-stack td.pnum, table.ptable-stack td.era{display:inline-block;font-size:.62rem;letter-spacing:.6px;
       padding:4px 10px;border-radius:999px;background:#f0e9da;margin:0 7px 9px 0;vertical-align:middle}
-    table.ptable td.pnum.no{display:none}   /* no "—" pill for non-presidents */
-    table.ptable td.era{text-transform:uppercase}
-    table.ptable td.qref2{font-size:.74rem}   /* Q# reads slightly larger + bold on phones */
-    table.ptable td:not(.nm):not(.pnum):not(.era):not(.qref2){color:#4a5560;font-size:.95rem;line-height:1.5}
+    table.ptable-stack td.pnum.no{display:none}   /* no "—" pill for non-presidents */
+    table.ptable-stack td.era{text-transform:uppercase}
+    table.ptable-stack td:not(.nm):not(.pnum):not(.era){color:#4a5560;font-size:.95rem;line-height:1.5}
   }
 
   /* ---- Timeline (era cards on a track) ---- */
@@ -992,7 +990,7 @@
     <details class="subsec">
 <summary><div class="srow2"><span class="subt">Compare table — presidents, eras &amp; roles</span><span class="subchev">▸</span></div></summary>
 <div class="ptable-wrap">
-      <table class="ptable">
+      <table class="ptable ptable-stack">
         <thead><tr><th>Person</th><th>President</th><th>Era</th><th>Signature</th></tr></thead>
         <tbody>
           <tr><td class="nm">George Washington</td><td class="pnum">1st</td><td class="era">Founding</td><td>Commander of the Continental Army; first president</td></tr>
