@@ -440,11 +440,12 @@
     display:none;align-items:center;justify-content:center;z-index:6;opacity:.9;transition:opacity .15s,transform .12s}
   @media (hover:hover){ .navarrow:hover{opacity:1} }
   .navarrow:active{transform:translateY(-50%) scale(.92)}
-  .navarrow svg{width:52px;height:52px;fill:#eef4fb;stroke:none}
+  .navarrow svg{width:40px;height:84px;stroke:#eef4fb;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
   .navarrow.left{left:-78px}
   .navarrow.right{right:-78px}
   .cardctl{position:absolute;top:16px;right:16px;display:flex;gap:10px;z-index:6}
-  .cardctl .mutebtn.on{background:var(--orange);color:#fff}
+  .cardctl .mutebtn.on{background-color:rgba(var(--accent-rgb),.22)!important;color:var(--orange)!important}
+  @media (max-width:859px){ .cardctl .mutebtn{box-shadow:none} }
   @media (max-width:859px){ .cardctl .cReview, .cardctl .cKnown{display:none} }
   @media (min-width:860px){ .cardctl .mutebtn{margin-right:8px} }
   .cardctl button{width:46px;height:46px;border-radius:12px;border:none;cursor:pointer;font-size:1.25rem;
@@ -1013,9 +1014,9 @@
     </div>
   </div>
   <div class="empty" id="emptyState" style="display:none"></div>
-  <button class="navarrow left" id="prevArrow" aria-label="Previous card"><svg viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="M561-240 320-481l241-241 43 43-198 198 198 198-43 43Z"/></svg></button>
-  <button class="navarrow right" id="nextArrow" aria-label="Next card"><svg viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="M530-481 332-679l43-43 241 241-241 241-43-43 198-198Z"/></svg></button>
-  <div class="cardctl" id="cardCtl"><button id="muteBtn" class="mutebtn" type="button" aria-label="Mute audio" aria-pressed="false" title="Mute audio"><svg class="mi" viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="M560-131v-62q97-28 158.5-107.5T780-481q0-101-61-181T560-769v-62q124 28 202 125.5T840-481q0 127-78 224.5T560-131ZM120-360v-240h160l200-200v640L280-360H120Zm420 48v-337q55 17 87.5 64T660-480q0 57-33 104t-87 64Z"/></svg></button>
+  <button class="navarrow left" id="prevArrow" aria-label="Previous card"><svg viewBox="0 0 24 48"><polyline points="17 5 6 24 17 43"></polyline></svg></button>
+  <button class="navarrow right" id="nextArrow" aria-label="Next card"><svg viewBox="0 0 24 48"><polyline points="7 5 18 24 7 43"></polyline></svg></button>
+  <div class="cardctl" id="cardCtl"><button id="muteBtn" class="mutebtn" type="button" aria-label="Mute audio" aria-pressed="false" title="Mute audio"><svg class="mi" viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="M813-56 681-188q-28 20-60.5 34.5T553-131v-62q23-7 44.5-15.5T638-231L473-397v237L273-360H113v-240h156L49-820l43-43 764 763-43 44Zm-36-232-43-43q20-34 29.5-72t9.5-78q0-103-60-184.5T553-769v-62q124 28 202 125.5T833-481q0 51-14 100t-42 93ZM643-422l-90-90v-130q47 22 73.5 66t26.5 96q0 15-2.5 29.5T643-422ZM473-592 369-696l104-104v208Z"/></svg></button>
     <button class="cReview" id="reviewIcon" title="Mark for review (D)"><svg class="mi" viewBox="0 -960 960 960" aria-hidden="true"><path d="M339.5-108Q274-136 225-185t-77-114.5Q120-365 120-440h60q0 125 87.5 212.5T480-140q125 0 212.5-87.5T780-440q0-125-85-212.5T485-740h-23l73 73-41 42-147-147 147-147 41 41-78 78h23q75 0 140.5 28T735-695q49 49 77 114.5T840-440q0 75-28 140.5T735-185q-49 49-114.5 77T480-80q-75 0-140.5-28Z"/></svg></button>
     <button class="cKnown" id="knownIcon" title="Mark as known (K)"><svg class="mi" viewBox="0 -960 960 960" aria-hidden="true"><path d="M378-246 154-470l43-43 181 181 384-384 43 43-427 427Z"/></svg></button>
   </div>
@@ -2437,7 +2438,7 @@ const CARDS = [
   var MUTE_LS="civics2025.muted.v1";
   function isMuted(){ try{ return localStorage.getItem(MUTE_LS)==="1"; }catch(e){ return false; } }
   function stopAllAudio(){ try{ if(window.speechSynthesis) speechSynthesis.cancel(); }catch(e){} try{ vcStop(); }catch(e){} try{ stopSpeech(); }catch(e){} try{ hideAudioPrompt(); }catch(e){} }
-  function renderMute(){ var b=document.getElementById("muteBtn"); if(!b) return; var m=isMuted(); b.classList.toggle("on",m); b.setAttribute("aria-pressed",m?"true":"false"); var lbl=m?"Unmute question audio":"Mute question audio"; b.setAttribute("aria-label",lbl); b.setAttribute("title", m?"Muted \u2014 tap to unmute":"Mute audio"); var p=b.querySelector("path"); if(p) p.setAttribute("d", m?'M813-56 681-188q-28 20-60.5 34.5T553-131v-62q23-7 44.5-15.5T638-231L473-397v237L273-360H113v-240h156L49-820l43-43 764 763-43 44Zm-36-232-43-43q20-34 29.5-72t9.5-78q0-103-60-184.5T553-769v-62q124 28 202 125.5T833-481q0 51-14 100t-42 93ZM643-422l-90-90v-130q47 22 73.5 66t26.5 96q0 15-2.5 29.5T643-422ZM473-592 369-696l104-104v208Z':'M560-131v-62q97-28 158.5-107.5T780-481q0-101-61-181T560-769v-62q124 28 202 125.5T840-481q0 127-78 224.5T560-131ZM120-360v-240h160l200-200v640L280-360H120Zm420 48v-337q55 17 87.5 64T660-480q0 57-33 104t-87 64Z'); }
+  function renderMute(){ var b=document.getElementById("muteBtn"); if(!b) return; var m=isMuted(); b.classList.toggle("on",m); b.setAttribute("aria-pressed",m?"true":"false"); var lbl=m?"Unmute question audio":"Mute question audio"; b.setAttribute("aria-label",lbl); b.setAttribute("title", m?"Muted \u2014 tap to unmute":"Mute audio"); }
   function setMuted(m){ try{ localStorage.setItem(MUTE_LS, m?"1":"0"); }catch(e){} if(m) stopAllAudio(); renderMute(); }   // Voice cards: read each new card automatically
   function ttsRate(){ try{ var r=localStorage.getItem("civics2025.voicerate.v1"); return r==="slow"?0.7:r==="fast"?1.45:0.95; }catch(e){ return 0.95; } }
   function audioRate(){ try{ var r=localStorage.getItem("civics2025.voicerate.v1"); return r==="slow"?0.7:r==="fast"?1.5:1; }catch(e){ return 1; } }   // playbackRate for the pre-recorded QAUDIO/AAUDIO clips
