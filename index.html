@@ -1297,11 +1297,18 @@
   @media (max-width:768px){ #quickstartBtn{top:84px;padding:13px 15px;gap:0} #quickstartBtn .qs-lb{display:none} #quickstartBtn .qs-ic{font-size:1.25rem} }
 
   /* Settings tab — desktop: a right-edge pill tucked under Quick Start */
-  #settingsBtn{position:fixed;top:93px;right:0;z-index:20;font-family:"IBM Plex Mono",monospace;font-size:.58rem;letter-spacing:1.4px;text-transform:uppercase;font-weight:600;color:#d7e2ee;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-right:0;border-radius:999px 0 0 999px;padding:7px 14px 7px 12px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;line-height:1;box-shadow:-3px 4px 12px rgba(0,0,0,.3)}
+  #settingsBtn{position:fixed;top:96px;right:0;z-index:20;font-family:"IBM Plex Mono",monospace;font-size:.58rem;letter-spacing:1.4px;text-transform:uppercase;font-weight:600;color:#d7e2ee;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-right:0;border-radius:999px 0 0 999px;padding:7px 14px 7px 12px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;line-height:1;box-shadow:-3px 4px 12px rgba(0,0,0,.3)}
   #settingsBtn .set-ic{display:inline-flex}
   #settingsBtn .set-ic svg{width:15px;height:15px;fill:currentColor;display:block}
   @media (hover:hover){ #settingsBtn:hover{background:rgba(var(--gold-rgb),.16);border-color:rgba(var(--gold-rgb),.5);color:var(--gold)} }
   @media (max-width:768px){ #settingsBtn{top:124px;padding:13px 15px;gap:0} #settingsBtn .set-lb{display:none} }
+  /* desktop: even out Quick Start & Settings to identical width + height */
+  @media (min-width:769px){
+    #quickstartBtn, #settingsBtn{width:162px;height:32px;box-sizing:border-box;padding:0 16px;justify-content:flex-start;gap:9px}
+    #quickstartBtn .qs-ic, #settingsBtn .set-ic{width:16px;flex:none;display:inline-flex;align-items:center;justify-content:center}
+    #settingsBtn .set-ic svg{width:15px;height:15px}
+    #quickstartBtn .qs-ic{font-size:.95rem}
+  }
 
   /* Settings panel (right drawer) */
   #setScrim{position:fixed;inset:0;background:rgba(6,12,20,.55);z-index:9998;opacity:0;pointer-events:none;transition:opacity .2s}
