@@ -877,10 +877,13 @@
       <p class="set-seclbl">Location</p>
       <div class="set-row">
         <span class="set-ic"><svg viewBox="0 -960 960 960"><path d="M529.5-510.59q20.5-20.59 20.5-49.5t-20.59-49.41q-20.59-20.5-49.5-20.5t-49.41 20.59q-20.5 20.59-20.5 49.5t20.59 49.41q20.59 20.5 49.5 20.5t49.41-20.59ZM480-80Q319-217 239.5-334.5T160-552q0-150 96.5-239T480-880q127 0 223.5 89T800-552q0 100-79.5 217.5T480-80Z"/></svg></span>
-        <div class="set-rmain"><div class="set-rt">Location</div><div class="set-locsub" id="setLocSub"></div>
-          <div class="set-locacts">
-            <button class="set-locpill set-locchange" id="setLocChange" type="button">Set location</button>
-            <button class="set-locpill set-locreset" id="setLocResetInline" type="button" hidden>Reset</button>
+        <div class="set-rmain"><div class="set-rt">Location</div>
+          <div class="set-locwide">
+            <div class="set-locsub" id="setLocSub"></div>
+            <div class="set-locacts">
+              <button class="set-locpill set-locchange" id="setLocChange" type="button">Set location</button>
+              <button class="set-locpill set-locreset" id="setLocResetInline" type="button" hidden>Reset</button>
+            </div>
           </div>
         </div>
       </div>
@@ -1476,7 +1479,8 @@
   #setPanel .set-sw .swz{width:46px;height:46px;border-radius:12px;border:2px solid transparent;box-shadow:inset 0 0 0 1px rgba(255,255,255,.16);cursor:pointer;position:relative;padding:0}
   #setPanel .set-sw .swz.sel{border-color:#fff} #setPanel .set-sw .swz.sel::after{content:"\2713";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,.6)}
   #setPanel .set-resetbtns{display:flex;flex-direction:column;gap:12px;max-width:330px}
-  #setPanel .set-locsub{font-family:var(--serif-body);font-size:.86rem;color:#9fb3c8;margin-top:5px;line-height:1.35}
+  #setPanel .set-locwide{margin-top:8px;margin-left:calc(-22px - 15px)}
+  #setPanel .set-locsub{font-family:var(--serif-body);font-size:.86rem;color:#9fb3c8;margin-top:0;line-height:1.35}
   #setPanel .set-locacts{display:flex;gap:8px;margin-top:13px}
   #setPanel .set-locpill{font-family:var(--mono);font-size:.66rem;font-weight:600;letter-spacing:.8px;text-transform:uppercase;background:none;border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:8px 13px;cursor:pointer;white-space:nowrap;color:#9fb3c8}
   #setPanel .set-locchange{color:var(--chip-text);border-color:rgba(var(--accent-rgb),.42);background:rgba(var(--accent-rgb),.1)}
