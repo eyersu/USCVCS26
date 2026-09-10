@@ -2368,6 +2368,7 @@ const CARDS = [
   let audioPrimed=false, barScrubbing=false;
   function autoplayOn(){ try{ return localStorage.getItem("civics2025.autoplay.v1")!=="off"; }catch(e){ return true; } }   // Voice cards: read each new card automatically
   function ttsRate(){ try{ var r=localStorage.getItem("civics2025.voicerate.v1"); return r==="slow"?0.8:r==="fast"?1.15:0.93; }catch(e){ return 0.93; } }
+  function audioRate(){ try{ var r=localStorage.getItem("civics2025.voicerate.v1"); return r==="slow"?0.85:r==="fast"?1.2:1; }catch(e){ return 1; } }   // playbackRate for the pre-recorded QAUDIO/AAUDIO clips
   function primeAudio(){ if(audioPrimed) return; audioPrimed=true; }   // unlock audio silently; the prompt is dismissed only by a real audio action, not by scrolling
   addEventListener("pointerdown", primeAudio, true);
   addEventListener("keydown", primeAudio, true);
@@ -2385,13 +2386,13 @@ const CARDS = [
   function hideAudioPrompt(){ const el=document.getElementById("audioPrompt"); if(el) el.classList.remove("show"); }
   function vcStop(){ try{ if(window.speechSynthesis) speechSynthesis.cancel(); }catch(e){} try{ if(vcAudio){vcAudio.onended=null;vcAudio.pause();vcAudio=null;} }catch(e){} vcQ=[]; }
   function vcSpeak(text, after){ try{ if(!("speechSynthesis" in window)){ if(after)after(); return; } speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text); if(typeof ttsVoice!=="undefined"&&ttsVoice){u.voice=ttsVoice;u.lang=ttsVoice.lang;} else u.lang="en-US"; u.rate=ttsRate(); if(after)u.onend=after; speechSynthesis.speak(u); }catch(e){ if(after)after(); } }
-  function vcPlay(src, text, after){ hideAudioPrompt(); vcStop(); if(src){ try{ vcAudio=new Audio(src); if(after)vcAudio.onended=after; vcAudio.play().catch(()=>{vcAudio=null;vcSpeak(text,after);}); return; }catch(e){} } vcSpeak(text, after); }
+  function vcPlay(src, text, after){ hideAudioPrompt(); vcStop(); if(src){ try{ vcAudio=new Audio(src); vcAudio.playbackRate=audioRate(); if(after)vcAudio.onended=after; vcAudio.play().catch(()=>{vcAudio=null;vcSpeak(text,after);}); return; }catch(e){} } vcSpeak(text, after); }
   function vcPlayQ(c){ vcPlay((window.QAUDIO||{})[c.n], c.q); }
   function vcPlayA(t){ vcPlay((window.AAUDIO||{})[t], t); }
   function vcReadAllNow(c){ hideAudioPrompt(); vcStop(); vcQ=c.a.slice(); vcNextInQueue(); }
   // stop the CURRENTLY playing clip/speech but leave vcQ intact, so a "Read all" run can advance
   function vcHush(){ try{ if(window.speechSynthesis) speechSynthesis.cancel(); }catch(e){} try{ if(vcAudio){vcAudio.onended=null;vcAudio.pause();vcAudio=null;} }catch(e){} }
-  function vcNextInQueue(){ if(!vcQ.length) return; const t=vcQ.shift(); const src=(window.AAUDIO||{})[t]; const after=()=>{ if(vcQ.length) vcNextInQueue(); }; vcHush(); if(src){ try{ vcAudio=new Audio(src); vcAudio.onended=after; vcAudio.play().catch(()=>{vcAudio=null;vcSpeak(t,after);}); return; }catch(e){} } vcSpeak(t, after); }
+  function vcNextInQueue(){ if(!vcQ.length) return; const t=vcQ.shift(); const src=(window.AAUDIO||{})[t]; const after=()=>{ if(vcQ.length) vcNextInQueue(); }; vcHush(); if(src){ try{ vcAudio=new Audio(src); vcAudio.playbackRate=audioRate(); vcAudio.onended=after; vcAudio.play().catch(()=>{vcAudio=null;vcSpeak(t,after);}); return; }catch(e){} } vcSpeak(t, after); }
   function vcPlayBtn(){ return voiceMode ? '<button class="vc-aplay" type="button" aria-label="Play answer"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v5h3.5L12 18V6L7.5 9.5H4Z" fill="currentColor" stroke="none"/><path d="M15.5 9a4 4 0 0 1 0 6"/></svg></button>' : ''; }
   function vcWireAns(c){ $("bA").querySelectorAll(".vc-aplay").forEach(b=>{ b.onclick=(e)=>{ e.stopPropagation(); const li=b.closest("li"); vcPlayA(c.a[+li.dataset.i]); }; }); const ra=$("vcReadAll"); if(ra) ra.hidden = !voiceMode || !(c.a && c.a.length>1); }   // Read all only makes sense with 2+ answers
   function vcRender(c){
@@ -2555,8 +2556,8 @@ const CARDS = [
   }
   let clipAudio=null;
   function stopSpeech(){ try{ if(window.speechSynthesis) window.speechSynthesis.cancel(); }catch(e){} try{ if(clipAudio){clipAudio.pause();clipAudio=null;} }catch(e){} }
-  function speakCard(c){ stopSpeech(); const src=(window.QAUDIO||{})[c.n]; if(src){ try{ clipAudio=new Audio(src); clipAudio.play().catch(()=>{clipAudio=null;speakQuestion(c.q);}); return; }catch(e){} } speakQuestion(c.q); }
-  function playAnswer(t){ stopSpeech(); const src=(window.AAUDIO||{})[t]; if(src){ try{ clipAudio=new Audio(src); clipAudio.play().catch(()=>{clipAudio=null;speakQuestion(t);}); return; }catch(e){} } speakQuestion(t); }
+  function speakCard(c){ stopSpeech(); const src=(window.QAUDIO||{})[c.n]; if(src){ try{ clipAudio=new Audio(src); clipAudio.playbackRate=audioRate(); clipAudio.play().catch(()=>{clipAudio=null;speakQuestion(c.q);}); return; }catch(e){} } speakQuestion(c.q); }
+  function playAnswer(t){ stopSpeech(); const src=(window.AAUDIO||{})[t]; if(src){ try{ clipAudio=new Audio(src); clipAudio.playbackRate=audioRate(); clipAudio.play().catch(()=>{clipAudio=null;speakQuestion(t);}); return; }catch(e){} } speakQuestion(t); }
   function scoreText(){ return "Correct: "+test.correct+" · need "+TEST_PASS+" of "+TEST_TOTAL+" to pass"; }
   function updateExamHead(){
     $("tGhostNum").textContent = test.correct;
