@@ -915,6 +915,11 @@
         <div class="set-rmain"><div class="set-rt">Auto-play questions</div></div>
         <button id="autoplayToggle" class="set-toggle on" role="switch" aria-checked="true" aria-label="Auto-play questions"><span class="knob"></span></button>
       </div>
+      <div class="set-row toggle-row">
+        <span class="set-ic"><svg viewBox="0 -960 960 960"><path d="M120-330v-60h306v60H120Zm0-165v-60h473v60H120Zm0-165v-60h473v60H120Zm542 540v-322l218 161-218 161Z"/></svg></span>
+        <div class="set-rmain"><div class="set-rt">Auto-play answers</div></div>
+        <button id="autoAnswerToggle" class="set-toggle" role="switch" aria-checked="false" aria-label="Auto-play answers"><span class="knob"></span></button>
+      </div>
       <div class="set-row">
         <span class="set-ic"><svg viewBox="0 -960 960 960"><path d="M204-160q-22 0-40.5-9.5T134-198q-26-47-40-97.5T80-400q0-83 31.5-156T197-683q54-54 127-85.5T480-800q23 0 46 3t46 8l-53 72q-10-2-19.5-2.5T480-720q-134 0-227 93t-93 227q0 42 11.5 82.5T204-240h551q22-36 33-77t11-83q0-66-25.5-126T700-631l21-87q75 57 116.5 140.5T879-400q1 54-13 105t-41 97q-11 19-29.5 28.5T755-160H204Zm243-168q32 14 64.5 1.5T554-372q29-97 52.5-194T649-762q-63 79-122.5 159T409-440q-20 29-8 63t46 49Zm32-73Z"/></svg></span>
         <div class="set-rmain"><div class="set-rt">Speech speed</div>
@@ -2482,8 +2487,9 @@ const CARDS = [
   let vcAudio=null, lastVCn=null, vcQ=[];
   // Browsers block audio that starts without a user gesture. Prime on the first interaction; until then,
   // a card that would auto-read shows a one-time prompt instead of silently failing.
-  let audioPrimed=false, barScrubbing=false;
+  let audioPrimed=false, barScrubbing=false, lastVCAns=null;
   function autoplayOn(){ try{ return localStorage.getItem("civics2025.autoplay.v1")!=="off"; }catch(e){ return true; } }
+  function autoAnswerOn(){ try{ return localStorage.getItem("civics2025.autoanswer.v1")==="on"; }catch(e){ return false; } }
   var MUTE_LS="civics2025.muted.v1";
   function isMuted(){ try{ return localStorage.getItem(MUTE_LS)==="1"; }catch(e){ return false; } }
   function stopAllAudio(){ try{ if(window.speechSynthesis) speechSynthesis.cancel(); }catch(e){} try{ vcStop(); }catch(e){} try{ stopSpeech(); }catch(e){} try{ hideAudioPrompt(); }catch(e){} }
@@ -2512,6 +2518,7 @@ const CARDS = [
   function vcPlayQ(c){ if(isMuted()) setMuted(false); vcPlay((window.QAUDIO||{})[c.n], c.q); }
   function vcPlayA(t){ if(isMuted()) setMuted(false); vcPlay((window.AAUDIO||{})[t], t); }
   function vcReadAllNow(c){ if(isMuted()) setMuted(false); hideAudioPrompt(); vcStop(); vcQ=c.a.slice(); vcNextInQueue(); }
+  function vcReadShownNow(c){ if(isMuted()) setMuted(false); hideAudioPrompt(); vcStop(); vcQ=[]; var lis=$("bA").querySelectorAll("li[data-i]"); lis.forEach(function(li){ var t=c.a[+li.dataset.i]; if(t!=null) vcQ.push(t); }); vcNextInQueue(); }
   // stop the CURRENTLY playing clip/speech but leave vcQ intact, so a "Read all" run can advance
   function vcHush(){ try{ if(window.speechSynthesis) speechSynthesis.cancel(); }catch(e){} try{ if(vcAudio){vcAudio.onended=null;vcAudio.pause();vcAudio=null;} }catch(e){} }
   function vcNextInQueue(){ if(!vcQ.length) return; if(isMuted()){ vcQ=[]; return; } const t=vcQ.shift(); const src=(window.AAUDIO||{})[t]; const after=()=>{ if(vcQ.length) vcNextInQueue(); }; vcHush(); if(src){ try{ vcAudio=new Audio(src); vcAudio.playbackRate=audioRate(); vcAudio.onended=after; vcAudio.play().catch(()=>{vcAudio=null;vcSpeak(t,after);}); return; }catch(e){} } vcSpeak(t, after); }
@@ -2527,7 +2534,7 @@ const CARDS = [
       const ansHidden = $("bA").style.display==="none";
       ra.hidden = !on || ansHidden || !(c.a && c.a.length>1);   // hide on single-answer cards — nothing to "read all"
     }
-    if(on){ if(!flipped && lastVCn!==c.n && !barScrubbing && !document.body.classList.contains("qs-open")){ lastVCn=c.n; if(autoplayOn() && !isMuted()){ if(audioPrimed) vcPlayQ(c); else showAudioPrompt(); } } }
+    if(on){ if(!flipped){ lastVCAns=null; if(lastVCn!==c.n && !barScrubbing && !document.body.classList.contains("qs-open")){ lastVCn=c.n; if(autoplayOn() && !isMuted()){ if(audioPrimed) vcPlayQ(c); else showAudioPrompt(); } } } else { if(autoAnswerOn() && !isMuted() && lastVCAns!==c.n && !barScrubbing && !document.body.classList.contains("qs-open") && $("bA").style.display!=="none"){ lastVCAns=c.n; primeAudio(); vcReadShownNow(c); } } }
     else { vcStop(); lastVCn=null; }
   }
   function setVoiceMode(v){ voiceMode=!!v; try{ localStorage.setItem("civics2025.voicemode.v1", v?"1":"0"); }catch(e){}
@@ -3739,6 +3746,10 @@ const CARDS = [
   function apOn(){ try{ return localStorage.getItem(AP_LS)!=="off"; }catch(e){ return true; } }
   function renderAp(){ if(!ap) return; var on=apOn(); ap.classList.toggle("on",on); ap.setAttribute("aria-checked",on?"true":"false"); }
   if(ap){ ap.addEventListener("click",function(){ try{ localStorage.setItem(AP_LS, apOn()?"off":"on"); }catch(e){} renderAp(); }); renderAp(); }
+  var AA_LS="civics2025.autoanswer.v1"; var aa=document.getElementById("autoAnswerToggle");
+  function autoAnswerOn(){ try{ return localStorage.getItem(AA_LS)==="on"; }catch(e){ return false; } }
+  function renderAa(){ if(!aa) return; var on=autoAnswerOn(); aa.classList.toggle("on",on); aa.setAttribute("aria-checked",on?"true":"false"); }
+  if(aa){ aa.addEventListener("click",function(){ try{ localStorage.setItem(AA_LS, autoAnswerOn()?"off":"on"); }catch(e){} renderAa(); }); renderAa(); }
   var vseg=document.getElementById("voiceSpeedSeg");
   function curRate(){ try{ return localStorage.getItem(VR_LS)||"normal"; }catch(e){ return "normal"; } }
   function renderRate(){ if(!vseg) return; var r=curRate(); vseg.querySelectorAll("[data-rate]").forEach(function(b){ b.classList.toggle("act", b.dataset.rate===r); }); }
