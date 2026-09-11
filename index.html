@@ -694,7 +694,7 @@
   .people .cnt{font-family:var(--mono);font-size:.6rem;letter-spacing:1px;color:#a99c88;text-transform:uppercase;margin-left:auto}
   .people .pchev{color:#b8ab95;font-size:.8rem;transition:transform .18s}
   .people[open] .pchev{transform:rotate(90deg)}
-  .pbody{padding:0 22px 22px}
+  .pbody{padding:0 22px 28px}
   .pbody .intro{font-family:var(--serif-body);font-size:1.02rem;line-height:1.5;color:#4a5560;margin:0 0 16px}
   .ptable-wrap{overflow-x:auto;margin-bottom:18px;border:1px solid #ece3d2;border-radius:12px}
   table.ptable{width:100%;border-collapse:collapse;font-size:.86rem;background:#fff}
@@ -705,7 +705,7 @@
   table.ptable .pnum{font-family:var(--mono);font-weight:600;color:var(--orange);white-space:nowrap}
   table.ptable .pnum.no{color:#b3bcc6}
   table.ptable .era{font-family:var(--mono);font-size:.64rem;letter-spacing:.5px;color:#7c8894;text-transform:uppercase;white-space:nowrap}
-  .mixups{background:#fff;border:1px solid #ece3d2;border-radius:12px;padding:14px 16px;margin-bottom:18px}
+  .mixups{background:#fff;border:1px solid #ece3d2;border-radius:12px;padding:16px 18px;margin:26px 0 6px}
   .mixups .t{font-family:var(--mono);font-size:.6rem;letter-spacing:1.6px;text-transform:uppercase;color:var(--orange);font-weight:600;margin-bottom:10px}
   .mixups ul{margin:0;padding:0;list-style:none;display:grid;gap:8px}
   .mixups li{font-size:.9rem;line-height:1.35;padding-left:16px;position:relative;color:#3a444e}
@@ -715,7 +715,7 @@
     background:none;border:1px dashed #c9bda6;border-radius:8px;padding:6px 12px;cursor:pointer;margin-bottom:4px;font-weight:600}
   @media (hover:hover){ .revealall:hover{border-color:var(--orange)} }
   .pgroup{font-family:var(--mono);font-size:.6rem;letter-spacing:1.6px;text-transform:uppercase;color:#b0a48d;font-weight:600;margin:16px 0 0;padding-top:12px;border-top:1px solid #ece3d2}
-  .person > summary{list-style:none;cursor:pointer;padding:12px 2px}
+  .person > summary{list-style:none;cursor:pointer;padding:15px 2px}
   .person > summary::-webkit-details-marker{display:none}
   .person > summary .srow{display:grid;grid-template-columns:210px 1fr auto;align-items:baseline;gap:4px 16px}
   .person > summary .chev{display:none}
@@ -844,8 +844,8 @@
   #testModal .tresults .rscore{position:relative;font-family:var(--serif);font-weight:900;font-size:4.2rem;line-height:.9;letter-spacing:-1px}
   #testModal .tresults .rscore .sl{opacity:.45;font-weight:600;margin:0 1px}
   #testModal .tresults .rverdict{position:relative;font-family:var(--serif);font-weight:900;font-size:1.9rem;margin-top:16px}
-  #testModal .tresults .rcta{position:relative;display:flex;gap:12px;margin-top:30px}
-  #testModal .tresults .rcta button{font-family:inherit;font-weight:700;font-size:.98rem;padding:13px 24px;border-radius:12px;cursor:pointer;border:none}
+  #testModal .tresults .rcta{position:relative;display:flex;flex-direction:column;align-items:center;gap:11px;margin-top:30px}
+  #testModal .tresults .rcta button{font-family:inherit;font-weight:700;font-size:.98rem;padding:15px 24px;border-radius:12px;cursor:pointer;border:none;width:100%;max-width:360px}
   #testModal .tresults .rcta .solid{background:#fff;color:#182234}
   #testModal .tresults .rcta .rghost{background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.5);color:#fff}
   /* Review-your-misses — full-screen overlay (desktop & mobile) */
@@ -859,8 +859,8 @@
   #missOverlay .tmiss-n{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:.62rem;font-weight:600;letter-spacing:.5px;background:rgba(255,255,255,.15);color:#fff;border-radius:6px;padding:3px 7px;margin-right:9px;vertical-align:2px}
   #missOverlay .tmiss-alabel{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:.56rem;letter-spacing:1.2px;text-transform:uppercase;font-weight:600;color:rgba(255,255,255,.5);margin-right:9px;vertical-align:1px}
   #missOverlay .tmiss-a{font-family:"Newsreader",Georgia,serif;font-size:1rem;line-height:1.45;color:#edc789}
-  #missOverlay .rcta{flex:none;display:flex;gap:12px;margin:20px 0 0;flex-wrap:wrap}
-  #missOverlay .rcta button{font-family:inherit;font-weight:700;font-size:.98rem;padding:13px 24px;border-radius:12px;cursor:pointer;border:none}
+  #missOverlay .rcta{flex:none;display:flex;flex-direction:column;align-items:center;gap:11px;margin:20px 0 0}
+  #missOverlay .rcta button{font-family:inherit;font-weight:700;font-size:.98rem;padding:15px 24px;border-radius:12px;cursor:pointer;border:none;width:100%;max-width:360px}
   #missOverlay .rcta .solid{background:#fff;color:#182234}
   #missOverlay .rcta .rghost{background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.5);color:#fff}
   #missOverlay .rcta button.marked{background:rgba(255,255,255,.22);color:#fff;cursor:default}
