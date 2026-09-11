@@ -873,6 +873,38 @@
   @keyframes examflick{0%,100%{opacity:0;transform:scale(.6)}50%{opacity:1;transform:scale(1)}}
   #testModal .exam-celeb .ff,#testModal .tresults .ff{position:absolute;width:13px;height:13px;background:#fff;clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);filter:drop-shadow(0 0 4px rgba(255,255,255,.9));animation:examflick 1.3s ease-in-out infinite}
   @media (max-width:520px){#testModal .exam-celeb,#testModal .tresults{position:fixed;inset:0;border-radius:0;z-index:100;padding:44px 28px}}   /* phones: pass/results overlays go full-screen */
+
+  /* Larger label/meta type on phones — the small mono labels were sub-10px. Mobile only; desktop unchanged. */
+  @media (max-width:600px){
+    /* Location & Officials panel */
+    #officialsModal .of-flabel{font-size:.70rem}
+    #officialsModal .of-group{font-size:.76rem}
+    #officialsModal .of-role{font-size:.74rem}
+    #officialsModal .of-qn{font-size:.74rem}
+    #officialsModal .of-badge{font-size:.64rem}
+    #officialsModal .of-upd{font-size:.64rem}
+    #officialsModal .of-fail{font-size:.64rem}
+    #officialsModal .of-verify-tag{font-size:.82rem}
+    #officialsModal .of-alert p,#officialsModal .of-offline p,#officialsModal .of-unreachable p{font-size:.92rem}
+    #officialsModal .of-dchip{font-size:.80rem}
+    #officialsModal .of-reset,#officialsModal .of-reset-m{font-size:.92rem}
+    #officialsModal .of-update{font-size:.96rem}
+    #officialsModal .of-sources,#officialsModal .of-foot{font-size:.92rem}
+    #officialsModal .of-legend span{font-size:.66rem}
+    /* Flashcard + exam meta eyebrows */
+    .cat{font-size:.72rem}
+    .qnum{font-size:.72rem}
+    #testModal .tstatus{font-size:.72rem}
+    #testModal .ghlbl{font-size:.72rem}
+    /* Reference tabs: era headers + table column headers (subtitles already bumped) */
+    .pgroup{font-size:.72rem}
+    table.ptable th{font-size:.68rem}
+    /* Voice-card read-all label */
+    .vc-readall{font-size:.70rem}
+    /* Footer sentence + copyright (copyright is inline-styled, so override on mobile) */
+    .foot{font-size:.80rem}
+    .copyline{font-size:.70rem !important}
+  }
 </style>
 </head>
 <body>
