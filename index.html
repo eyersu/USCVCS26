@@ -1352,7 +1352,7 @@
 <div class="foot">
   <span class="kbdline">Keyboard: <kbd>←</kbd>/<kbd>→</kbd> navigate · <kbd>Space</kbd> flip · <kbd>K</kbd> known · <kbd>R</kbd> review · <kbd>S</kbd> shuffle. </span>
   Progress is saved in this browser only. Some answers (officials’ names) change with elections — verify current officeholders at uscis.gov/citizenship/testupdates.
-<div class="copyline" style="margin-top:13px;padding-bottom:52px;font-family:var(--mono);font-size:.62rem;letter-spacing:.5px;color:#6b7e93">Independent study tool, not affiliated with USCIS. · © 2026 Ezgi Yersu</div></div>
+<div class="copyline" style="margin-top:13px;padding-bottom:52px;font-family:var(--mono);font-size:.62rem;letter-spacing:.5px;color:#6b7e93">Independent study tool, not affiliated with USCIS&nbsp;· <span style="white-space:nowrap">© 2026 Ezgi Yersu</span></div></div>
 
 <div class="modal" id="testModal" role="dialog" aria-modal="true" aria-label="Practice exam" aria-hidden="true">
   <div class="panel exam-panel">
@@ -1660,6 +1660,19 @@
   #guideModal mark.g-hit.cur{background:#ffe14d;color:#3a2e00;box-shadow:none}
   #guideModal .g-inner{padding:46px clamp(24px,4vw,60px) 48px;max-height:calc(100vh / 1.2);overflow:auto}
   #guideModal .g-kicker{font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:2.4px;text-transform:uppercase;color:var(--gold);font-weight:600;margin:0 0 14px}
+  #guideModal .g-toc-wrap{margin:6px 0 28px}
+  #guideModal .g-toctoggle{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);border-radius:11px;padding:12px 15px;cursor:pointer;color:#eaf1f8;font:inherit}
+  #guideModal .g-toctoggle .t{font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:1.6px;text-transform:uppercase;font-weight:700;flex:1}
+  #guideModal .g-toctoggle .chev{color:var(--gold);display:inline-flex;transition:transform .18s}
+  #guideModal .g-toctoggle .chev svg{width:20px;height:20px;display:block}
+  @media (hover:hover){ #guideModal .g-toctoggle:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.26)} }
+  #guideModal .g-toc-wrap.open .g-toctoggle .chev{transform:rotate(180deg)}
+  #guideModal .g-toc{display:none;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:9px;margin-top:9px}
+  #guideModal .g-toc-wrap.open .g-toc{display:grid}
+  #guideModal .g-tocitem{display:flex;align-items:baseline;gap:11px;text-align:left;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:11px;padding:12px 14px;cursor:pointer;color:#eaf1f8;font:inherit}
+  #guideModal .g-tocitem .n{font-family:"IBM Plex Mono",monospace;font-size:.72rem;font-weight:700;color:var(--gold);flex:none}
+  #guideModal .g-tocitem .l{font-size:.96rem;font-weight:600;line-height:1.2}
+  @media (hover:hover){ #guideModal .g-tocitem:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.26)} }
   #guideModal .g-title{font-family:"Fraunces",Georgia,serif;font-weight:900;font-size:2.4rem;line-height:1;letter-spacing:-1px;margin:0}
   #guideModal .g-facts{display:flex;flex-wrap:wrap;gap:32px;margin:28px 0 0;padding:0;list-style:none}
   #guideModal .g-facts li{font-size:.88rem;color:#a9b8c8}
@@ -1814,6 +1827,11 @@
       <div class="g-hr"></div>
 
       <p class="g-lede">New here or need a quick refresher? The <b>Quick Start</b> button up in the header walks you through the screen in about a minute — this guide is the in-depth version.</p>
+
+      <nav class="g-toc-wrap" aria-label="Chapters">
+        <button class="g-toctoggle" id="gTocToggle" type="button" aria-expanded="false" aria-controls="gToc"><span class="t">Chapters</span><span class="chev"><svg viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="M480-345 240-585l43-43 197 198 197-197 43 43-240 239Z"/></svg></span></button>
+        <div class="g-toc" id="gToc"></div>
+      </nav>
 
       <div class="g-secwrap"><div class="g-secs">
       <section class="g-sec">
@@ -3227,7 +3245,26 @@ const CARDS = [
   });
 
   // ---- How-to guide overlay ----
-  function openGuide(){ const m=$("guideModal"); if(!m) return; m.classList.add("open"); m.setAttribute("aria-hidden","false"); m.querySelector(".g-inner").scrollTop=0; if(gUpdate) requestAnimationFrame(gUpdate); }
+  function openGuide(){ const m=$("guideModal"); if(!m) return; m.classList.add("open"); m.setAttribute("aria-hidden","false"); m.querySelector(".g-inner").scrollTop=0; const tw=m.querySelector(".g-toc-wrap"); if(tw){ tw.classList.remove("open"); const tt=m.querySelector("#gTocToggle"); if(tt) tt.setAttribute("aria-expanded","false"); } if(gUpdate) requestAnimationFrame(gUpdate); }
+  // Chapter list (collapsible) — built from the guide sections so it can't drift; sits outside .g-secs so search ignores it
+  (function(){
+    const gm=$("guideModal"); if(!gm) return;
+    const wrap=gm.querySelector(".g-toc-wrap"), toc=$("gToc"), tgl=$("gTocToggle"), inner=gm.querySelector(".g-inner");
+    if(!wrap||!toc||!tgl||!inner) return;
+    gm.querySelectorAll(".g-secs .g-sec").forEach(function(sec){
+      const num=(sec.querySelector(".g-rail .num")||{}).textContent||"";
+      const lab=(sec.querySelector(".g-rail .lab")||{}).textContent||"";
+      const b=document.createElement("button"); b.type="button"; b.className="g-tocitem";
+      b.innerHTML='<span class="n">'+num+'</span><span class="l">'+lab+'</span>';
+      b.addEventListener("click",function(){
+        try{ inner.scrollTop += sec.getBoundingClientRect().top - inner.getBoundingClientRect().top - 12; }
+        catch(e){ sec.scrollIntoView(); }
+        wrap.classList.remove("open"); tgl.setAttribute("aria-expanded","false");   // tidy: collapse after jumping
+      });
+      toc.appendChild(b);
+    });
+    tgl.addEventListener("click",function(){ const open=wrap.classList.toggle("open"); tgl.setAttribute("aria-expanded", open?"true":"false"); });
+  })();
   function closeGuide(){ const m=$("guideModal"); if(!m) return; if(window.__gSearchClose) window.__gSearchClose(); m.classList.remove("open"); m.setAttribute("aria-hidden","true"); }
   (function(){ const b=$("guideBtn"), m=$("guideModal"); if(!b||!m) return;
     b.onclick=openGuide;
@@ -3825,7 +3862,7 @@ const CARDS = [
   if(!panel||!btn) return;
   function lockBg(){ try{ if(document.body.dataset.slock!=null) return; var y=window.pageYOffset||document.documentElement.scrollTop||0; document.body.dataset.slock=String(y); var s=document.body.style; s.position="fixed"; s.top=(-y)+"px"; s.left="0"; s.right="0"; s.width="100%"; }catch(e){} }
   function unlockBg(){ try{ if(document.body.dataset.slock==null) return; var y=parseInt(document.body.dataset.slock,10)||0; var s=document.body.style; s.position=""; s.top=""; s.left=""; s.right=""; s.width=""; delete document.body.dataset.slock; window.scrollTo(0,y); }catch(e){} }
-  function open(){ panel.classList.add("open"); scrim.classList.add("open"); panel.setAttribute("aria-hidden","false"); lockBg(); }
+  function open(){ panel.classList.add("open"); scrim.classList.add("open"); panel.setAttribute("aria-hidden","false"); panel.scrollTop=0; lockBg(); }   // always reopen scrolled to the top
   function shut(){ panel.classList.remove("open"); scrim.classList.remove("open"); panel.setAttribute("aria-hidden","true"); unlockBg(); }
   btn.addEventListener("click",open); closeB.addEventListener("click",shut); scrim.addEventListener("click",shut);
   document.addEventListener("keydown",function(e){ if(e.key==="Escape"&&panel.classList.contains("open")) shut(); });
