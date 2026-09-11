@@ -360,6 +360,19 @@
       transition-duration:.001ms!important;scroll-behavior:auto!important}
   }
 
+  /* Windows High Contrast / forced-colors: keep shapes visible and preserve any state that was shown by color alone.
+     Entirely scoped to forced-colors, so it never affects normal rendering. */
+  @media (forced-colors: active){
+    .card,.controls,.people,.tlpanel,.exambtn,.switch,.pilegroup button,#starBtn,#catSel,.search,
+    .nav button,.cardctl button,.modetoggle button,.set-toggle,.set-seg button,.set-reset,.set-locpill,
+    .modal .panel,#setPanel,#guideModal .g-panel,.emptybtns button{border:1px solid CanvasText}
+    /* selected / on states relied on fill color — remap to the system selection color so they stay distinct */
+    .pilegroup button.active,#starBtn.active,#orderToggle.on,.set-seg button.act,.set-toggle.on,
+    .cardctl .cReview.active,.cardctl .cKnown.active,.cardctl .mutebtn.on{background:Highlight!important;color:HighlightText!important;border-color:Highlight!important}
+    .switch .knob,.set-toggle .knob{background:CanvasText!important}
+    a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,[tabindex]:focus-visible{outline:2px solid Highlight;outline-offset:2px}
+  }
+
   .progress{display:flex;gap:10px;align-items:center;color:#9fb3c8;font-size:.82rem;margin-bottom:24px}
   .bar{position:relative;width:240px;height:8px;background:rgba(255,255,255,.14);border-radius:99px;cursor:pointer}
   @media (hover:hover){ .bar:hover{background:rgba(255,255,255,.24)} }
