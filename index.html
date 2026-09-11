@@ -872,16 +872,20 @@
   #testModal .tresults .rcta button{font-family:inherit;font-weight:700;font-size:.98rem;padding:13px 24px;border-radius:12px;cursor:pointer;border:none}
   #testModal .tresults .rcta .solid{background:#fff;color:#182234}
   #testModal .tresults .rcta .rghost{background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.5);color:#fff}
-  /* Review-your-misses list (shown from the results screen) */
-  #testModal .tresults.misses{align-items:stretch;justify-content:flex-start;text-align:left;background:linear-gradient(135deg,#2a3a4d 0%,#3a5578 100%)}
-  #testModal .tmiss-head{flex:none;font-family:"Fraunces",Georgia,serif;font-weight:900;font-size:1.5rem;margin:0 0 16px;display:flex;align-items:center;gap:10px}
-  #testModal .tmiss-count{font-family:"IBM Plex Mono",monospace;font-size:.78rem;font-weight:600;background:rgba(255,255,255,.18);border-radius:999px;padding:3px 11px}
-  #testModal .tmiss-list{flex:1 1 auto;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:15px;-webkit-overflow-scrolling:touch}
-  #testModal .tmiss{border-left:3px solid rgba(255,255,255,.45);padding-left:13px}
-  #testModal .tmiss-q{font-family:"Newsreader",Georgia,serif;font-size:1.02rem;line-height:1.35;margin-bottom:5px;color:#fff}
-  #testModal .tmiss-n{font-family:"IBM Plex Mono",monospace;font-size:.68rem;font-weight:600;opacity:.72;margin-right:8px}
-  #testModal .tmiss-a{font-family:"Newsreader",Georgia,serif;font-size:.93rem;line-height:1.4;color:rgba(255,255,255,.86)}
-  #testModal .tresults.misses .rcta{flex:none;margin:16px 0 0;flex-wrap:wrap}
+  /* Review-your-misses — full-screen overlay (desktop & mobile) */
+  #missOverlay{display:none;position:fixed;inset:0;z-index:10050;background:linear-gradient(135deg,#2a3a4d 0%,#3a5578 100%);color:#fff;flex-direction:column;overflow:auto;outline:none}
+  #missOverlay .miss-inner{flex:1 1 auto;display:flex;flex-direction:column;width:min(760px,100%);margin:0 auto;padding:calc(30px + env(safe-area-inset-top)) 24px calc(24px + env(safe-area-inset-bottom));min-height:0;box-sizing:border-box}
+  #missOverlay .tmiss-head{flex:none;font-family:"Fraunces",Georgia,serif;font-weight:900;font-size:1.7rem;margin:0 0 20px;display:flex;align-items:center;gap:12px}
+  #missOverlay .tmiss-count{font-family:"IBM Plex Mono",monospace;font-size:.82rem;font-weight:600;background:rgba(255,255,255,.18);border-radius:999px;padding:4px 12px}
+  #missOverlay .tmiss-list{flex:1 1 auto;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:16px;-webkit-overflow-scrolling:touch}
+  #missOverlay .tmiss{border-left:3px solid rgba(255,255,255,.45);padding-left:14px}
+  #missOverlay .tmiss-q{font-family:"Newsreader",Georgia,serif;font-size:1.08rem;line-height:1.38;margin-bottom:6px;color:#fff}
+  #missOverlay .tmiss-n{font-family:"IBM Plex Mono",monospace;font-size:.7rem;font-weight:600;opacity:.72;margin-right:9px}
+  #missOverlay .tmiss-a{font-family:"Newsreader",Georgia,serif;font-size:.98rem;line-height:1.45;color:rgba(255,255,255,.88)}
+  #missOverlay .rcta{flex:none;display:flex;gap:12px;margin:20px 0 0;flex-wrap:wrap}
+  #missOverlay .rcta button{font-family:inherit;font-weight:700;font-size:.98rem;padding:13px 24px;border-radius:12px;cursor:pointer;border:none}
+  #missOverlay .rcta .solid{background:#fff;color:#182234}
+  #missOverlay .rcta .rghost{background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.5);color:#fff}
   /* celebration overlay — full card gradient, white star flickers, congratulatory copy */
   #testModal .exam-celeb{position:absolute;inset:0;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:44px;color:#fff;z-index:5;overflow:hidden;background:linear-gradient(135deg,#7a1f3d 0%,#3b2b63 52%,#1c3b6b 100%)}
   #testModal .exam-celeb .headline{font-family:var(--serif);font-weight:900;font-size:2.4rem;margin-bottom:14px;position:relative}
@@ -2939,18 +2943,27 @@ const CARDS = [
     var _tm=$("tMisses"); if(_tm) _tm.onclick = showMisses;
   }
   function showMisses(){
-    const rv = $("tResults");
     const byN = {}; test.deck.forEach(c=>{ byN[c.n]=c; });
     const missed = test.log.filter(e=>!e.ok).map(e=> byN[e.n] || CARDS.find(c=>c.n===e.n)).filter(Boolean);
     const items = missed.map(c=>`<div class="tmiss"><div class="tmiss-q"><span class="tmiss-n">Q${c.n}</span>${escapeHtml(c.q)}</div><div class="tmiss-a">${c.a.map(escapeHtml).join(" &middot; ")}</div></div>`).join("");
-    rv.className = "tresults misses";
-    rv.innerHTML =
-      `<div class="tmiss-head">Review your misses <span class="tmiss-count">${missed.length}</span></div>`+
-      `<div class="tmiss-list">${items}</div>`+
-      `<div class="rcta"><button class="solid" id="tBackRes">Back to results</button><button class="rghost" id="tDone3">Back to study</button></div>`;
-    rv.scrollTop = 0;
-    $("tBackRes").onclick = showResults;
-    $("tDone3").onclick = endTest;
+    const wasOral = !!(test && test.oral);
+    let ov = document.getElementById("missOverlay");
+    if(!ov){
+      ov = document.createElement("div"); ov.id = "missOverlay"; ov.tabIndex = -1;
+      ov.setAttribute("role","dialog"); ov.setAttribute("aria-modal","true"); ov.setAttribute("aria-label","Questions you missed");
+      document.body.appendChild(ov);
+      document.addEventListener("keydown", function(e){ if(e.key==="Escape" && ov.style.display!=="none"){ ov.style.display="none"; } });
+    }
+    ov.innerHTML =
+      `<div class="miss-inner">`+
+        `<div class="tmiss-head">Review your misses <span class="tmiss-count">${missed.length}</span></div>`+
+        `<div class="tmiss-list">${items}</div>`+
+        `<div class="rcta"><button class="solid" id="missAgain">Take another exam</button><button class="rghost" id="missBack">Back to results</button><button class="rghost" id="missDone">Back to study</button></div>`+
+      `</div>`;
+    ov.style.display = "flex"; ov.scrollTop = 0; try{ ov.focus(); }catch(e){}
+    $("missAgain").onclick = ()=>{ ov.style.display="none"; beginExam(wasOral); };
+    $("missBack").onclick = ()=>{ ov.style.display="none"; };
+    $("missDone").onclick = ()=>{ ov.style.display="none"; endTest(); };
   }
   function endTest(){
     hideCeleb();
