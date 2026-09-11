@@ -892,7 +892,7 @@
 
 <!-- Settings panel -->
 <div id="setScrim"></div>
-<aside id="setPanel" role="dialog" aria-label="Settings" aria-hidden="true">
+<aside id="setPanel" role="dialog" aria-modal="true" aria-label="Settings" aria-hidden="true">
   <div class="set-h"><b>Settings</b><button id="setClose" type="button" aria-label="Close settings"><svg class="mi" viewBox="0 -960 960 960" aria-hidden="true"><path d="m249-207-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"/></svg></button></div>
   <div class="set-body">
 
@@ -1335,7 +1335,7 @@
   Progress is saved in this browser only. Some answers (officials’ names) change with elections — verify current officeholders at uscis.gov/citizenship/testupdates.
 <div class="copyline" style="margin-top:13px;padding-bottom:52px;font-family:var(--mono);font-size:.62rem;letter-spacing:.5px;color:#6b7e93">© 2026 Ezgi Yersu · Independent study tool, not affiliated with USCIS.</div></div>
 
-<div class="modal" id="testModal" aria-hidden="true">
+<div class="modal" id="testModal" role="dialog" aria-modal="true" aria-label="Practice exam" aria-hidden="true">
   <div class="panel exam-panel">
     <button id="tExit" class="tclose" title="Exit test (Esc)"><svg class="mi" viewBox="0 -960 960 960" aria-hidden="true"><path d="m249-207-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"/></svg></button>
     <div class="exam-ghost"><span class="n" id="tGhostNum">0</span><span class="ghlbl">correct</span></div>
@@ -1390,7 +1390,7 @@
   </div>
 </div>
 
-<div class="modal" id="officialsModal" aria-hidden="true">
+<div class="modal" id="officialsModal" role="dialog" aria-modal="true" aria-label="Location & officials" aria-hidden="true">
   <div class="panel">
     <div class="thead">
       <div class="ttitle">Location &amp; Officials</div>
@@ -1400,7 +1400,7 @@
     <div class="of-loc">
       <div class="of-field state">
         <span class="of-flabel">State <span class="req">*</span></span>
-        <select class="of-control" id="ofState"></select>
+        <select class="of-control" id="ofState" aria-label="State"></select>
       </div>
       <div class="of-field zip">
         <span class="of-flabel">ZIP <span class="req">*</span></span>
@@ -1767,7 +1767,7 @@
   #guideModal .g-ph .t{font-family:"IBM Plex Mono",monospace;font-size:.56rem;letter-spacing:1.5px;text-transform:uppercase;line-height:1.7}
 </style>
 
-<div class="modal" id="guideModal" aria-hidden="true">
+<div class="modal" id="guideModal" role="dialog" aria-modal="true" aria-label="How to use this guide" aria-hidden="true">
   <nav id="gSteps" aria-label="Guide sections"></nav>
   <div class="g-panel">
     <div class="g-search" id="gSearch">
