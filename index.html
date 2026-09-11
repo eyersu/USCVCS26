@@ -784,8 +784,7 @@
   .pname{font-family:var(--serif);font-weight:600;font-size:1.2rem;color:#202e3a}
   .chev{margin-left:auto;color:#b8ab95;font-size:.78rem;transition:transform .15s}
   .person[open] .chev{transform:rotate(90deg)}
-  .pdetail{padding:2px 0 12px;margin:4px 0 2px;border-left:2px solid #d8b483}
-  .pdetail>*{padding-left:14px}
+  .pdetail{padding:2px 20px 12px 20px;margin:4px 0 2px}
   .pfacts{font-family:var(--mono);font-size:.56rem;letter-spacing:1.4px;text-transform:uppercase;color:#a99c88;font-weight:600;margin-bottom:8px}
   .pfacts .qref{display:none}
   .pfacts .pstar{color:var(--gold);margin-left:2px}
@@ -1013,8 +1012,10 @@
       <div class="set-row toggle-row">
         <span class="set-ic"><svg viewBox="0 -960 960 960"><path d="M360-80q-58 0-109-22t-89-60q-38-38-60-89T80-360q0-81 42-148t110-102q20-39 49.5-68.5T350-728q33-68 101-110t149-42q58 0 109 22t89 60q38 38 60 89t22 109q0 85-42 150T728-350q-20 39-49.5 68.5T610-232q-35 68-102 110T360-80Zm0-80q33 0 63.5-10t56.5-30q-58 0-109-22t-89-60q-38-38-60-89t-22-109q-20 26-30 56.5T160-360q0 42 16 78t43 63q27 27 63 43t78 16Zm120-120q33 0 64.5-10t57.5-30q-59 0-110-22.5T403-403q-38-38-60.5-89T320-602q-20 26-30 57.5T280-480q0 42 15.5 78t43.5 63q27 28 63 43.5t78 15.5Zm120-120q18 0 34.5-3t33.5-9q22-60 6.5-115.5T621-621q-38-38-93.5-53.5T412-668q-6 17-9 33.5t-3 34.5q0 42 15.5 78t43.5 63q27 28 63 43.5t78 15.5Zm160-78q20-26 30-57.5t10-64.5q0-42-15.5-78T741-741q-27-28-63-43.5T600-800q-35 0-65.5 10T478-760q59 0 110 22.5t89 60.5q38 38 60.5 89T760-478ZM600-600Z"/></svg></span>
         <div class="set-rmain"><div class="set-rt">Reduce motion</div></div>
+        <button class="set-info" type="button" data-x="setExplRM" aria-label="What reduce motion does"><svg viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="M453-280h60v-240h-60v240Zm27-314q14 0 24-10t10-24q0-14-10-24t-24-10q-14 0-24 10t-10 24q0 14 10 24t24 10Zm0 514q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-60q142 0 241-99.5T820-480q0-142-99-241t-241-99q-141 0-240.5 99T140-480q0 141 99.5 240.5T480-140Zm0-340Z"/></svg></button>
         <button id="animToggle" class="set-toggle" role="switch" aria-checked="false" aria-label="Reduce motion"><span class="knob"></span></button>
       </div>
+      <div class="set-expl" id="setExplRM" hidden>Turns off the card-flip animation and other on-screen movement (like the exam’s celebration effect). Questions, answers, text size, and layout don’t change.</div>
       <p class="set-rml" id="setRml">Reduce Motion is on for this device — animations are held off.</p>
     </div>
 
@@ -1351,7 +1352,7 @@
 <div class="foot">
   <span class="kbdline">Keyboard: <kbd>←</kbd>/<kbd>→</kbd> navigate · <kbd>Space</kbd> flip · <kbd>K</kbd> known · <kbd>R</kbd> review · <kbd>S</kbd> shuffle. </span>
   Progress is saved in this browser only. Some answers (officials’ names) change with elections — verify current officeholders at uscis.gov/citizenship/testupdates.
-<div class="copyline" style="margin-top:13px;padding-bottom:52px;font-family:var(--mono);font-size:.62rem;letter-spacing:.5px;color:#6b7e93">© 2026 Ezgi Yersu · Independent study tool, not affiliated with USCIS.</div></div>
+<div class="copyline" style="margin-top:13px;padding-bottom:52px;font-family:var(--mono);font-size:.62rem;letter-spacing:.5px;color:#6b7e93">Independent study tool, not affiliated with USCIS. · © 2026 Ezgi Yersu</div></div>
 
 <div class="modal" id="testModal" role="dialog" aria-modal="true" aria-label="Practice exam" aria-hidden="true">
   <div class="panel exam-panel">
@@ -1468,7 +1469,7 @@
   #topbar{display:contents}
   #guideBtn{position:fixed;top:26px;right:0;z-index:20;font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:1.4px;text-transform:uppercase;font-weight:700;color:#0d1b2a;background:#faf6ee;border:0;border-radius:999px 0 0 999px;padding:9px 16px 9px 9px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;line-height:1;box-shadow:-3px 4px 16px rgba(0,0,0,.4)}
   #guideBtn .q{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--orange);color:#fff;font-weight:800;font-size:.72rem}
-  @media (hover:hover){ #guideBtn:hover{background:#fff} }
+  @media (hover:hover){ #guideBtn:hover{background:var(--orange);color:#fff} #guideBtn:hover .q{background:rgba(255,255,255,.24);color:#fff} }
   /* collapse to just the "?" badge when the title would overlap */
   @media (max-width:768px){
     #guideBtn{padding:13px 15px 13px 13px;gap:0}
@@ -2499,7 +2500,9 @@ const CARDS = [
     // measure the back's NATURAL height, unconstrained by any height we set on a previous pass
     // (otherwise growing text can't push the card taller — the old height clamps the measurement)
     const prevTrans=card.style.transition;
-    card.style.transition="none";
+    // suppress only the HEIGHT transition while measuring — keep the flip (transform) animating,
+    // unless the caller already asked for no animation (renderNoAnim / voice set transition:"none").
+    card.style.transition = (prevTrans==="none") ? "none" : "transform .55s cubic-bezier(.4,.15,.2,1), height 0s";
     card.style.height="auto";
     let bH=bfc.offsetHeight;
     // the caution + localized line are absolutely pinned to the bottom — ensure the card can't overlap content
@@ -3088,6 +3091,7 @@ const CARDS = [
 
   // search bindings
   $("searchInput").addEventListener("input", renderSearchDropdown);
+  $("searchInput").addEventListener("focus", ()=>{ if($("searchInput").value.trim()) renderSearchDropdown(); });   // focusing the bar (incl. tapping the "N results" count) reopens the matches
   $("searchCount").onclick = reapplySearch;   // click the "N results" count to re-open the list of matches
   $("searchCount").title = "Show matching questions";
   $("searchInput").addEventListener("keydown", e=>{
