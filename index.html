@@ -99,6 +99,9 @@
     color:#eaf1f8; min-height:100vh; display:flex; flex-direction:column; align-items:center;
     padding:calc(24px + env(safe-area-inset-top)) calc(16px + env(safe-area-inset-right)) calc(48px + env(safe-area-inset-bottom)) calc(16px + env(safe-area-inset-left));
   }
+  .skip-link{position:fixed;top:0;left:12px;z-index:100001;transform:translateY(-140%);background:var(--orange);color:#fff;padding:11px 18px;border-radius:0 0 12px 12px;font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.6px;font-weight:600;text-decoration:none;box-shadow:0 6px 18px rgba(0,0,0,.4);transition:transform .16s}
+  .skip-link:focus{transform:translateY(0);outline:2px solid #fff;outline-offset:2px}
+  #card:focus-visible{outline:3px solid var(--orange);outline-offset:6px}
   header{text-align:center;margin-bottom:30px}
   h1{font-family:var(--serif);font-weight:900;font-size:1.7rem;margin:0;letter-spacing:-.01em;transition:font-size .3s ease}
   body.qs-open h1{transition:none}   /* during Quick Start, resize instantly so the spotlight lands on the settled layout */
@@ -868,6 +871,7 @@
 </style>
 </head>
 <body>
+<a class="skip-link" href="#card">Skip to the deck</a>
 <script>
   /* apply saved appearance settings before first paint (avoids a flash) */
   (function(){
@@ -1040,7 +1044,7 @@
 <div class="modebar"><div class="modetoggle" role="tablist"><button id="modeFlash" class="mt on" type="button"><svg viewBox="0 -960 960 960" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="m152-145-23-7q-32-14-43.5-48t6.5-67l60-136v258Zm186 78q-34 0-58-24t-24-58v-207l92 262q2 8 6 14t10 13h-26Zm188-24q-21 9-44-4t-33-36L258-650q-10-23 2-45t37-32l318-115q23-8 45 4t32 36l191 513q7 25-3 49t-35 33L526-91Zm-61-504q9-9 9-21t-9-21q-9-9-21-9t-21 9q-9 9-9 21t9 21q9 9 21 9t21-9Z"/></svg>Flashcards</button><button id="modeVoice" class="mt" type="button"><svg viewBox="0 -960 960 960" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M560-131v-62q97-28 158.5-107.5T780-481q0-101-61-181T560-769v-62q124 28 202 125.5T840-481q0 127-78 224.5T560-131ZM120-360v-240h160l200-200v640L280-360H120Zm420 48v-337q55 17 87.5 64T660-480q0 57-33 104t-87 64Z"/></svg>Voice cards</button></div></div>
 
 <div class="stage">
-  <div class="card" id="card">
+  <div class="card" id="card" tabindex="-1" style="scroll-margin-top:80px">
     <div class="face front">
       <div class="fc">
         <button id="vcFront" class="vc-spk vc-front" type="button" title="Read the question aloud" hidden><svg viewBox="0 -960 960 960" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M560-131v-62q97-28 158.5-107.5T780-481q0-101-61-181T560-769v-62q124 28 202 125.5T840-481q0 127-78 224.5T560-131ZM120-360v-240h160l200-200v640L280-360H120Zm420 48v-337q55 17 87.5 64T660-480q0 57-33 104t-87 64Z"/></svg></button>
@@ -1726,7 +1730,8 @@
   #guideModal .g-note{margin:26px 0 0;padding:15px 18px;border-radius:12px;border:1px solid #3a4f66;border-left:3px solid #e2a038;background:rgba(255,255,255,.05);max-width:66ch}
   #guideModal .g-note .l{font-family:"IBM Plex Mono",monospace;font-size:.56rem;letter-spacing:2px;text-transform:uppercase;font-weight:600;color:#e2a038;margin:0 0 7px}
   #guideModal .g-note p{margin:0;color:#a9b8c8;font-size:.95rem;line-height:1.55}#guideModal .g-note p+p{margin-top:10px}
-  #guideModal .g-note a{color:#8aa4de}
+  #guideModal a{color:#a9c7f7;text-decoration:underline}
+  #guideModal .g-note a{color:#a9c7f7}
   #guideModal .g-keys{display:grid;grid-template-columns:repeat(2,max-content);gap:15px 48px;margin:24px 0 0}
   @media(max-width:520px){#guideModal .g-keys{grid-template-columns:1fr}}
   @media(max-width:760px){#guideModal .g-keys{display:none}}   /* no hardware keyboard on phones — the g-tap note covers touch */
@@ -1758,7 +1763,7 @@
   #guideModal .g-mini{font-family:"IBM Plex Mono",monospace;font-size:.5rem;letter-spacing:.8px;text-transform:uppercase;font-weight:600;color:var(--orange);border:1px dashed #d7b78a;border-radius:6px;padding:5px 8px}
   #guideModal .g-count{font-family:"IBM Plex Mono",monospace;font-size:.5rem;letter-spacing:.8px;text-transform:uppercase;color:#a49a86;margin-left:auto}
   #guideModal .g-gfoot{padding:34px 0 4px;color:#7d92a8;font-size:.8rem;line-height:1.6}
-  #guideModal .g-gfoot a{color:#8aa4de;text-decoration:underline}
+  #guideModal .g-gfoot a{color:#a9c7f7;text-decoration:underline}
   #guideModal .g-sub{margin-top:36px;padding-top:30px;border-top:1px solid #2c3d51}
   #guideModal .g-sublab{display:block;font-family:"IBM Plex Mono",monospace;font-size:.58rem;letter-spacing:2px;text-transform:uppercase;font-weight:600;color:var(--gold);margin-bottom:9px}
   #guideModal .g-subh{font-family:"Fraunces",serif;font-weight:600;font-size:1.22rem;line-height:1.2;letter-spacing:-.2px;color:#eaf1f8;margin:0 0 14px;text-wrap:balance}
@@ -2008,7 +2013,7 @@
             <div class="g-rr"><div class="c"><span class="g-chip">On device</span></div><div class="d">Progress, picks, and location live in this browser only. To wipe them yourself, use <b>Reset App</b> in Settings; clearing site data or opening a different browser also starts you fresh.</div></div>
             <div class="g-rr"><div class="c"><span class="g-chip">Offline</span></div><div class="d">Studying, filtering, and the exam all work with no connection. Only the live officials lookup needs the internet.</div></div>
             <div class="g-rr"><div class="c"><span class="g-chip">Verify</span></div><div class="d">Officeholders change. Confirm names against your state's site before relying on them.</div></div>
-            <div class="g-rr"><div class="c"><span class="g-chip">Troubleshooting</span></div><div class="d"><b>No sound?</b> Tap the <b>“Tap to turn on question audio”</b> prompt (some browsers block audio until you interact), and check your device isn’t on silent and the card’s <b>mute</b> isn’t on.<br><b>Localized answers blank?</b> Set your location.<br><b>Progress gone?</b> It lives in this browser only — use the same browser and don’t clear site data.<br><b>Still stuck, or having another issue with the study guide?</b> Email <a href="mailto:eyersu+uscvcs@gmail.com?subject=USCVCS%20feedback" target="_blank" rel="noopener">eyersu+uscvcs@gmail.com</a>.</div></div>
+            <div class="g-rr"><div class="c"><span class="g-chip">Troubleshooting</span></div><div class="d"><b>No sound?</b> Tap the <b>“Tap to turn on question audio”</b> prompt (some browsers block audio until you interact), and check your device isn’t on silent and the card’s <b>mute</b> isn’t on.<br><b>Localized answers blank?</b> Set your location.<br><b>Progress gone?</b> It lives in this browser only — use the same browser and don’t clear site data.<br><b>Having another issue or have feedback?</b> Email <a href="mailto:eyersu+uscvcs@gmail.com?subject=USCVCS%20feedback" target="_blank" rel="noopener">eyersu+uscvcs@gmail.com</a>.</div></div>
           </div>
         </div>
       </section>
@@ -3838,6 +3843,23 @@ const CARDS = [
   function renderSize(){ if(!tseg) return; var s=curSize(); tseg.querySelectorAll("[data-size]").forEach(function(b){ b.classList.toggle("act",b.dataset.size===s); }); }
   function applySize(s){ if(s==="md") document.documentElement.removeAttribute("data-text"); else document.documentElement.setAttribute("data-text",s); try{ localStorage.setItem(TS_LS,s); }catch(e){} renderSize(); try{ if(window.__recomputeCardH) window.__recomputeCardH(); }catch(e){} }
   if(tseg){ tseg.addEventListener("click",function(e){ var b=e.target.closest("[data-size]"); if(!b) return; applySize(b.dataset.size); }); renderSize(); }
+})();
+</script>
+<script>
+/* a11y: return focus to the trigger when a dialog closes */
+(function(){
+  var ids=["setPanel","officialsModal","guideModal","testModal"], trig={};
+  ids.forEach(function(id){
+    var m=document.getElementById(id); if(!m) return;
+    var wasHidden = m.getAttribute("aria-hidden")!=="false";
+    new MutationObserver(function(){
+      var hidden = m.getAttribute("aria-hidden")!=="false";
+      if(hidden===wasHidden) return;
+      if(!hidden){ trig[id]=document.activeElement; }
+      else { var t=trig[id]; trig[id]=null; if(t && t.focus && document.body.contains(t)){ try{ t.focus(); }catch(e){} } }
+      wasHidden=hidden;
+    }).observe(m,{attributes:true,attributeFilter:["aria-hidden"]});
+  });
 })();
 </script>
 </body>
