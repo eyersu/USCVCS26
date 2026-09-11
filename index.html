@@ -278,13 +278,17 @@
   .of-badge.unset{color:#b3a393;background:#f3eee3;border:1px dashed #d3c7b1}
   .of-upd{font-family:var(--mono);font-size:.56rem;color:#b3bcc6;white-space:nowrap}
   .of-fail{font-family:var(--mono);font-size:.54rem;letter-spacing:.3px;color:var(--badge-ink);background:rgba(var(--accent-rgb),.1);border:1px solid rgba(var(--accent-rgb),.3);border-radius:11px;padding:3px 7px;white-space:nowrap}
-  .of-edit{border:none;background:none;color:#b8ab95;cursor:pointer;font-size:.9rem;padding:4px;line-height:1}
-  @media (hover:hover){ .of-edit:hover{color:var(--orange)} }
-  .of-editrow{grid-column:3 / -1;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-  .of-einput{flex:1 1 200px;height:38px;border:1px solid #d9cdb6;border-radius:9px;padding:0 12px;font-family:var(--serif-body);font-size:1rem;color:#202e3a}
+  .of-edit{border:none;background:none;color:var(--orange);cursor:pointer;padding:4px;line-height:0;display:inline-flex;align-items:center}
+  .of-edit svg{width:19px;height:19px;fill:currentColor}
+  @media (hover:hover){ .of-edit:hover{color:var(--accent-dk)} }
+  .of-editrow{grid-column:1 / -1;grid-row:2;display:flex;gap:8px;align-items:center;margin-top:8px}
+  .of-einput{flex:1 1 auto;min-width:0;height:42px;border:1px solid #d9cdb6;border-radius:10px;padding:0 12px;font-family:var(--serif-body);font-size:1rem;color:#202e3a}
   .of-einput:focus{outline:none;border-color:var(--orange)}
-  .of-save{height:38px;border:none;border-radius:9px;background:var(--navy);color:#fff;font-weight:700;font-size:.82rem;padding:0 16px;cursor:pointer}
-  .of-cancel{height:38px;border:1px solid #d9cdb6;border-radius:9px;background:#fff;color:#6a7681;font-size:.82rem;padding:0 14px;cursor:pointer}
+  .of-save,.of-cancel{flex:none;width:42px;height:42px;border-radius:10px;cursor:pointer;padding:0;display:inline-flex;align-items:center;justify-content:center}
+  .of-save svg,.of-cancel svg{width:22px;height:22px;fill:currentColor}
+  .of-save{border:none;background:var(--navy);color:#fff}
+  .of-cancel{border:1px solid #d9cdb6;background:#fff;color:#6a7681}
+  .of-save:active,.of-cancel:active{transform:scale(.94)}
   .of-legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:18px;padding-top:14px;border-top:1px solid #ece3d2}
   .of-legend span{font-family:var(--mono);font-size:.56rem;letter-spacing:.5px;color:#8a97a3;display:flex;align-items:center;gap:6px}
   .of-swatch{width:20px;height:11px;border-radius:6px;display:inline-block}
@@ -3408,11 +3412,11 @@ const CARDS = [
       const failTag = officials.fail[f] ? `<span class="of-fail"><svg class="mi mi-lead" viewBox="0 -960 960 960" aria-hidden="true"><path d="m40-120 440-760 440 760H40Zm465.5-125.68q8.5-8.67 8.5-21.5 0-12.82-8.68-21.32-8.67-8.5-21.5-8.5-12.82 0-21.32 8.68-8.5 8.67-8.5 21.5 0 12.82 8.68 21.32 8.67 8.5 21.5 8.5 12.82 0 21.32-8.68ZM454-348h60v-224h-60v224Z"/></svg>couldn't refresh</span>` : "";
       if(ofEditing===f){
         html+=`<div class="of-row"><div class="of-role">${item.role}</div><button type="button" class="of-qn" data-qgo="${item.q}" title="Go to Q${item.q}">Q${item.q}</button>`
-            +`<div class="of-editrow"><input class="of-einput" id="ofEdit_${f}" value="${escapeAttr(v[f])}"><button class="of-save" data-f="${f}">Save</button><button class="of-cancel">Cancel</button></div></div>`;
+            +`<div class="of-editrow"><input class="of-einput" id="ofEdit_${f}" value="${escapeAttr(v[f])}"><button class="of-save" data-f="${f}" title="Save" aria-label="Save"><svg viewBox="0 -960 960 960" aria-hidden="true"><path d="M378-246 154-470l43-43 181 181 384-384 43 43-427 427Z"/></svg></button><button class="of-cancel" title="Cancel" aria-label="Cancel"><svg viewBox="0 -960 960 960" aria-hidden="true"><path d="m249-207-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"/></svg></button></div></div>`;
       } else {
         html+=`<div class="of-row"><div class="of-role">${item.role}</div><button type="button" class="of-qn" data-qgo="${item.q}" title="Go to Q${item.q}">Q${item.q}</button>`
             +`<div class="of-val">${escapeHtml(v[f])}</div>`
-            +`<div class="of-meta">${badge}${failTag}<button class="of-edit" data-f="${f}" title="Edit">✎</button></div></div>`;
+            +`<div class="of-meta">${badge}${failTag}<button class="of-edit" data-f="${f}" title="Edit" aria-label="Edit"><svg viewBox="0 -960 960 960" aria-hidden="true"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T846-624L338-120H120Zm584-528-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/></svg></button></div></div>`;
       }
     }
     $("ofRows").innerHTML=html;
