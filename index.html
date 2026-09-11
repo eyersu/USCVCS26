@@ -119,13 +119,13 @@
   .controls{
     display:flex;flex-direction:column;gap:16px;align-items:stretch;
     background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);
-    padding:18px;border-radius:16px;margin:14px auto 34px;width:min(900px,95vw);
+    padding:18px;border-radius:16px;margin:14px auto 0;width:min(900px,95vw);
   }
   .deckintro{width:min(900px,95vw);margin:36px auto 0;display:flex;align-items:center;gap:14px}
   .deckintro-lbl{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:.62rem;letter-spacing:2.4px;text-transform:uppercase;font-weight:600;color:var(--soft-text);white-space:nowrap;flex:none}
   .deckintro-lbl .mi{width:15px;height:15px;fill:currentColor;flex:none}
   .deckintro::after{content:"";flex:1;height:1px;background:rgba(255,255,255,.14)}
-  .deckintro.aidsintro{margin:46px auto 14px}
+  .deckintro.aidsintro{margin:40px auto 14px}
   @media (max-width:520px){
     .deckintro{justify-content:center}
     .deckintro::after{display:none}
