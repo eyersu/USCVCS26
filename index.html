@@ -104,7 +104,8 @@
   #card:focus-visible{outline:3px solid var(--orange);outline-offset:6px}
   header{text-align:center;margin-bottom:30px}
   h1{font-family:var(--serif);font-weight:900;font-size:1.7rem;margin:0;letter-spacing:-.01em;transition:font-size .3s ease}
-  body.qs-open h1{transition:none}   /* during Quick Start, resize instantly so the spotlight lands on the settled layout */
+  body.qs-open h1{transition:none;position:relative;z-index:91}   /* during Quick Start, resize instantly so the spotlight lands on the settled layout; lift the headline above the veil (below the tip at 92) so it stays bright */
+  body.qs-open h1 .flag{color:#fff}   /* gold stars blend into the gold veil during the tour — whiten them so they stay visible */
   h1 .flag{color:var(--gold)}
   .sub{color:#9fb3c8;font-size:.85rem;margin-top:4px}
   @media (max-width:520px){
@@ -716,47 +717,22 @@
   .pgroup{font-family:var(--mono);font-size:.6rem;letter-spacing:1.6px;text-transform:uppercase;color:#b0a48d;font-weight:600;margin:16px 0 0;padding-top:12px;border-top:1px solid #ece3d2}
   .person > summary{list-style:none;cursor:pointer;padding:12px 2px}
   .person > summary::-webkit-details-marker{display:none}
-  .person > summary .srow{display:grid;grid-template-columns:232px 1fr auto;align-items:center;gap:6px 16px}
+  .person > summary .srow{display:grid;grid-template-columns:210px 1fr auto;align-items:baseline;gap:4px 16px}
   .person > summary .chev{display:none}
   .pname{align-self:center}
   .person .pq{font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:normal;color:#3c5a99;white-space:nowrap;justify-self:end}
-  .ptags{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
-  .prole,.ptag{display:inline-flex;align-items:center;font-family:var(--serif-body);font-size:.84rem;line-height:1;
-    color:#fff;padding:6px 13px 5px;border-radius:20px;border:1px solid transparent}
-  .ptag{background:var(--blue);border-color:var(--blue)}
+  .pid{font-family:var(--serif-body);font-size:.96rem;line-height:1.4;color:#6b6152;align-self:baseline}
+  .pid b{color:#3a4550;font-weight:600}
+  .pid .never{color:#a2564d;font-weight:600}
   @media (max-width:520px){
     .person > summary .srow{grid-template-columns:1fr;align-items:start;gap:8px 0}   /* phones: stack name / tags / Q# like the officeholders */
     .person .pq{justify-self:start;margin-top:2px;font-size:.84rem}
   }
 
-  /* collapsible sub-section (compare table) */
-  .subsec{margin-bottom:18px;border:1px solid #ece3d2;border-radius:12px;overflow:hidden;background:#fff}
-  .subsec > summary{list-style:none;cursor:pointer;padding:11px 14px}
-  .subsec > summary::-webkit-details-marker{display:none}
-  .subsec .srow2{display:flex;align-items:center;gap:8px}
-  .subsec .subt{font-family:var(--mono);font-size:.6rem;letter-spacing:1.4px;text-transform:uppercase;color:var(--orange);font-weight:600}
-  .subsec .subchev{margin-left:auto;color:#b8ab95;font-size:.74rem;transition:transform .18s}
-  .subsec[open] .subchev{transform:rotate(90deg)}
-  .subsec[open] > summary{border-bottom:1px solid #ece3d2}
-  .subsec .ptable-wrap{border:none;margin:0;border-radius:0}
 
   /* dates table Q# column */
   table.ptable td.qref2{font-family:var(--mono);font-size:.72rem;font-weight:700;color:#3c5a99;white-space:nowrap}
 
-  /* phones: stack the wide Compare table into cards (name / tags / detail). Dates & Amendments stay normal tables. */
-  @media (max-width:600px){
-    table.ptable-stack, table.ptable-stack tbody, table.ptable-stack tr, table.ptable-stack td{display:block;width:auto}
-    table.ptable-stack thead{display:none}
-    table.ptable-stack tr{padding:15px 15px;border-bottom:1px solid #ece3d2}
-    table.ptable-stack tr:last-child{border-bottom:none}
-    table.ptable-stack td{padding:0;border:none;white-space:normal}
-    table.ptable-stack td.nm{font-size:1.08rem;margin-bottom:9px;white-space:normal}
-    table.ptable-stack td.pnum, table.ptable-stack td.era{display:inline-block;font-size:.62rem;letter-spacing:.6px;
-      padding:4px 10px;border-radius:999px;background:#f0e9da;margin:0 7px 9px 0;vertical-align:middle}
-    table.ptable-stack td.pnum.no{display:none}   /* no "—" pill for non-presidents */
-    table.ptable-stack td.era{text-transform:uppercase}
-    table.ptable-stack td:not(.nm):not(.pnum):not(.era){color:#4a5560;font-size:.95rem;line-height:1.5}
-  }
 
   /* ---- Timeline (era cards on a track) ---- */
   .tlpanel{width:min(900px,95vw);margin:0 auto 12px;flex-shrink:0;background:var(--paper);color:#22303c;
@@ -796,15 +772,15 @@
   .ecard .tt{font-family:var(--serif);font-weight:600;font-size:1.05rem;line-height:1.18;margin:0 0 6px;color:#f4f8fc}
   .ecard .dd{font-family:var(--serif-body);font-size:.92rem;line-height:1.35;color:#b9c8d8}
   .pname{font-family:var(--serif);font-weight:600;font-size:1.2rem;color:#202e3a}
-  .prole{background:#b22234;border-color:#b22234;white-space:nowrap}
-  .prole.grey{background:#8a99a8}
   .chev{margin-left:auto;color:#b8ab95;font-size:.78rem;transition:transform .15s}
   .person[open] .chev{transform:rotate(90deg)}
-  .pdetail{padding:0 2px 14px 2px}
-  .pwho{font-family:var(--serif-body);font-size:1.04rem;line-height:1.5;color:#38424c;margin:0 0 12px}
-  .pfacts{font-family:var(--mono);font-size:.56rem;letter-spacing:1.4px;text-transform:uppercase;color:#a99c88;font-weight:600;margin-bottom:6px}
+  .pdetail{padding:2px 0 12px;margin:4px 0 2px;border-left:2px solid #d8b483}
+  .pdetail>*{padding-left:14px}
+  .pfacts{font-family:var(--mono);font-size:.56rem;letter-spacing:1.4px;text-transform:uppercase;color:#a99c88;font-weight:600;margin-bottom:8px}
+  .pfacts .qref{display:none}
+  .pfacts .pstar{color:var(--gold);margin-left:2px}
   .pdetail ul{margin:0;padding:0;list-style:none;font-family:var(--serif-body)}
-  .pdetail ul li{position:relative;padding:6px 0 6px 24px;font-size:1.04rem;line-height:1.35;border-bottom:1px solid #efe7d6;color:#28333d}
+  .pdetail ul li{position:relative;padding:5px 0 5px 24px;font-size:1.04rem;line-height:1.35;color:#28333d}
   .pdetail ul li:last-child{border-bottom:none}
   .pdetail ul li::before{content:"★";position:absolute;left:0;top:8px;color:var(--gold);font-size:.72rem}
   .qref{font-family:var(--mono);font-size:.68rem;font-weight:700;color:#3c5a99;letter-spacing:.5px}
@@ -877,15 +853,17 @@
   #missOverlay .miss-inner{flex:1 1 auto;display:flex;flex-direction:column;width:min(760px,100%);margin:0 auto;padding:calc(30px + env(safe-area-inset-top)) 24px calc(24px + env(safe-area-inset-bottom));min-height:0;box-sizing:border-box}
   #missOverlay .tmiss-head{flex:none;font-family:"Fraunces",Georgia,serif;font-weight:900;font-size:1.7rem;margin:0 0 20px;display:flex;align-items:center;gap:12px}
   #missOverlay .tmiss-count{font-family:"IBM Plex Mono",monospace;font-size:.82rem;font-weight:600;background:rgba(255,255,255,.18);border-radius:999px;padding:4px 12px}
-  #missOverlay .tmiss-list{flex:1 1 auto;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:16px;-webkit-overflow-scrolling:touch}
-  #missOverlay .tmiss{border-left:3px solid rgba(255,255,255,.45);padding-left:14px}
-  #missOverlay .tmiss-q{font-family:"Newsreader",Georgia,serif;font-size:1.08rem;line-height:1.38;margin-bottom:6px;color:#fff}
-  #missOverlay .tmiss-n{font-family:"IBM Plex Mono",monospace;font-size:.7rem;font-weight:600;opacity:.72;margin-right:9px}
-  #missOverlay .tmiss-a{font-family:"Newsreader",Georgia,serif;font-size:.98rem;line-height:1.45;color:rgba(255,255,255,.88)}
+  #missOverlay .tmiss-list{flex:1 1 auto;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:12px;-webkit-overflow-scrolling:touch}
+  #missOverlay .tmiss{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:14px 16px}
+  #missOverlay .tmiss-q{font-family:"Newsreader",Georgia,serif;font-size:1.14rem;font-weight:600;line-height:1.32;color:#fff;margin-bottom:9px}
+  #missOverlay .tmiss-n{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:.62rem;font-weight:600;letter-spacing:.5px;background:rgba(255,255,255,.15);color:#fff;border-radius:6px;padding:3px 7px;margin-right:9px;vertical-align:2px}
+  #missOverlay .tmiss-alabel{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:.56rem;letter-spacing:1.2px;text-transform:uppercase;font-weight:600;color:rgba(255,255,255,.5);margin-right:9px;vertical-align:1px}
+  #missOverlay .tmiss-a{font-family:"Newsreader",Georgia,serif;font-size:1rem;line-height:1.45;color:#edc789}
   #missOverlay .rcta{flex:none;display:flex;gap:12px;margin:20px 0 0;flex-wrap:wrap}
   #missOverlay .rcta button{font-family:inherit;font-weight:700;font-size:.98rem;padding:13px 24px;border-radius:12px;cursor:pointer;border:none}
   #missOverlay .rcta .solid{background:#fff;color:#182234}
   #missOverlay .rcta .rghost{background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.5);color:#fff}
+  #missOverlay .rcta button.marked{background:rgba(255,255,255,.22);color:#fff;cursor:default}
   /* celebration overlay — full card gradient, white star flickers, congratulatory copy */
   #testModal .exam-celeb{position:absolute;inset:0;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:44px;color:#fff;z-index:5;overflow:hidden;background:linear-gradient(135deg,#7a1f3d 0%,#3b2b63 52%,#1c3b6b 100%)}
   #testModal .exam-celeb .headline{font-family:var(--serif);font-weight:900;font-size:2.4rem;margin-bottom:14px;position:relative}
@@ -931,7 +909,7 @@
       <p class="set-seclbl">Location</p>
       <div class="set-row">
         <span class="set-ic"><svg viewBox="0 -960 960 960"><path d="M529.5-510.59q20.5-20.59 20.5-49.5t-20.59-49.41q-20.59-20.5-49.5-20.5t-49.41 20.59q-20.5 20.59-20.5 49.5t20.59 49.41q20.59 20.5 49.5 20.5t49.41-20.59ZM480-80Q319-217 239.5-334.5T160-552q0-150 96.5-239T480-880q127 0 223.5 89T800-552q0 100-79.5 217.5T480-80Z"/></svg></span>
-        <div class="set-rmain"><div class="set-rt">Location</div>
+        <div class="set-rmain"><div class="set-rt">State / ZIP / District</div>
           <div class="set-locwide">
             <div class="set-locsub" id="setLocSub"></div>
             <div class="set-locacts">
@@ -1170,32 +1148,7 @@
     <span class="pchev"><svg class="mi" viewBox="0 -960 960 960" aria-hidden="true"><path d="M530-481 332-679l43-43 241 241-241 241-43-43 198-198Z"/></svg></span>
   </div></summary>
   <div class="pbody">
-    <p class="intro">The history questions lean on a handful of people — and the exam loves to test whether you can tell them apart. Skim the table and the “don’t mix these up” list for the big distinctions, then tap each name and try to recall the facts before they appear.</p>
-
-    <details class="subsec">
-<summary><div class="srow2"><span class="subt">Compare table — presidents, eras &amp; roles</span><span class="subchev">▸</span></div></summary>
-<div class="ptable-wrap">
-      <table class="ptable ptable-stack">
-        <thead><tr><th>Person</th><th>President</th><th>Era</th><th>Signature</th></tr></thead>
-        <tbody>
-          <tr><td class="nm">George Washington</td><td class="pnum">1st</td><td class="era">Founding</td><td>Commander of the Continental Army; first president</td></tr>
-          <tr><td class="nm">Thomas Jefferson</td><td class="pnum">3rd</td><td class="era">Founding</td><td>Wrote the Declaration of Independence</td></tr>
-          <tr><td class="nm">James Madison</td><td class="pnum">4th</td><td class="era">Founding</td><td>“Father of the Constitution”</td></tr>
-          <tr><td class="nm">Alexander Hamilton</td><td class="pnum no">—</td><td class="era">Founding</td><td>First Secretary of the Treasury</td></tr>
-          <tr><td class="nm">Benjamin Franklin</td><td class="pnum no">—</td><td class="era">Founding</td><td>Diplomat, inventor, first Postmaster General</td></tr>
-          <tr><td class="nm">John Jay</td><td class="pnum no">—</td><td class="era">Founding</td><td>Federalist Papers author (“Publius”)</td></tr>
-          <tr><td class="nm">Abraham Lincoln</td><td class="pnum">16th</td><td class="era">1800s</td><td>Freed the slaves; saved the Union</td></tr>
-          <tr><td class="nm">Women’s-rights leaders</td><td class="pnum no">—</td><td class="era">1800s</td><td>Anthony, Stanton, Truth, Tubman, Mott, Stone</td></tr>
-          <tr><td class="nm">Franklin Roosevelt</td><td class="pnum">32nd</td><td class="era">1900s</td><td>President through the Depression &amp; WWII</td></tr>
-          <tr><td class="nm">Dwight Eisenhower</td><td class="pnum">34th</td><td class="era">1900s</td><td>WWII general; built the Interstate System</td></tr>
-          <tr><td class="nm">Martin Luther King, Jr.</td><td class="pnum no">—</td><td class="era">1900s</td><td>Led the civil rights movement</td></tr>
-        </tbody>
-      </table>
-    </div>
-</details>
-
-    <div class="mixups">
-      <div class="t">Don’t mix these up</div>
+    <p class="intro">The handful of people the exam asks about — grouped by era, each with the role and the fact that identifies them. Tap a name to reveal its full accepted answers; the “easily confused” pairs are gathered at the end.</p>
       <ul>
         <li><b>“Father of Our Country”</b> = Washington &nbsp;·&nbsp; <b>“Father of the Constitution”</b> = Madison</li>
         <li><b>Federalist Papers</b> = Madison, Hamilton &amp; Jay — pen name <b>“Publius”</b></li>
@@ -1210,97 +1163,96 @@
 
     <div class="pgroup">Colonial &amp; Independence</div>
     <details class="person">
-      <summary><div class="srow"><span class="pname">George Washington</span><span class="ptags"><span class="prole">1st President</span><span class="ptag">Father of Our Country</span></span><span class="chev">▸</span></div></summary>
+      <summary><div class="srow"><span class="pname">George Washington</span><span class="pid"><b>1st President</b> · “Father of Our Country,” Continental Army general</span><span class="chev">▸</span></div></summary>
       <div class="pdetail">
-        <p class="pwho">Led the Continental Army to victory, chaired the Constitutional Convention, then became the first president — the unifying figure of the founding.</p>
-        <div class="pfacts">Exam facts <span class="qref">· Q86 ★</span></div>
+        <div class="pfacts">Accepted answers<span class="pstar">★</span> <span class="qref">· Q86</span></div>
         <ul><li>“Father of Our Country”</li><li>First president of the United States</li><li>General of the Continental Army</li><li>President of the Constitutional Convention</li></ul>
       </div>
     </details>
     <details class="person">
-      <summary><div class="srow"><span class="pname">Thomas Jefferson</span><span class="ptags"><span class="prole">3rd President</span><span class="ptag">Wrote the Declaration of Independence</span></span><span class="chev">▸</span></div></summary>
+      <summary><div class="srow"><span class="pname">Thomas Jefferson</span><span class="pid"><b>3rd President</b> · Wrote the Declaration of Independence</span><span class="chev">▸</span></div></summary>
       <div class="pdetail">
-        <p class="pwho">Principal author of the Declaration of Independence; later the 3rd president who doubled the country’s size with the Louisiana Purchase.</p>
-        <div class="pfacts">Exam facts <span class="qref">· Q78, Q87 ★</span></div>
+        <div class="pfacts">Accepted answers<span class="pstar">★</span> <span class="qref">· Q78, Q87</span></div>
         <ul><li>Wrote the Declaration of Independence</li><li>Third president of the United States</li><li>Doubled the size of the U.S. (Louisiana Purchase)</li><li>First Secretary of State</li><li>Founded the University of Virginia</li></ul>
       </div>
     </details>
     <details class="person">
-      <summary><div class="srow"><span class="pname">James Madison</span><span class="ptags"><span class="prole">4th President</span><span class="ptag">Father of the Constitution</span></span><span class="chev">▸</span></div></summary>
+      <summary><div class="srow"><span class="pname">James Madison</span><span class="pid"><b>4th President</b> · “Father of the Constitution”</span><span class="chev">▸</span></div></summary>
       <div class="pdetail">
-        <p class="pwho">Chief architect of the Constitution and a Federalist Papers author; 4th president, in office during the War of 1812.</p>
-        <div class="pfacts">Exam facts <span class="qref">· Q83, Q88</span></div>
+        <div class="pfacts">Accepted answers <span class="qref">· Q83, Q88</span></div>
         <ul><li>“Father of the Constitution”</li><li>Fourth president of the United States</li><li>President during the War of 1812</li><li>One of the writers of the Federalist Papers</li></ul>
       </div>
     </details>
     <details class="person">
-      <summary><div class="srow"><span class="pname">Alexander Hamilton</span><span class="ptags"><span class="ptag">First Secretary of the Treasury</span></span><span class="chev">▸</span></div></summary>
+      <summary><div class="srow"><span class="pname">Alexander Hamilton</span><span class="pid">First Secretary of the Treasury · <span class="never">never president</span></span><span class="chev">▸</span></div></summary>
       <div class="pdetail">
-        <p class="pwho">First Treasury Secretary who built the young nation’s financial system; a Federalist Papers author and Washington’s wartime aide.</p>
-        <div class="pfacts">Exam facts <span class="qref">· Q83, Q89</span></div>
+        <div class="pfacts">Accepted answers <span class="qref">· Q83, Q89</span></div>
         <ul><li>First Secretary of the Treasury</li><li>One of the writers of the Federalist Papers</li><li>Helped establish the First Bank of the United States</li><li>Aide to General George Washington</li></ul>
       </div>
     </details>
     <details class="person">
-      <summary><div class="srow"><span class="pname">Benjamin Franklin</span><span class="ptags"><span class="ptag">U.S. diplomat</span></span><span class="chev">▸</span></div></summary>
+      <summary><div class="srow"><span class="pname">Benjamin Franklin</span><span class="pid">Diplomat, inventor, first Postmaster General · <span class="never">never president</span></span><span class="chev">▸</span></div></summary>
       <div class="pdetail">
-        <p class="pwho">Elder statesman of the founding — a diplomat who won French support, an inventor, and a civic innovator; he helped write the Declaration.</p>
-        <div class="pfacts">Exam facts <span class="qref">· Q85</span></div>
+        <div class="pfacts">Accepted answers <span class="qref">· Q85</span></div>
         <ul><li>Founded the first free public libraries</li><li>First Postmaster General of the United States</li><li>Helped write the Declaration of Independence</li><li>Inventor · U.S. diplomat</li></ul>
       </div>
     </details>
     <details class="person">
-      <summary><div class="srow"><span class="pname">John Jay</span><span class="ptags"><span class="ptag">One of the writers of the Federalist Papers</span></span><span class="chev">▸</span></div></summary>
+      <summary><div class="srow"><span class="pname">John Jay</span><span class="pid">Federalist Papers author (“Publius”) · <span class="never">never president</span></span><span class="chev">▸</span></div></summary>
       <div class="pdetail">
-        <p class="pwho">The third author of the Federalist Papers, alongside Madison and Hamilton, all writing under the shared pen name “Publius.”</p>
-        <div class="pfacts">Exam facts <span class="qref">· Q83</span></div>
+        <div class="pfacts">Accepted answers <span class="qref">· Q83</span></div>
         <ul><li>One of the writers of the Federalist Papers</li></ul>
       </div>
     </details>
 
     <div class="pgroup">The 1800s</div>
     <details class="person">
-      <summary><div class="srow"><span class="pname">Abraham Lincoln</span><span class="ptags"><span class="prole">16th President</span><span class="ptag">Freed the slaves</span></span><span class="chev">▸</span></div></summary>
+      <summary><div class="srow"><span class="pname">Abraham Lincoln</span><span class="pid"><b>16th President</b> · Freed the slaves, saved the Union</span><span class="chev">▸</span></div></summary>
       <div class="pdetail">
-        <p class="pwho">Led the Union through the Civil War and issued the Emancipation Proclamation freeing the slaves; delivered the Gettysburg Address.</p>
-        <div class="pfacts">Exam facts <span class="qref">· Q94 ★</span></div>
+        <div class="pfacts">Accepted answers<span class="pstar">★</span> <span class="qref">· Q94</span></div>
         <ul><li>Freed the slaves (Emancipation Proclamation)</li><li>Saved (preserved) the Union</li><li>Led the U.S. during the Civil War</li><li>16th president of the United States</li><li>Delivered the Gettysburg Address</li></ul>
       </div>
     </details>
     <details class="person">
-      <summary><div class="srow"><span class="pname">Women’s-rights leaders</span><span class="ptags"><span class="ptag">Harriet Tubman</span></span><span class="chev">▸</span></div></summary>
+      <summary><div class="srow"><span class="pname">Women’s-rights leaders</span><span class="pid">Led the women’s suffrage movement · <span class="never">name any one</span></span><span class="chev">▸</span></div></summary>
       <div class="pdetail">
-        <p class="pwho">Leaders of the 1800s women’s rights (suffrage) movement — the test asks you to name any one of them.</p>
-        <div class="pfacts">Exam facts <span class="qref">· Q99 — name one</span></div>
+        <div class="pfacts">Accepted answers <span class="qref">· Q99</span></div>
         <ul><li>Susan B. Anthony</li><li>Elizabeth Cady Stanton</li><li>Sojourner Truth</li><li>Harriet Tubman</li><li>Lucretia Mott</li><li>Lucy Stone</li></ul>
       </div>
     </details>
 
     <div class="pgroup">The 1900s</div>
     <details class="person">
-      <summary><div class="srow"><span class="pname">Franklin Roosevelt</span><span class="ptags"><span class="prole">32nd President</span><span class="ptag">President during the Great Depression and World War II</span></span><span class="chev">▸</span></div></summary>
+      <summary><div class="srow"><span class="pname">Franklin Roosevelt</span><span class="pid"><b>32nd President</b> · Led through the Depression &amp; WWII</span><span class="chev">▸</span></div></summary>
       <div class="pdetail">
-        <p class="pwho">President through the Great Depression and most of World War II — the only president elected four times.</p>
-        <div class="pfacts">Exam facts <span class="qref">· Q105</span></div>
+        <div class="pfacts">Accepted answers <span class="qref">· Q105</span></div>
         <ul><li>President during the Great Depression and World War II</li></ul>
       </div>
     </details>
     <details class="person">
-      <summary><div class="srow"><span class="pname">Dwight Eisenhower</span><span class="ptags"><span class="prole">34th President</span><span class="ptag">General during World War II</span></span><span class="chev">▸</span></div></summary>
+      <summary><div class="srow"><span class="pname">Dwight Eisenhower</span><span class="pid"><b>34th President</b> · WWII general; built the Interstate System</span><span class="chev">▸</span></div></summary>
       <div class="pdetail">
-        <p class="pwho">Supreme Allied commander in WWII; later the president who ended the Korean War and created the Interstate Highway System.</p>
-        <div class="pfacts">Exam facts <span class="qref">· Q107</span></div>
+        <div class="pfacts">Accepted answers <span class="qref">· Q107</span></div>
         <ul><li>General during World War II</li><li>President at the end of (during) the Korean War</li><li>34th president of the United States</li><li>Signed the Federal-Aid Highway Act of 1956 (Interstate System)</li></ul>
       </div>
     </details>
     <details class="person">
-      <summary><div class="srow"><span class="pname">Martin Luther King, Jr.</span><span class="ptags"><span class="ptag">Fought for civil rights</span></span><span class="chev">▸</span></div></summary>
+      <summary><div class="srow"><span class="pname">Martin Luther King, Jr.</span><span class="pid">Led the civil rights movement · <span class="never">never president</span></span><span class="chev">▸</span></div></summary>
       <div class="pdetail">
-        <p class="pwho">Leader of the civil rights movement who fought for racial equality and championed the “content of their character” ideal.</p>
-        <div class="pfacts">Exam facts <span class="qref">· Q113 ★</span></div>
+        <div class="pfacts">Accepted answers<span class="pstar">★</span> <span class="qref">· Q113</span></div>
         <ul><li>Fought for civil rights</li><li>Worked for equality for all Americans</li><li>Worked so people would “not be judged by the color of their skin, but by the content of their character”</li></ul>
       </div>
     </details>
+
+    <div class="mixups">
+      <div class="t">Easily confused</div>
+      <ul>
+        <li><b>“Father of Our Country”</b> = Washington &nbsp;·&nbsp; <b>“Father of the Constitution”</b> = Madison</li>
+        <li><b>Depression + WWII president</b> = F. Roosevelt &nbsp;·&nbsp; <b>WWII general + Interstate System</b> = Eisenhower</li>
+        <li><b>Federalist Papers</b> = Madison, Hamilton &amp; Jay — pen name <b>“Publius”</b></li>
+        <li><b>Never president:</b> Hamilton, Franklin, Jay, MLK, and the women’s-rights leaders</li>
+      </ul>
+    </div>
 
   </div>
 </details>
@@ -1644,11 +1596,14 @@
   #guideModal .g-searchtoggle .ic-x{display:none}
   #guideModal .g-searchtoggle svg{display:block}
   #guideModal .g-searchfield{display:none;align-items:center;gap:8px}
-  #guideModal .g-search.open{background:var(--orange);border:1px solid var(--orange);border-radius:999px;padding:4px 12px 4px 4px;box-shadow:0 6px 18px rgba(var(--accent-rgb),.4)}
+  #guideModal .g-search.open{height:38px;box-sizing:border-box;background:var(--orange);border:1px solid var(--orange);border-radius:999px;padding:0 12px 0 4px;box-shadow:0 6px 18px rgba(var(--accent-rgb),.4)}
   #guideModal .g-search.open .g-searchtoggle{width:30px;height:30px;background:none;border:none}
+  #guideModal .g-searchtoggle svg{width:20px;height:20px}
+  #guideModal .g-sarr svg{width:22px;height:22px}
+  #guideModal .g-sarr{padding:3px}
   @media (hover:hover){ #guideModal .g-search.open .g-searchtoggle:hover{background:rgba(255,255,255,.1)} }
-  #guideModal .g-search.open .g-searchtoggle .ic-s{display:none}
-  #guideModal .g-search.open .g-searchtoggle .ic-x{display:flex}
+  #guideModal .g-search.open .g-searchtoggle .ic-s{display:flex}
+  #guideModal .g-search.open .g-searchtoggle .ic-x{display:none}
   #guideModal .g-search.open .g-searchfield{display:flex}
   #guideModal .g-searchfield input{background:none;border:none;outline:none;color:#eaf1f8;font:inherit;font-size:.95rem;width:130px;padding:0}
   #guideModal .g-searchfield input::placeholder{color:#8ea0b2}
@@ -1710,7 +1665,10 @@
     #guideModal .g-close{top:calc(22px + env(safe-area-inset-top));right:16px;width:48px;height:48px;font-size:1.3rem}
     #guideModal .g-search{top:calc(22px + env(safe-area-inset-top));right:76px}
     #guideModal .g-searchtoggle{width:48px;height:48px}
-    #guideModal .g-search.open .g-searchtoggle{width:34px;height:34px}
+    #guideModal .g-search.open{height:48px}
+    #guideModal .g-search.open .g-searchtoggle{width:40px;height:40px}
+    #guideModal .g-searchtoggle svg{width:22px;height:22px}
+    #guideModal .g-sarr svg{width:24px;height:24px}
     #guideModal .g-searchfield input{width:min(42vw,150px);font-size:1rem}
     #guideModal .g-title{font-size:1.7rem;line-height:1.1;letter-spacing:-.4px}
     #guideModal .g-facts{gap:14px 22px;margin-top:20px}
@@ -2930,10 +2888,11 @@ const CARDS = [
     rv.className = "tresults " + (pass ? "pass" : "fail");
     const stars = pass ? [[12,16,.1],[82,14,.6],[66,34,1.0],[22,60,.4],[88,70,.9],[44,12,1.2],[9,78,.7],[56,84,.2],[34,36,1.1],[74,56,.5]]
       .map(s=>`<span class="ff" style="left:${s[0]}%;top:${s[1]}%;animation-delay:${s[2]}s"></span>`).join("") : "";
+    const hasMiss = test.log.some(e=>!e.ok);
     rv.innerHTML = stars +
       `<div class="rscore">${test.correct}<span class="sl">/</span>${TEST_TOTAL}</div>`+
       `<div class="rverdict">${pass ? "You&rsquo;ve passed!" : TEST_PASS+" needed to pass"}</div>`+
-      `<div class="rcta">${test.log.filter(e=>!e.ok).length?`<button class="rghost" id="tMisses">Review your misses</button>`:``}<button class="solid" id="tAgain">Take another exam</button><button class="rghost" id="tDone">Back to study</button></div>`;
+      `<div class="rcta">${hasMiss?`<button class="solid" id="tMisses">Review your misses</button>`:``}<button class="${hasMiss?'rghost':'solid'}" id="tAgain">Take another exam</button><button class="rghost" id="tDone">Back to study</button></div>`;
     rv.style.display="flex";
     rv.parentElement.style.minHeight = "440px";   // question view is hidden, so hold the card height
     if(pass) FX.fireworks();
@@ -2945,7 +2904,7 @@ const CARDS = [
   function showMisses(){
     const byN = {}; test.deck.forEach(c=>{ byN[c.n]=c; });
     const missed = test.log.filter(e=>!e.ok).map(e=> byN[e.n] || CARDS.find(c=>c.n===e.n)).filter(Boolean);
-    const items = missed.map(c=>`<div class="tmiss"><div class="tmiss-q"><span class="tmiss-n">Q${c.n}</span>${escapeHtml(c.q)}</div><div class="tmiss-a">${c.a.map(escapeHtml).join(" &middot; ")}</div></div>`).join("");
+    const items = missed.map(c=>`<div class="tmiss"><div class="tmiss-q"><span class="tmiss-n">Q${c.n}</span>${escapeHtml(c.q)}</div><div class="tmiss-a"><span class="tmiss-alabel">Answer${c.a.length>1?'s':''}</span>${c.a.map(escapeHtml).join(" &middot; ")}</div></div>`).join("");
     const wasOral = !!(test && test.oral);
     let ov = document.getElementById("missOverlay");
     if(!ov){
@@ -2958,11 +2917,10 @@ const CARDS = [
       `<div class="miss-inner">`+
         `<div class="tmiss-head">Review your misses <span class="tmiss-count">${missed.length}</span></div>`+
         `<div class="tmiss-list">${items}</div>`+
-        `<div class="rcta"><button class="solid" id="missAgain">Take another exam</button><button class="rghost" id="missBack">Back to results</button><button class="rghost" id="missDone">Back to study</button></div>`+
+        `<div class="rcta"><button class="solid" id="missMark">Mark all for review</button><button class="rghost" id="missDone">Back to study</button></div>`+
       `</div>`;
     ov.style.display = "flex"; ov.scrollTop = 0; try{ ov.focus(); }catch(e){}
-    $("missAgain").onclick = ()=>{ ov.style.display="none"; beginExam(wasOral); };
-    $("missBack").onclick = ()=>{ ov.style.display="none"; };
+    $("missMark").onclick = function(){ missed.forEach(c=>{ progress[c.n]="review"; }); save(); try{ buildDeck(true); }catch(e){} this.textContent="Marked "+missed.length+" for review ✓"; this.disabled=true; this.classList.add("marked"); };
     $("missDone").onclick = ()=>{ ov.style.display="none"; endTest(); };
   }
   function endTest(){
@@ -3233,7 +3191,7 @@ const CARDS = [
   function closeGuide(){ const m=$("guideModal"); if(!m) return; if(window.__gSearchClose) window.__gSearchClose(); m.classList.remove("open"); m.setAttribute("aria-hidden","true"); }
   (function(){ const b=$("guideBtn"), m=$("guideModal"); if(!b||!m) return;
     b.onclick=openGuide;
-    const c=m.querySelector(".g-close"); if(c) c.onclick=closeGuide;
+    const c=m.querySelector(".g-close"); if(c) c.onclick=function(){ if(window.__gSearchOpen && window.__gSearchOpen()){ window.__gSearchClose(); } else closeGuide(); };
     m.addEventListener("click", e=>{ if(e.target===m) closeGuide(); });
   })();
 
@@ -3767,7 +3725,7 @@ const CARDS = [
     }
     function openS(){ wrap.classList.add("open"); setTimeout(function(){ try{ input.focus(); }catch(e){} }, 30); }
     function closeS(){ wrap.classList.remove("open"); input.value=""; clearHi(); cnt.textContent=""; railCounts(true); }
-    btn.onclick=function(){ wrap.classList.contains("open") ? closeS() : openS(); };
+    btn.onclick=function(){ if(wrap.classList.contains("open")){ try{ input.focus(); }catch(e){} } else openS(); };
     input.addEventListener("input", run);
     input.addEventListener("keydown", function(e){
       if(e.key==="Enter"){ e.preventDefault(); if(marks.length) setCur(cur + (e.shiftKey?-1:1)); }
