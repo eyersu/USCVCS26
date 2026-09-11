@@ -467,10 +467,9 @@
   .navarrow.left{left:-78px}
   .navarrow.right{right:-78px}
   .cardctl{position:absolute;top:16px;right:16px;display:flex;gap:10px;z-index:6}
-  .cardctl .mutebtn{background-color:#d7dde4!important}
+  .cardctl .mutebtn{background:none!important;box-shadow:none!important}
   .cardctl .mutebtn[hidden]{display:none!important}
   .cardctl .mutebtn.on{background-color:rgba(var(--accent-rgb),.22)!important;color:var(--orange)!important}
-  @media (max-width:859px){ .cardctl .mutebtn{box-shadow:none} }
   @media (max-width:859px){ .cardctl .cReview, .cardctl .cKnown{display:none} }
   @media (min-width:860px){ .cardctl .mutebtn{margin-right:8px} }
   .cardctl button{width:46px;height:46px;border-radius:12px;border:none;cursor:pointer;font-size:1.25rem;
@@ -993,6 +992,7 @@
     <div class="set-sec">
       <p class="set-seclbl">About</p>
       <p class="set-about">128 official USCIS questions — test <b>M-1778</b> (09/25). An independent study tool, not affiliated with USCIS. Officeholders change with elections — verify at <b>uscis.gov</b> and <b>house.gov</b>. Progress is saved on this device only.</p>
+      <p style="margin-top:14px;font-family:var(--mono);font-size:.62rem;letter-spacing:.5px;color:#7d8ea1">© 2026 Ezgi Yersu. All rights reserved.</p>
     </div>
 
   </div>
@@ -1331,7 +1331,7 @@
 <div class="foot">
   <span class="kbdline">Keyboard: <kbd>←</kbd>/<kbd>→</kbd> navigate · <kbd>Space</kbd> flip · <kbd>K</kbd> known · <kbd>R</kbd> review · <kbd>S</kbd> shuffle. </span>
   Progress is saved in this browser only. Some answers (officials’ names) change with elections — verify current officeholders at uscis.gov/citizenship/testupdates.
-</div>
+<div class="copyline" style="margin-top:13px;font-family:var(--mono);font-size:.62rem;letter-spacing:.5px;color:#6b7e93">© 2026 Ezgi Yersu · Independent study tool, not affiliated with USCIS.</div></div>
 
 <div class="modal" id="testModal" aria-hidden="true">
   <div class="panel exam-panel">
@@ -1973,6 +1973,13 @@
               </div>
             </div>
             <div class="g-inst-row">
+              <span class="g-inst-ic"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M6 18c0 .55.45 1 1 1h1v3.5a1.5 1.5 0 0 0 3 0V19h2v3.5a1.5 1.5 0 0 0 3 0V19h1c.55 0 1-.45 1-1V8H6v10M3.5 8A1.5 1.5 0 0 0 2 9.5v7a1.5 1.5 0 0 0 3 0v-7A1.5 1.5 0 0 0 3.5 8m17 0A1.5 1.5 0 0 0 19 9.5v7a1.5 1.5 0 0 0 3 0v-7A1.5 1.5 0 0 0 20.5 8m-4.97-5.84 1.3-1.3a.5.5 0 0 0-.7-.7l-1.48 1.47A5.9 5.9 0 0 0 12 1c-.96 0-1.86.22-2.66.63L7.87.16a.5.5 0 1 0-.71.7l1.3 1.3A5.98 5.98 0 0 0 6 7h12a5.98 5.98 0 0 0-2.44-4.84M9.5 5.5a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5m5 0a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5"/></svg></span>
+              <div class="g-inst-txt">
+                <div class="g-inst-name"><b>Android</b> <span class="g-inst-br">· Chrome</span></div>
+                <div class="g-inst-d">Open the page in <b>Chrome</b>, tap the <b>⋮ menu</b>, then <b>Install app</b>, then <b>Install</b>. Edge, Brave, and Samsung Internet work the same way.</div>
+              </div>
+            </div>
+            <div class="g-inst-row">
               <span class="g-inst-ic"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4.5" width="18" height="12" rx="2"/><path d="M8.5 20.5h7M12 16.5v4"/></svg></span>
               <div class="g-inst-txt">
                 <div class="g-inst-name"><b>Mac</b> <span class="g-inst-br">· Safari</span></div>
@@ -1980,10 +1987,10 @@
               </div>
             </div>
             <div class="g-inst-row">
-              <span class="g-inst-ic"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M6 18c0 .55.45 1 1 1h1v3.5a1.5 1.5 0 0 0 3 0V19h2v3.5a1.5 1.5 0 0 0 3 0V19h1c.55 0 1-.45 1-1V8H6v10M3.5 8A1.5 1.5 0 0 0 2 9.5v7a1.5 1.5 0 0 0 3 0v-7A1.5 1.5 0 0 0 3.5 8m17 0A1.5 1.5 0 0 0 19 9.5v7a1.5 1.5 0 0 0 3 0v-7A1.5 1.5 0 0 0 20.5 8m-4.97-5.84 1.3-1.3a.5.5 0 0 0-.7-.7l-1.48 1.47A5.9 5.9 0 0 0 12 1c-.96 0-1.86.22-2.66.63L7.87.16a.5.5 0 1 0-.71.7l1.3 1.3A5.98 5.98 0 0 0 6 7h12a5.98 5.98 0 0 0-2.44-4.84M9.5 5.5a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5m5 0a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5"/></svg></span>
+              <span class="g-inst-ic"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M0 3.449 9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-13.051-1.351"/></svg></span>
               <div class="g-inst-txt">
-                <div class="g-inst-name"><b>Android</b> <span class="g-inst-br">· Chrome</span></div>
-                <div class="g-inst-d">Open the page in <b>Chrome</b>, tap the <b>⋮ menu</b>, then <b>Install app</b>, then <b>Install</b>. Edge, Brave, and Samsung Internet work the same way.</div>
+                <div class="g-inst-name"><b>Windows</b> <span class="g-inst-br">· Chrome or Edge</span></div>
+                <div class="g-inst-d">Open the page in <b>Chrome</b> or <b>Edge</b>, then click the <b>install icon</b> in the address bar — or the browser <b>menu → Install</b> (in Edge, <b>Apps → Install this site as an app</b>). It opens in its own window and pins to the taskbar or Start.</div>
               </div>
             </div>
           </div>
@@ -2003,7 +2010,7 @@
         </div>
       </section>
 
-      <div class="g-gfoot"><p>Based on the USCIS 2025 civics test, M-1778 (09/25). An independent study tool, not affiliated with USCIS. Confirm current details at <a href="https://www.uscis.gov/citizenship/testupdates" target="_blank" rel="noopener">uscis.gov/citizenship/testupdates</a>.</p><p style="margin-top:10px">Oral-exam &amp; voice-card audio is <a href="https://github.com/rhasspy/piper" target="_blank" rel="noopener">Piper</a> neural TTS — questions in LJSpeech, answers in Joe, both public domain / CC0.</p></div>
+      <div class="g-gfoot"><p>Based on the USCIS 2025 civics test, M-1778 (09/25). An independent study tool, not affiliated with USCIS. Confirm current details at <a href="https://www.uscis.gov/citizenship/testupdates" target="_blank" rel="noopener">uscis.gov/citizenship/testupdates</a>.</p><p style="margin-top:10px">Oral-exam &amp; voice-card audio is <a href="https://github.com/rhasspy/piper" target="_blank" rel="noopener">Piper</a> neural TTS — questions in LJSpeech, answers in Joe, both public domain / CC0.</p><p style="margin-top:10px">© 2026 Ezgi Yersu. All rights reserved.</p></div>
       </div></div>
 
     </div>
