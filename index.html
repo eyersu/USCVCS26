@@ -1903,7 +1903,7 @@
             <div class="g-rr"><div class="c"><span class="g-chip">Appearance</span></div><div class="d"><b>Theme color</b> switches the accent color, and <b>Flashcard text size</b> sets how large the card type reads.</div></div>
             <div class="g-rr"><div class="c"><span class="g-chip">Voice cards</span></div><div class="d"><b>Auto-play questions</b> (on by default) reads each question aloud when its card appears; turn on <b>Auto-play answers</b> to also hear the answer side when you flip. <b>Speech speed</b> sets how fast the voice reads.</div></div>
             <div class="g-rr"><div class="c"><span class="g-chip">Location</span></div><div class="d">Set or reset your state, ZIP, and district — the same panel as the header pill (see Localize).</div></div>
-            <div class="g-rr"><div class="c"><span class="g-chip">Reduce motion</span></div><div class="d">Calms animations if you prefer less movement on screen.</div></div>
+            <div class="g-rr"><div class="c"><span class="g-chip">Reduce motion</span></div><div class="d">Turns off animations if you prefer less movement on screen.</div></div>
           </div>
           <div class="g-note"><p class="l">Reset — each has an (i) that spells out exactly what it clears</p>
             <p><b>Reset Review/Known</b> clears your marks and returns the full 128 in order. <b>Reset all answer picks</b> restores every question’s complete answer list. <b>Reset location</b> clears your state and blanks the localized answers. <b>Reset App — start fresh</b> wipes everything back to a brand-new install — marks, picks, location, settings, and your place in the deck — and asks you to confirm first.</p></div>
@@ -2467,12 +2467,19 @@ const CARDS = [
     const card=$("card");
     const bfc=card.querySelector(".face.back .fc");
     if(!bfc) return;
+    // measure the back's NATURAL height, unconstrained by any height we set on a previous pass
+    // (otherwise growing text can't push the card taller — the old height clamps the measurement)
+    const prevTrans=card.style.transition;
+    card.style.transition="none";
+    card.style.height="auto";
     let bH=bfc.offsetHeight;
     // the caution + localized line are absolutely pinned to the bottom — ensure the card can't overlap content
     const bg=$("bBottom");
     if(bg && bg.offsetHeight>0){ bH = Math.max(bH, (bfc.offsetHeight - 74) + bg.offsetHeight + 28); }
     // front is always the fixed default height (no per-card shift); the back grows past it only when needed
     card.style.height=(flipped ? Math.max(DEFAULT_H, bH) : DEFAULT_H)+"px";
+    void card.offsetWidth;
+    card.style.transition=prevTrans;
   }
   function renderNoAnim(){
     const card=$("card");
@@ -3745,7 +3752,8 @@ const CARDS = [
     if(window.visualViewport) visualViewport.addEventListener("resize", upd, {passive:true});
     upd();
   })();
-  const recomputeH=()=>requestAnimationFrame(()=>{ computeDefaultH(); if(!flipped) renderNoAnim(); });
+  const recomputeH=()=>requestAnimationFrame(()=>{ computeDefaultH(); if(flipped) sizeCard(); else renderNoAnim(); });
+  try{ window.__recomputeCardH = recomputeH; }catch(e){}   // let the text-size control (separate scope) re-fit the card
   // settle layout (fonts + card height), then auto-run the Quick Start once on first visit
   const afterLayout=()=>{ recomputeH(); if(!qsDone()) requestAnimationFrame(()=>requestAnimationFrame(qsStart)); };
   if(document.fonts && document.fonts.ready){ document.fonts.ready.then(afterLayout); } else afterLayout();
@@ -3825,7 +3833,7 @@ const CARDS = [
   var TS_LS="civics2025.textsize.v1", tseg=document.getElementById("textSizeSeg");
   function curSize(){ try{ return localStorage.getItem(TS_LS)||"md"; }catch(e){ return "md"; } }
   function renderSize(){ if(!tseg) return; var s=curSize(); tseg.querySelectorAll("[data-size]").forEach(function(b){ b.classList.toggle("act",b.dataset.size===s); }); }
-  function applySize(s){ if(s==="md") document.documentElement.removeAttribute("data-text"); else document.documentElement.setAttribute("data-text",s); try{ localStorage.setItem(TS_LS,s); }catch(e){} renderSize(); }
+  function applySize(s){ if(s==="md") document.documentElement.removeAttribute("data-text"); else document.documentElement.setAttribute("data-text",s); try{ localStorage.setItem(TS_LS,s); }catch(e){} renderSize(); try{ if(window.__recomputeCardH) window.__recomputeCardH(); }catch(e){} }
   if(tseg){ tseg.addEventListener("click",function(e){ var b=e.target.closest("[data-size]"); if(!b) return; applySize(b.dataset.size); }); renderSize(); }
 })();
 </script>
