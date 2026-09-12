@@ -1061,43 +1061,58 @@
 </aside>
 
 <style>
-  .install-modal{position:fixed;inset:0;z-index:10060;display:none;align-items:flex-end;justify-content:center}
+  .install-modal{position:fixed;inset:0;z-index:10060;display:none;align-items:center;justify-content:center}
   .install-modal.open{display:flex}
   .install-scrim{position:absolute;inset:0;background:rgba(6,10,18,.62)}
-  .install-panel{position:relative;width:min(440px,94vw);margin:0 0 14px;background:linear-gradient(160deg,#352d5a,#111527);color:#eef2f8;border-radius:18px;box-shadow:0 24px 60px rgba(0,0,0,.55);padding:20px 18px 16px;animation:insUp .28s cubic-bezier(.2,.7,.2,1)}
+  .install-panel{position:relative;width:480px;max-width:94vw;background:linear-gradient(160deg,#352d5a,#111527);color:#eef2f8;border-radius:18px;box-shadow:0 26px 64px rgba(0,0,0,.55);padding:26px 26px 20px;animation:insUp .28s cubic-bezier(.2,.7,.2,1)}
   @keyframes insUp{from{transform:translateY(26px);opacity:.35}to{transform:none;opacity:1}}
-  @media(min-width:560px){.install-modal{align-items:center}.install-panel{margin:0}}
   body.anim-off .install-panel{animation:none}
-  .install-x{position:absolute;top:11px;right:12px;width:28px;height:28px;border:none;background:none;color:rgba(255,255,255,.55);font-size:1.05rem;cursor:pointer;line-height:1}
-  .install-head{display:flex;gap:12px;align-items:flex-start}
-  .install-icon{flex:none;width:46px;height:46px;border-radius:12px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,.35)}
+  .install-x{position:absolute;top:16px;right:16px;width:30px;height:30px;border:none;background:none;color:rgba(255,255,255,.5);font-size:1.15rem;cursor:pointer;line-height:1}
+  .install-top{display:flex;gap:20px;align-items:flex-start}
+  .install-icon{flex:none;width:76px;height:76px;border-radius:18px;overflow:hidden;box-shadow:0 6px 16px rgba(0,0,0,.4)}
   .install-icon img{width:100%;height:100%;display:block}
-  .install-tt{font-family:var(--serif);font-weight:600;font-size:1.18rem;line-height:1.2;color:#fff;margin:2px 28px 3px 0}
-  .install-sub{font-size:.93rem;line-height:1.45;color:rgba(255,255,255,.82)}
-  .install-drow{display:flex;align-items:center;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.13)}
-  .install-later{background:none;border:none;color:rgba(255,255,255,.8);font-family:var(--serif-body);font-weight:600;font-size:.95rem;cursor:pointer;padding:6px 4px}
-  .install-have{margin-left:auto;background:none;border:none;color:rgba(255,255,255,.55);font-family:var(--mono);font-size:.58rem;letter-spacing:.6px;text-transform:uppercase;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
-  /* shared install body — used in the card and in the Settings › Install expander (both on dark) */
-  .ins-go{width:100%;display:flex;align-items:center;justify-content:center;gap:9px;background:var(--orange);color:#fff;border:none;border-radius:11px;padding:13px;font-family:var(--serif-body);font-size:1rem;font-weight:700;cursor:pointer;margin-top:14px}
+  .install-txt{flex:1;min-width:0}
+  .install-tt{font-family:var(--serif);font-weight:600;font-size:1.4rem;line-height:1.15;color:#fff;margin:2px 24px 6px 0}
+  .install-sub{font-size:.95rem;line-height:1.45;color:rgba(255,255,255,.82)}
+  .install-body{margin-top:16px}
+  .install-drow{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:18px;padding-top:14px;border-top:1px solid rgba(255,255,255,.14)}
+  .install-later{background:none;border:none;color:#fff;font-family:var(--serif);font-weight:600;font-size:1.02rem;cursor:pointer;padding:8px 14px}
+  .install-have{background:none;border:none;color:rgba(255,255,255,.6);font-family:var(--mono);font-size:.62rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;text-decoration:underline;text-underline-offset:3px;padding:8px 10px}
+  /* shared install body — card + Settings › Install expander (both dark) */
+  .ins-go{width:100%;display:flex;align-items:center;justify-content:center;gap:9px;background:var(--orange);color:#fff;border:none;border-radius:11px;padding:13px;font-family:var(--serif-body);font-size:1rem;font-weight:700;cursor:pointer}
   .ins-go svg{width:20px;height:20px;fill:#fff}
-  .ins-hint{font-size:.8rem;color:rgba(255,255,255,.62);margin-top:8px;text-align:center}
-  .ins-steps{list-style:none;margin:14px 0 0;padding:0;counter-reset:s}
-  .ins-steps li{counter-increment:s;position:relative;padding:7px 0 7px 34px;font-size:.96rem;line-height:1.45;color:#dbe6f1}
-  .ins-steps li::before{content:counter(s);position:absolute;left:0;top:6px;width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.16);color:#fff;font-family:var(--mono);font-size:.72rem;font-weight:700;display:flex;align-items:center;justify-content:center}
+  .ins-steps{list-style:none;margin:0;padding:0}
+  .ins-steps li{display:flex;gap:12px;align-items:flex-start;padding:7px 0}
+  .ins-steps .inum{flex:none;line-height:0;margin-top:1px}
+  .ins-steps .inum svg{width:23px;height:23px;fill:#c4cde0;display:block}
+  .ins-steps .itext{font-size:.97rem;line-height:1.4;color:#dbe6f1}
   .ins-steps b{color:#fff}
   .ins-chip{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:7px;background:rgba(255,255,255,.16);vertical-align:middle;position:relative;top:-1px;margin:0 3px}
   .ins-chip svg{width:17px;height:17px;fill:#eaf1f8}
   .ins-chip.share svg{fill:#8fbaf0}
   .ins-chip.stroke svg{fill:none;stroke:#eaf1f8;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
-  #installExpl:not([hidden]){margin-top:10px}
-  #installExpl .ins-steps{margin-top:2px}
+  #installExpl{margin-top:4px}
+  /* MOBILE: full-screen, content vertically centred, orange top-right X */
+  @media(max-width:559px){
+    .install-modal{align-items:stretch;justify-content:stretch}
+    .install-panel{width:100%;max-width:100%;height:100%;border-radius:0;box-shadow:none;padding:calc(env(safe-area-inset-top) + 44px) 26px calc(env(safe-area-inset-bottom) + 26px);display:flex;flex-direction:column;justify-content:center;text-align:center}
+    .install-x{top:calc(env(safe-area-inset-top) + 16px);right:18px;width:38px;height:38px;border-radius:50%;background:var(--orange);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.05rem;box-shadow:0 4px 12px rgba(226,98,12,.4)}
+    .install-top{flex-direction:column;align-items:center;gap:0}
+    .install-icon{width:80px;height:80px;border-radius:20px;margin-bottom:28px}
+    .install-txt{width:100%}
+    .install-tt{font-size:1.6rem;margin:0 0 12px;text-wrap:balance}
+    .install-sub{font-size:1.02rem;max-width:34ch;margin:0 auto}
+    .install-body{margin-top:30px;max-width:340px;margin-left:auto;margin-right:auto;text-align:left}
+    .ins-steps .itext{font-size:1.02rem}
+    .ins-steps .inum svg{width:25px;height:25px}
+    .install-drow{margin-top:24px}
+  }
 </style>
 <div class="install-modal" id="installCard" role="dialog" aria-modal="true" aria-label="Install this app" aria-hidden="true">
   <div class="install-scrim" id="installScrim"></div>
   <div class="install-panel">
     <button class="install-x" id="installX" type="button" aria-label="Close">✕</button>
-    <div class="install-head"><span class="install-icon"><img alt="app icon" src="icon-192.png"></span><div><div class="install-tt">Study without distractions</div><div class="install-sub" id="installSub"></div></div></div>
-    <div class="install-body" id="installBody"></div>
+    <div class="install-top"><span class="install-icon"><img alt="app icon" src="icon-192.png"></span><div class="install-txt"><div class="install-tt">Study without distractions</div><div class="install-sub" id="installSub"></div><div class="install-body" id="installBody"></div></div></div>
     <div class="install-drow"><button class="install-later" id="installLater" type="button">Not now</button><button class="install-have" id="installHave" type="button">I have it</button></div>
   </div>
 </div>
@@ -1651,7 +1666,12 @@
     #topbar > #installBtn{border-right:1px solid rgba(255,255,255,.13);flex:0 0 auto;padding:13px 18px}
     #topbar #installBtn .set-lb{display:none}
     #topbar #installBtn .set-ic{background:transparent;color:#a3b3c6;width:auto;height:auto;border-radius:0}
-    #topbar #installBtn .set-ic svg{width:21px;height:21px;fill:currentColor}
+    #topbar #installBtn .set-ic svg{width:23px;height:23px;fill:currentColor}
+    /* order so the tour spotlight flows right-to-left: Quick Start · Install · Settings · How to use */
+    #topbar > #quickstartBtn{order:1}
+    #topbar > #installBtn{order:2}
+    #topbar > #settingsBtn{order:3}
+    #topbar > #guideBtn{order:4}
     #topbar > button:hover,#topbar > button:active{background:rgba(255,255,255,.05);color:#eaf1f8}
     /* show both labels; neutralise the orange "?" circle so it reads as plain "? HOW TO USE" */
     #topbar #guideBtn .glabel{display:inline}
@@ -3719,9 +3739,9 @@ const CARDS = [
     {sel:"#card",        title:"Flip through the questions",   body:"Every card is one exam question. Press SPACE BAR or click the card to flip and reveal all the accepted answers.", mbody:"Every card is one exam question. TAP the card to flip and reveal all acceptable answers.", place:"right", mplace:"top", rad:16},
     {sel:"#reviewIcon, #knownIcon", title:"Track what you know",          body:"Mark each card KNOWN or flag it for REVIEW as you go. Your progress saves on this device automatically.", place:"bottom", msel:".nav .review, .nav .know", rad:14},
     {sel:".examrow",     title:"Test yourself",                body:"When you're ready, take a 20-question practice exam — ORAL or WRITTEN. Get 12 right to pass, just like the interview.", place:"top", rad:13},
+    {sel:"#guideBtn",    title:"Everything's in the guide",    body:"Learn more about every function of this guide whenever you like. It's right here for the full walkthrough, anytime.", place:"bottom", top:true},
     {sel:"#settingsBtn", title:"Make it yours",                body:"Adjust the theme color, text size, and voice speed here. It's also where you reset your progress.", place:"bottom", top:true},
-    {sel:"#installBtn",  title:"Install it like an app",       body:"Add it to your device for quick, offline, distraction-free study — it opens like an app, with no browser bar. Tap here whenever you're ready.", place:"bottom", top:true},
-    {sel:"#guideBtn",    title:"Everything's in the guide",    body:"Learn more about every function of this guide whenever you like. It's right here for the full walkthrough, anytime.", place:"bottom", last:true}
+    {sel:"#installBtn",  title:"Install it like an app",       body:"Add it to your device for quick, offline, distraction-free study — it opens like an app, with no browser bar. Tap here whenever you're ready.", place:"bottom", top:true, last:true}
   ];
   let qsI = 0;
   function qsDone(){ try{ return localStorage.getItem(QUICKSTART_LS)==="1"; }catch(e){ return false; } }
@@ -4039,16 +4059,18 @@ const CARDS = [
   var DL='<svg viewBox="0 -960 960 960"><path d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z"/></svg>';
   var CHROME='<svg viewBox="0 0 24 24"><rect x="2.5" y="4" width="19" height="13" rx="2"/><path d="M8 20.5h8"/><path d="M12 17v3.5"/><path d="M12 6.8v4.7"/><path d="M9.7 9.3 12 11.6l2.3-2.3"/></svg>';
   var DOCK='<svg viewBox="0 0 24 24"><path d="M12 3v9"/><path d="M8.4 8.4 12 12l3.6-3.6"/><path d="M4 14v3.5A2.5 2.5 0 0 0 6.5 20h11a2.5 2.5 0 0 0 2.5-2.5V14"/></svg>';
+  var CN=["","<svg viewBox=\"0 -960 960 960\"><path d=\"M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm-20-200h80v-400H380v80h80v320Z\"/></svg>","<svg viewBox=\"0 -960 960 960\"><path d=\"M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80ZM360-280h240v-80H440v-80h80q33 0 56.5-23.5T600-520v-80q0-33-23.5-56.5T520-680H360v80h160v80h-80q-33 0-56.5 23.5T360-440v160Z\"/></svg>","<svg viewBox=\"0 -960 960 960\"><path d=\"M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80ZM360-280h160q33 0 56.5-23.5T600-360v-60q0-26-17-43t-43-17q26 0 43-17t17-43v-60q0-33-23.5-56.5T520-680H360v80h160v80h-80v80h80v80H360v80Z\"/></svg>"];
   function chip(cls,svg){ return '<span class="ins-chip '+cls+'">'+svg+'</span>'; }
+  function step(n,txt){ return '<li><span class="inum">'+CN[n]+'</span><span class="itext">'+txt+'</span></li>'; }
   function place(){ if(deferred) return "device"; if(isIOS) return "Home Screen"; if(isMacSafari) return "Dock"; return "device"; }
   function iosLoc(){ if(/crios|edgios|fxios/i.test(ua)) return "at the top, by the address bar"; var ipad=/ipad/i.test(ua)||(navigator.maxTouchPoints>1 && /macintosh/i.test(ua)); return ipad?"at the top":"in the bottom bar"; }
   function bodyHTML(){
     if(deferred) return '<button class="ins-go" data-install type="button">'+DL+'Install app</button>';
-    if(isIOS) return '<ol class="ins-steps"><li>Tap the <b>Share</b> icon '+chip('share',SHARE)+' '+iosLoc()+'.</li><li>Choose <b>Add to Home Screen</b> '+chip('',PLUS)+'.</li><li>Tap <b>Add</b>.</li></ol>';
-    if(isMacSafari) return '<ol class="ins-steps"><li>Open the <b>File</b> menu in the top bar.</li><li>Choose <b>Add to Dock…</b> '+chip('stroke',DOCK)+'</li><li>Click <b>Add</b>.</li></ol>';
-    return '<ol class="ins-steps"><li>Open your browser&rsquo;s <b>menu</b>.</li><li>Look for <b>Install</b> or <b>Add to Home screen</b>.</li></ol>';
+    if(isIOS) return '<ol class="ins-steps">'+step(1,'Tap the <b>Share</b> icon '+chip('share',SHARE)+' '+iosLoc()+'.')+step(2,'Choose <b>Add to Home Screen</b> '+chip('',PLUS)+'.')+step(3,'Tap <b>Add</b>.')+'</ol>';
+    if(isMacSafari) return '<ol class="ins-steps">'+step(1,'Open the <b>File</b> menu in the top bar.')+step(2,'Choose <b>Add to Dock…</b> '+chip('stroke',DOCK))+step(3,'Click <b>Add</b>.')+'</ol>';
+    return '<ol class="ins-steps">'+step(1,'Open your browser&rsquo;s <b>menu</b>.')+step(2,'Look for <b>Install</b> or <b>Add to Home screen</b>.')+'</ol>';
   }
-  function subText(){ return 'Add it to your '+place()+' like an app for quick access and the best experience—full-screen, works offline, quick to open.'; }
+  function subText(){ return 'Add it to your '+place()+' like an app for quick access and the best experience—full-screen, works offline, keeps your progress.'; }
   function refresh(){
     var cb=$("installBody"); if(cb) cb.innerHTML=bodyHTML();
     var eb=$("installExpl"); if(eb) eb.innerHTML=bodyHTML();
