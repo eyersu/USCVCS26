@@ -638,6 +638,18 @@
   /* ---- Test modal ---- */
   .modal{position:fixed;inset:0;z-index:9000;display:none;background:rgba(6,14,24,.82);padding:24px 16px;overflow:auto}
   .modal.open{display:flex;align-items:flex-start;justify-content:center}
+  /* custom confirm dialog (replaces native confirm() — padded, smaller type, on-brand, theme-aware) */
+  .cfm{z-index:10080;padding:16px}
+  .cfm.open{align-items:center}
+  .cfm-card{width:340px;max-width:88vw;background:var(--paper);color:var(--navy);border-radius:18px;padding:24px 22px 18px;box-shadow:0 24px 64px rgba(0,0,0,.5);animation:cfmpop .16s ease-out}
+  @keyframes cfmpop{from{opacity:0;transform:translateY(8px) scale(.97)}to{opacity:1;transform:none}}
+  .cfm-title{font-family:var(--serif);font-weight:600;font-size:1.12rem;line-height:1.28;letter-spacing:-.01em}
+  .cfm-body{font-family:var(--serif-body);font-size:.9rem;line-height:1.5;color:#4c5661;margin-top:9px}
+  .cfm-title[hidden]+.cfm-body{margin-top:0}
+  .cfm-row{display:flex;gap:10px;margin-top:22px}
+  .cfm-btn{flex:1;font-family:var(--serif-body);font-size:.92rem;font-weight:700;padding:11px 12px;border-radius:11px;cursor:pointer;border:none;line-height:1}
+  .cfm-cancel{background:rgba(13,27,42,.08);color:var(--navy)}
+  .cfm-ok{background:var(--orange);color:#fff}
   .panel{width:min(680px,94vw);margin:auto;background:var(--paper);color:#22303c;border-radius:16px;
     box-shadow:0 24px 70px rgba(0,0,0,.5);border-top:6px solid var(--orange);padding:24px 26px 26px}
   .thead{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
@@ -1093,6 +1105,11 @@
   .ins-chip svg{width:17px;height:17px;fill:#eaf1f8}
   .ins-chip.share svg{fill:#8fbaf0}
   .ins-chip.stroke svg{fill:none;stroke:#eaf1f8;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+  .ins-installed{display:flex;gap:12px;align-items:flex-start;padding:2px 0}
+  .ins-installed .iic{flex:none;line-height:0;margin-top:1px}
+  .ins-installed .iic svg{width:24px;height:24px;fill:var(--gold);display:block}
+  .ins-installed .itxt{font-size:.97rem;line-height:1.45;color:#dbe6f1}
+  .ins-installed b{color:#fff}
   #installExpl{margin-top:4px}
   /* MOBILE: full-screen, content vertically centred, orange top-right X */
   @media(max-width:559px){
@@ -1576,6 +1593,9 @@
   #installBtn .set-ic{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--orange);color:#fff;flex:none}
   #installBtn .set-ic svg{width:15px;height:15px;fill:#fff;display:block}
   @media (hover:hover){ #installBtn:hover{background:var(--orange);color:#fff} #installBtn:hover .set-ic{background:rgba(255,255,255,.24)} }
+  /* already installed in this (Chromium) browser: muted "Installed" status, not an install CTA */
+  #installBtn.installed .set-ic{background:#2f7d5b}
+  @media (hover:hover){ #installBtn.installed:hover{background:#faf6ee;color:#0d1b2a} #installBtn.installed:hover .set-ic{background:#2f7d5b} }
   @media (max-width:768px){ #installBtn{top:164px;padding:11px 13px;gap:0} #installBtn .set-lb{display:none} #installBtn .set-ic{width:27px;height:27px} }
   @media (min-width:769px){
     #installBtn{width:140px;height:40px;box-sizing:border-box;padding:0 14px 0 6px;justify-content:flex-start;gap:11px;border-radius:999px 0 0 999px;top:204px}
@@ -3144,22 +3164,24 @@ const CARDS = [
   }
   $("orderToggle").onclick = ()=>{ shuffled=!shuffled; updateOrderUI(); buildDeck(false); };
   $("resetBtn").onclick = ()=>{
-    if(!confirm("Clear all Review/Known marks?")) return;
-    progress = {};
-    save();
-    pile = ""; starOnly = false; shuffled = false; cat = "all";
-    catSel.value = "all";
-    $("starBtn").classList.remove("active");
-    $("reviewOnlyBtn").classList.remove("active");
-    $("knownPileBtn").classList.remove("active");
-    $("unassignedBtn").classList.remove("active");
-    updateOrderUI();
-    idx = 0;
-    buildDeck(false);
+    askConfirm({title:"Clear all Review/Known marks?"}).then((ok)=>{ if(!ok) return;
+      progress = {};
+      save();
+      pile = ""; starOnly = false; shuffled = false; cat = "all";
+      catSel.value = "all";
+      $("starBtn").classList.remove("active");
+      $("reviewOnlyBtn").classList.remove("active");
+      $("knownPileBtn").classList.remove("active");
+      $("unassignedBtn").classList.remove("active");
+      updateOrderUI();
+      idx = 0;
+      buildDeck(false);
+    });
   };
   $("resetPicksBtn").onclick = ()=>{
-    if(!confirm("Clear all your saved answer picks?")) return;
-    picks = {}; savePicks(); showAllFor = null; renderNoAnim();
+    askConfirm({title:"Clear all your saved answer picks?"}).then((ok)=>{ if(!ok) return;
+      picks = {}; savePicks(); showAllFor = null; renderNoAnim();
+    });
   };
   // Location in Settings + reset explanations + Reset App
   (function(){
@@ -3496,9 +3518,10 @@ const CARDS = [
     var rr=document.getElementById("setLocResetRow"); if(rr) rr.hidden = !set;
   }
   function resetApp(){
-    if(!confirm("Reset the app to a fresh install?\n\nThis erases everything \u2014 Review/Known marks, answer picks, location, all settings, and your place in the deck. This can't be undone.")) return;
-    try{ var rm=[]; for(var i=0;i<localStorage.length;i++){ var k=localStorage.key(i); if(k && k.indexOf("civics2025.")===0) rm.push(k); } for(var j=0;j<rm.length;j++) localStorage.removeItem(rm[j]); }catch(e){}
-    location.reload();
+    askConfirm({title:"Reset the app to a fresh install?", body:"This erases everything \u2014 Review/Known marks, answer picks, location, all settings, and your place in the deck. This can't be undone.", ok:"Reset"}).then((ok)=>{ if(!ok) return;
+      try{ var rm=[]; for(var i=0;i<localStorage.length;i++){ var k=localStorage.key(i); if(k && k.indexOf("civics2025.")===0) rm.push(k); } for(var j=0;j<rm.length;j++) localStorage.removeItem(rm[j]); }catch(e){}
+      location.reload();
+    });
   }
   // one-time first-load callout inviting the user to set their location
   const ONBOARD_LS = "civics2025.onboarded.v1";
@@ -3727,12 +3750,13 @@ const CARDS = [
   $("ofUpdate").onclick = ()=>{ ofUpdate(); };
   addEventListener("online", ()=>{ $("ofOffline").style.display="none"; $("ofUnreachable").style.display="none"; });
   $("ofReset").onclick = ()=>{
-    if(!confirm("This clears your location and removes your senators, representative, governor and capital from the answers throughout the deck. Continue?")) return;
-    officials = JSON.parse(JSON.stringify(OF_DEFAULT));
-    try{ localStorage.removeItem(OF_LS); localStorage.removeItem(ONBOARD_LS); localStorage.removeItem(GUIDE_INTRO_LS); }catch(e){}
-    $("ofState").value = officials.state; $("ofZip").value = officials.zip;
-    ofRefreshApp(); renderOfficials();
-    maybeShowCallout();   // reset returns the shipped un-localized state, incl. the "Start here" callout
+    askConfirm({title:"Reset location?", body:"This clears your location and removes your senators, representative, governor and capital from the answers throughout the deck.", ok:"Reset"}).then((ok)=>{ if(!ok) return;
+      officials = JSON.parse(JSON.stringify(OF_DEFAULT));
+      try{ localStorage.removeItem(OF_LS); localStorage.removeItem(ONBOARD_LS); localStorage.removeItem(GUIDE_INTRO_LS); }catch(e){}
+      $("ofState").value = officials.state; $("ofZip").value = officials.zip;
+      ofRefreshApp(); renderOfficials();
+      maybeShowCallout();   // reset returns the shipped un-localized state, incl. the "Start here" callout
+    });
   };
   if($("ofResetM")) $("ofResetM").onclick = $("ofReset").onclick;   // mobile Reset (after the warning) shares the handler
 
@@ -4081,6 +4105,8 @@ const CARDS = [
   var isIOS=/iphone|ipad|ipod/i.test(ua) || (/macintosh/i.test(ua) && navigator.maxTouchPoints>1);
   var isMacSafari=/macintosh/i.test(ua) && !(navigator.maxTouchPoints>1) && /safari/i.test(ua) && !/chrome|crios|edg|edgios|fxios|android/i.test(ua);
   var deferred=null;
+  var installedHere=false;   // Chrome/Chromium: this site is already installed in THIS browser (getInstalledRelatedApps)
+  var OPENAPP='<svg viewBox="0 -960 960 960"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h560v-280h80v280q0 33-23.5 56.5T760-120H200Zm188-212-56-56 372-372H520v-80h320v320h-80v-184L388-332Z"/></svg>';
 
   var SHARE='<svg viewBox="0 -960 960 960"><path d="M240-40q-33 0-56.5-23.5T160-120v-440q0-33 23.5-56.5T240-640h120v80H240v440h480v-440H600v-80h120q33 0 56.5 23.5T800-560v440q0 33-23.5 56.5T720-40H240Zm200-280v-447l-64 64-56-57 160-160 160 160-56 57-64-64v447h-80Z"/></svg>';
   var PLUS='<svg viewBox="0 -960 960 960"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>';
@@ -4093,12 +4119,13 @@ const CARDS = [
   function place(){ if(deferred) return "device"; if(isIOS) return "Home Screen"; if(isMacSafari) return "Dock"; return "device"; }
   function iosLoc(){ if(/crios|edgios|fxios/i.test(ua)) return "at the top, by the address bar"; var ipad=/ipad/i.test(ua)||(navigator.maxTouchPoints>1 && /macintosh/i.test(ua)); return ipad?"at the top":"in the bottom bar"; }
   function bodyHTML(){
+    if(installedHere) return '<div class="ins-installed"><span class="iic">'+OPENAPP+'</span><span class="itxt">You&rsquo;ve already installed this. Click <b>Open in app</b> in the address bar to launch it.</span></div>';
     if(deferred) return '<button class="ins-go" data-install type="button">'+DL+'Install app</button>';
     if(isIOS) return '<ol class="ins-steps">'+step(1,'Tap the <b>Share</b> icon '+chip('share',SHARE)+' '+iosLoc()+'.')+step(2,'Choose <b>Add to Home Screen</b> '+chip('',PLUS)+'.')+step(3,'Tap <b>Add</b>.')+'</ol>';
     if(isMacSafari) return '<ol class="ins-steps">'+step(1,'Click the <b>Share</b> icon '+chip('share',SHARE)+' at the top right, or open the <b>File</b> menu.')+step(2,'Choose <b>Add to Dock…</b> '+chip('stroke',DOCK))+step(3,'Click <b>Add</b>.')+'</ol>';
     return '<ol class="ins-steps">'+step(1,'Open your browser&rsquo;s <b>menu</b>.')+step(2,'Look for <b>Install</b> or <b>Add to Home screen</b>.')+'</ol>';
   }
-  function subText(){ return 'Add it to your '+place()+' like an app for quick access and the best experience—full-screen, works offline, keeps your progress.'; }
+  function subText(){ if(installedHere) return 'It’s already installed in this browser — open it any time for full-screen, offline study.'; return 'Add it to your '+place()+' like an app for quick access and the best experience—full-screen, works offline, keeps your progress.'; }
   function refresh(){
     var cb=$("installBody"); if(cb) cb.innerHTML=bodyHTML();
     var eb=$("installExpl"); if(eb) eb.innerHTML=bodyHTML();
@@ -4115,7 +4142,7 @@ const CARDS = [
 
   var shown=false;
   function maybeShow(trigger){
-    if(standalone()||dismissed()||shown) return;
+    if(standalone()||dismissed()||shown||installedHere) return;   // installed in this browser → no nag, just the passive "open in app" note
     if(trigger==="engage"){
       if(document.body.classList.contains("qs-open")) return;
       if(document.querySelector(".modal.open")) return;
@@ -4132,6 +4159,16 @@ const CARDS = [
   document.documentElement.classList.add("has-install");   // browser + Install visible → Install is the accent pill, How-to-use goes transparent
   var sec=$("setInstallSec"); if(sec) sec.hidden=false;   // permanent Settings entry (D) — instructions inline
   refresh();
+  // Chrome/Chromium only: if this site is already installed in THIS browser, mark the pill "Installed" and swap the card steps for an "open in app" note.
+  function markInstalledHere(){
+    installedHere=true; refresh();
+    var ib=$("installBtn");
+    if(ib){ ib.classList.add("installed"); ib.title="Already installed"; ib.setAttribute("aria-label","App already installed — open it from the address bar");
+      var lb=ib.querySelector(".set-lb"); if(lb) lb.textContent="Installed";
+      var ic=ib.querySelector(".set-ic"); if(ic) ic.innerHTML='<svg viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/></svg>';
+    }
+  }
+  try{ if(navigator.getInstalledRelatedApps){ navigator.getInstalledRelatedApps().then(function(apps){ if(apps && apps.some(function(a){ return a.platform==="webapp"; })) markInstalledHere(); }).catch(function(){}); } }catch(e){}
   var ib=$("installBtn"); if(ib) ib.onclick=function(){ openCard(false); };   // top-bar entry (and Quick Start tour target) opens the card
   var x=$("installX"); if(x) x.onclick=closeInteract;
   var sc=$("installScrim"); if(sc) sc.onclick=closeInteract;
@@ -4143,7 +4180,50 @@ const CARDS = [
   try{ var VLS="civics2025.installvisits.v1"; var v=(parseInt(localStorage.getItem(VLS),10)||0)+1; localStorage.setItem(VLS,String(v)); if(v>=2){ setTimeout(function(){ maybeShow("engage"); }, 2500); } }catch(e){}
   var flips=0, card=$("card");
   if(card && "MutationObserver" in window){ new MutationObserver(function(muts){ for(var i=0;i<muts.length;i++){ if(muts[i].attributeName==="class" && card.classList.contains("flipped")){ flips++; if(flips>=3) maybeShow("engage"); break; } } }).observe(card,{attributes:true}); }
+  // Chrome desktop resolves the installed-app display-mode a beat AFTER load, so standalone() can read false at init and leave the
+  // install pill + Settings section showing inside the app. Re-check after load and whenever display-mode changes; hide everything if standalone.
+  function hideIfStandalone(){ if(standalone()){ hideAll(); return true; } return false; }
+  if(!hideIfStandalone()){
+    window.addEventListener("load", hideIfStandalone);
+    setTimeout(hideIfStandalone, 600); setTimeout(hideIfStandalone, 1500);
+    try{ ["standalone","minimal-ui","fullscreen","window-controls-overlay"].forEach(function(mm){ var q=window.matchMedia("(display-mode: "+mm+")"); q.addEventListener ? q.addEventListener("change",hideIfStandalone) : q.addListener(hideIfStandalone); }); }catch(e){}
+  }
 })();
+</script>
+<div class="modal cfm" id="confirmModal" role="alertdialog" aria-modal="true" aria-labelledby="cfmTitle" aria-describedby="cfmBody" aria-hidden="true">
+  <div class="cfm-card">
+    <div class="cfm-title" id="cfmTitle"></div>
+    <div class="cfm-body" id="cfmBody"></div>
+    <div class="cfm-row">
+      <button type="button" class="cfm-btn cfm-cancel" id="cfmCancel">Cancel</button>
+      <button type="button" class="cfm-btn cfm-ok" id="cfmOk">OK</button>
+    </div>
+  </div>
+</div>
+<script>
+/* In-app confirm dialog — replaces native confirm(); returns a Promise<boolean>. */
+function askConfirm(opts){
+  opts=opts||{};
+  return new Promise(function(resolve){
+    var m=document.getElementById("confirmModal");
+    if(!m){ resolve(window.confirm((opts.title?opts.title+"\n\n":"")+(opts.body||""))); return; }
+    var t=document.getElementById("cfmTitle"), b=document.getElementById("cfmBody");
+    var ok=document.getElementById("cfmOk"), cancel=document.getElementById("cfmCancel");
+    t.textContent=opts.title||""; t.hidden=!opts.title;
+    b.textContent=opts.body||""; b.hidden=!opts.body;
+    ok.textContent=opts.ok||"OK"; cancel.textContent=opts.cancel||"Cancel";
+    var done=false;
+    function close(v){ if(done) return; done=true; m.classList.remove("open"); m.setAttribute("aria-hidden","true"); document.removeEventListener("keydown",onKey); resolve(v); }
+    function onKey(e){ if(e.key==="Escape") close(false); else if(e.key==="Enter") close(true); }
+    ok.onclick=function(){ close(true); };
+    cancel.onclick=function(){ close(false); };
+    m.onclick=function(e){ if(e.target===m) close(false); };
+    document.addEventListener("keydown",onKey);
+    m.classList.add("open"); m.setAttribute("aria-hidden","false");
+    try{ ok.focus(); }catch(e){}
+  });
+}
+window.askConfirm=askConfirm;
 </script>
 </body>
 </html>
