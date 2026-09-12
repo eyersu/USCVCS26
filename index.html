@@ -1551,16 +1551,22 @@
     #quickstartBtn .qs-ic{font-size:1.05rem}
     #settingsBtn .set-ic svg{width:16px;height:16px;fill:currentColor}
   }
-  /* Install tab — mirrors Settings, one slot down; hidden by JS when already installed */
-  #installBtn{position:fixed;top:128px;right:0;z-index:20;font-family:"IBM Plex Mono",monospace;font-size:.58rem;letter-spacing:1.4px;text-transform:uppercase;font-weight:600;color:#d7e2ee;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-right:0;border-radius:999px 0 0 999px;padding:7px 14px 7px 12px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;line-height:1;box-shadow:-3px 4px 12px rgba(0,0,0,.3)}
-  #installBtn .set-ic{display:inline-flex}
-  #installBtn .set-ic svg{width:15px;height:15px;fill:currentColor;display:block}
-  @media (hover:hover){ #installBtn:hover{background:var(--orange);border-color:var(--orange);color:#fff} #installBtn:hover .set-ic{background:rgba(255,255,255,.24);color:#fff} }
-  @media (max-width:768px){ #installBtn{top:164px;padding:13px 15px;gap:0} #installBtn .set-lb{display:none} }
+  /* Install tab — the filled/accent pill (cream) when it's showing in a browser; hidden by JS when already installed.
+     While it's present, How-to-use drops to transparent (see .has-install below) so Install is the only filled pill. */
+  #installBtn{position:fixed;top:128px;right:0;z-index:20;font-family:"IBM Plex Mono",monospace;font-size:.58rem;letter-spacing:1.4px;text-transform:uppercase;font-weight:700;color:#0d1b2a;background:#faf6ee;border:0;border-radius:999px 0 0 999px;padding:8px 16px 8px 8px;cursor:pointer;display:inline-flex;align-items:center;gap:9px;line-height:1;box-shadow:-3px 4px 16px rgba(0,0,0,.4)}
+  #installBtn .set-ic{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--orange);color:#fff;flex:none}
+  #installBtn .set-ic svg{width:15px;height:15px;fill:#fff;display:block}
+  @media (hover:hover){ #installBtn:hover{background:var(--orange);color:#fff} #installBtn:hover .set-ic{background:rgba(255,255,255,.24)} }
+  @media (max-width:768px){ #installBtn{top:164px;padding:11px 13px;gap:0} #installBtn .set-lb{display:none} #installBtn .set-ic{width:27px;height:27px} }
   @media (min-width:769px){
-    #installBtn{width:140px;height:40px;box-sizing:border-box;padding:0 14px 0 7px;justify-content:flex-start;gap:12px;border-radius:999px 0 0 999px;top:204px}
-    #installBtn .set-ic{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.14);color:#a3b3c6;display:inline-flex;align-items:center;justify-content:center;flex:none}
-    #installBtn .set-ic svg{width:16px;height:16px;fill:currentColor}
+    #installBtn{width:140px;height:40px;box-sizing:border-box;padding:0 14px 0 6px;justify-content:flex-start;gap:11px;border-radius:999px 0 0 999px;top:204px}
+    #installBtn .set-ic{width:28px;height:28px}
+    #installBtn .set-ic svg{width:16px;height:16px}
+  }
+  /* when Install is present (browser, not installed), How-to-use goes transparent — desktop pills only */
+  @media (min-width:601px){
+    html.has-install #guideBtn{color:#d7e2ee;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-right:0;box-shadow:-3px 4px 12px rgba(0,0,0,.3)}
+    html.has-install #guideBtn .q{background:rgba(255,255,255,.14);color:#a3b3c6}
   }
 
   /* Settings panel (right drawer) */
@@ -1644,8 +1650,8 @@
     #topbar #settingsBtn .set-ic svg{width:21px;height:21px}
     #topbar > #installBtn{border-right:1px solid rgba(255,255,255,.13);flex:0 0 auto;padding:13px 18px}
     #topbar #installBtn .set-lb{display:none}
-    #topbar #installBtn .set-ic{color:#a3b3c6}
-    #topbar #installBtn .set-ic svg{width:21px;height:21px}
+    #topbar #installBtn .set-ic{background:transparent;color:#a3b3c6;width:auto;height:auto;border-radius:0}
+    #topbar #installBtn .set-ic svg{width:21px;height:21px;fill:currentColor}
     #topbar > button:hover,#topbar > button:active{background:rgba(255,255,255,.05);color:#eaf1f8}
     /* show both labels; neutralise the orange "?" circle so it reads as plain "? HOW TO USE" */
     #topbar #guideBtn .glabel{display:inline}
@@ -4055,7 +4061,7 @@ const CARDS = [
   function openCard(auto){ var m=$("installCard"); if(!m) return; cardAuto=!!auto; refresh(); m.classList.add("open"); m.setAttribute("aria-hidden","false"); }
   function closeCard(){ var m=$("installCard"); if(m){ m.classList.remove("open"); m.setAttribute("aria-hidden","true"); } }
   function closeInteract(){ if(cardAuto) setDismissed(); closeCard(); }   // the AUTO-prompt, once closed, stays gone until Reset App; a manual open just closes
-  function hideAll(){ closeCard(); var s=$("setInstallSec"); if(s) s.hidden=true; var b=$("installBtn"); if(b) b.style.display="none"; }
+  function hideAll(){ closeCard(); var s=$("setInstallSec"); if(s) s.hidden=true; var b=$("installBtn"); if(b) b.style.display="none"; document.documentElement.classList.remove("has-install"); }
 
   var shown=false;
   function maybeShow(trigger){
@@ -4073,6 +4079,7 @@ const CARDS = [
   window.addEventListener("appinstalled", function(){ setDismissed(); hideAll(); });
 
   if(standalone()){ var ib0=$("installBtn"); if(ib0) ib0.style.display="none"; return; }   // running installed → no install UI anywhere
+  document.documentElement.classList.add("has-install");   // browser + Install visible → Install is the accent pill, How-to-use goes transparent
   var sec=$("setInstallSec"); if(sec) sec.hidden=false;   // permanent Settings entry (D) — instructions inline
   refresh();
   var ib=$("installBtn"); if(ib) ib.onclick=function(){ openCard(false); };   // top-bar entry (and Quick Start tour target) opens the card
