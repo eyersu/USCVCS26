@@ -3805,7 +3805,15 @@ const CARDS = [
   function qsNext(){ if(qsSteps[qsI].last){ qsEnd(); return; } qsI++; qsPlace(); }
   function qsPrev(){ if(qsI>0){ qsI--; qsPlace(); } }
   function qsEnd(){ $("qsVeil").style.display="none"; document.body.classList.remove("qs-open"); try{ localStorage.setItem(QUICKSTART_LS,"1"); }catch(e){} setTimeout(function(){ document.body.classList.add("hdr-compact"); }, 500); nudgeThemeColor(); }   // minimize the headline once the tour closes; re-assert the navy toolbar tint Safari sampled from the gold veil
-  function nudgeThemeColor(){ try{ var m=document.querySelector('meta[name="theme-color"]'); if(m){ m.setAttribute("content","#0d1b2b"); requestAnimationFrame(function(){ m.setAttribute("content","#0d1b2a"); }); } }catch(e){} }
+  function nudgeThemeColor(){ try{
+    var m=document.querySelector('meta[name="theme-color"]');
+    var reset=function(){
+      if(m){ m.setAttribute("content","#0e2540"); requestAnimationFrame(function(){ requestAnimationFrame(function(){ m.setAttribute("content","#0d1b2a"); }); }); }
+      var y=window.pageYOffset||document.documentElement.scrollTop||0;
+      if(y<3){ window.scrollTo(0,3); requestAnimationFrame(function(){ window.scrollTo(0,y); }); }   // nudge Safari to re-sample the now-navy top edge
+    };
+    reset(); setTimeout(reset,400);
+  }catch(e){} }
   function qsStart(){ qsI=0; document.body.classList.add("qs-open"); try{ vcStop(); hideAudioPrompt(); }catch(e){} document.body.classList.remove("hdr-compact"); try{ if(document.activeElement && document.activeElement.blur) document.activeElement.blur(); }catch(e){} try{ window.scrollTo({top:0,behavior:"auto"}); }catch(e){ window.scrollTo(0,0); } $("qsVeil").style.display="block"; requestAnimationFrame(function(){ requestAnimationFrame(qsPlace); }); }
   function qsWire(){
     const dots=$("qsDots"), veil=$("qsVeil"); if(!veil) return;
