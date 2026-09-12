@@ -3748,12 +3748,15 @@ const CARDS = [
     {sel:"#settingsBtn", title:"Make it yours",                body:"Adjust the theme color, text size, and voice speed here. It's also where you reset your progress.", place:"bottom", top:true},
     {sel:"#installBtn",  title:"Install it like an app",       body:"Add it to your device for quick, offline, distraction-free study — it opens like an app, with no browser bar. Tap here whenever you're ready.", place:"bottom", top:true, last:true}
   ];
-  // Running installed (standalone): the Install pill is hidden, so drop that step and move "Start studying" (last) onto the new final step.
-  try{ var _inst=(window.navigator.standalone===true)||["standalone","minimal-ui","fullscreen","window-controls-overlay"].some(function(mm){ return window.matchMedia("(display-mode: "+mm+")").matches; });
-  if(_inst){
-    for(var _qi=qsSteps.length-1;_qi>=0;_qi--){ if(qsSteps[_qi].sel==="#installBtn"){ qsSteps.splice(_qi,1); break; } }
-    qsSteps.forEach(function(s){ if(s.last) delete s.last; }); qsSteps[qsSteps.length-1].last=true;
-  } }catch(e){}
+  // Running installed: the Install pill is hidden, so drop that tour step and move "Start studying" (last) onto the new final step.
+  // Run at load AND when the tour starts (Chrome may resolve the PWA display-mode a beat after load).
+  function filterQsForInstall(){ try{
+    var inst=(window.navigator.standalone===true)||["standalone","minimal-ui","fullscreen","window-controls-overlay"].some(function(mm){ return window.matchMedia("(display-mode: "+mm+")").matches; });
+    if(!inst) return;
+    for(var i=qsSteps.length-1;i>=0;i--){ if(qsSteps[i].sel==="#installBtn"){ qsSteps.splice(i,1); break; } }
+    qsSteps.forEach(function(s){ if(s.last) delete s.last; }); if(qsSteps.length) qsSteps[qsSteps.length-1].last=true;
+  }catch(e){} }
+  filterQsForInstall();
   let qsI = 0;
   function qsDone(){ try{ return localStorage.getItem(QUICKSTART_LS)==="1"; }catch(e){ return false; } }
   function qsUnionRect(sel){   // bounding box enclosing EVERY element matching sel, so one step can spotlight two things at once (Review+Known on mobile)
@@ -3815,7 +3818,7 @@ const CARDS = [
     };
     reset(); setTimeout(reset,400);
   }catch(e){} }
-  function qsStart(){ qsI=0; document.body.classList.add("qs-open"); try{ vcStop(); hideAudioPrompt(); }catch(e){} document.body.classList.remove("hdr-compact"); try{ if(document.activeElement && document.activeElement.blur) document.activeElement.blur(); }catch(e){} try{ window.scrollTo({top:0,behavior:"auto"}); }catch(e){ window.scrollTo(0,0); } $("qsVeil").style.display="block"; requestAnimationFrame(function(){ requestAnimationFrame(qsPlace); }); }
+  function qsStart(){ filterQsForInstall(); qsI=0; document.body.classList.add("qs-open"); try{ vcStop(); hideAudioPrompt(); }catch(e){} document.body.classList.remove("hdr-compact"); try{ if(document.activeElement && document.activeElement.blur) document.activeElement.blur(); }catch(e){} try{ window.scrollTo({top:0,behavior:"auto"}); }catch(e){ window.scrollTo(0,0); } $("qsVeil").style.display="block"; requestAnimationFrame(function(){ requestAnimationFrame(qsPlace); }); }
   function qsWire(){
     const dots=$("qsDots"), veil=$("qsVeil"); if(!veil) return;
     dots.innerHTML=qsSteps.map((s,k)=>'<i data-k="'+k+'"></i>').join("");
