@@ -4095,7 +4095,7 @@ const CARDS = [
   function bodyHTML(){
     if(deferred) return '<button class="ins-go" data-install type="button">'+DL+'Install app</button>';
     if(isIOS) return '<ol class="ins-steps">'+step(1,'Tap the <b>Share</b> icon '+chip('share',SHARE)+' '+iosLoc()+'.')+step(2,'Choose <b>Add to Home Screen</b> '+chip('',PLUS)+'.')+step(3,'Tap <b>Add</b>.')+'</ol>';
-    if(isMacSafari) return '<ol class="ins-steps">'+step(1,'Open the <b>File</b> menu in the top bar.')+step(2,'Choose <b>Add to Dock…</b> '+chip('stroke',DOCK))+step(3,'Click <b>Add</b>.')+'</ol>';
+    if(isMacSafari) return '<ol class="ins-steps">'+step(1,'Click the <b>Share</b> icon '+chip('share',SHARE)+' at the top right, or open the <b>File</b> menu.')+step(2,'Choose <b>Add to Dock…</b> '+chip('stroke',DOCK))+step(3,'Click <b>Add</b>.')+'</ol>';
     return '<ol class="ins-steps">'+step(1,'Open your browser&rsquo;s <b>menu</b>.')+step(2,'Look for <b>Install</b> or <b>Add to Home screen</b>.')+'</ol>';
   }
   function subText(){ return 'Add it to your '+place()+' like an app for quick access and the best experience—full-screen, works offline, keeps your progress.'; }
