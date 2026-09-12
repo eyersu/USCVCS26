@@ -3749,7 +3749,8 @@ const CARDS = [
     {sel:"#installBtn",  title:"Install it like an app",       body:"Add it to your device for quick, offline, distraction-free study — it opens like an app, with no browser bar. Tap here whenever you're ready.", place:"bottom", top:true, last:true}
   ];
   // Running installed (standalone): the Install pill is hidden, so drop that step and move "Start studying" (last) onto the new final step.
-  try{ if(window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone===true){
+  try{ var _inst=(window.navigator.standalone===true)||["standalone","minimal-ui","fullscreen","window-controls-overlay"].some(function(mm){ return window.matchMedia("(display-mode: "+mm+")").matches; });
+  if(_inst){
     for(var _qi=qsSteps.length-1;_qi>=0;_qi--){ if(qsSteps[_qi].sel==="#installBtn"){ qsSteps.splice(_qi,1); break; } }
     qsSteps.forEach(function(s){ if(s.last) delete s.last; }); qsSteps[qsSteps.length-1].last=true;
   } }catch(e){}
@@ -4064,7 +4065,12 @@ const CARDS = [
 (function(){
   function $(id){ return document.getElementById(id); }
   var LS="civics2025.install.v1";
-  function standalone(){ try{ return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone===true; }catch(e){ return false; } }
+  function standalone(){ try{
+    if(window.navigator.standalone===true) return true;
+    var modes=["standalone","minimal-ui","fullscreen","window-controls-overlay"];
+    for(var i=0;i<modes.length;i++){ if(window.matchMedia("(display-mode: "+modes[i]+")").matches) return true; }
+    return false;
+  }catch(e){ return false; } }
   function dismissed(){ try{ return localStorage.getItem(LS)==="dismissed"; }catch(e){ return false; } }
   function setDismissed(){ try{ localStorage.setItem(LS,"dismissed"); }catch(e){} }
 
