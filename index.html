@@ -1105,11 +1105,6 @@
   .ins-chip svg{width:17px;height:17px;fill:#eaf1f8}
   .ins-chip.share svg{fill:#8fbaf0}
   .ins-chip.stroke svg{fill:none;stroke:#eaf1f8;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
-  .ins-installed{display:flex;gap:12px;align-items:flex-start;padding:2px 0}
-  .ins-installed .iic{flex:none;line-height:0;margin-top:1px}
-  .ins-installed .iic svg{width:24px;height:24px;fill:var(--gold);display:block}
-  .ins-installed .itxt{font-size:.97rem;line-height:1.45;color:#dbe6f1}
-  .ins-installed b{color:#fff}
   #installExpl{margin-top:4px}
   /* MOBILE: full-screen, content vertically centred, orange top-right X */
   @media(max-width:559px){
@@ -1593,9 +1588,6 @@
   #installBtn .set-ic{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--orange);color:#fff;flex:none}
   #installBtn .set-ic svg{width:15px;height:15px;fill:#fff;display:block}
   @media (hover:hover){ #installBtn:hover{background:var(--orange);color:#fff} #installBtn:hover .set-ic{background:rgba(255,255,255,.24)} }
-  /* already installed in this (Chromium) browser: muted "Installed" status, not an install CTA */
-  #installBtn.installed .set-ic{background:#2f7d5b}
-  @media (hover:hover){ #installBtn.installed:hover{background:#faf6ee;color:#0d1b2a} #installBtn.installed:hover .set-ic{background:#2f7d5b} }
   @media (max-width:768px){ #installBtn{top:164px;padding:11px 13px;gap:0} #installBtn .set-lb{display:none} #installBtn .set-ic{width:27px;height:27px} }
   @media (min-width:769px){
     #installBtn{width:140px;height:40px;box-sizing:border-box;padding:0 14px 0 6px;justify-content:flex-start;gap:11px;border-radius:999px 0 0 999px;top:204px}
@@ -4105,8 +4097,6 @@ const CARDS = [
   var isIOS=/iphone|ipad|ipod/i.test(ua) || (/macintosh/i.test(ua) && navigator.maxTouchPoints>1);
   var isMacSafari=/macintosh/i.test(ua) && !(navigator.maxTouchPoints>1) && /safari/i.test(ua) && !/chrome|crios|edg|edgios|fxios|android/i.test(ua);
   var deferred=null;
-  var installedHere=false;   // Chrome/Chromium: this site is already installed in THIS browser (getInstalledRelatedApps)
-  var OPENAPP='<svg viewBox="0 -960 960 960"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h560v-280h80v280q0 33-23.5 56.5T760-120H200Zm188-212-56-56 372-372H520v-80h320v320h-80v-184L388-332Z"/></svg>';
 
   var SHARE='<svg viewBox="0 -960 960 960"><path d="M240-40q-33 0-56.5-23.5T160-120v-440q0-33 23.5-56.5T240-640h120v80H240v440h480v-440H600v-80h120q33 0 56.5 23.5T800-560v440q0 33-23.5 56.5T720-40H240Zm200-280v-447l-64 64-56-57 160-160 160 160-56 57-64-64v447h-80Z"/></svg>';
   var PLUS='<svg viewBox="0 -960 960 960"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>';
@@ -4119,13 +4109,12 @@ const CARDS = [
   function place(){ if(deferred) return "device"; if(isIOS) return "Home Screen"; if(isMacSafari) return "Dock"; return "device"; }
   function iosLoc(){ if(/crios|edgios|fxios/i.test(ua)) return "at the top, by the address bar"; var ipad=/ipad/i.test(ua)||(navigator.maxTouchPoints>1 && /macintosh/i.test(ua)); return ipad?"at the top":"in the bottom bar"; }
   function bodyHTML(){
-    if(installedHere) return '<div class="ins-installed"><span class="iic">'+OPENAPP+'</span><span class="itxt">You&rsquo;ve already installed this. Click <b>Open in app</b> in the address bar to launch it.</span></div>';
     if(deferred) return '<button class="ins-go" data-install type="button">'+DL+'Install app</button>';
     if(isIOS) return '<ol class="ins-steps">'+step(1,'Tap the <b>Share</b> icon '+chip('share',SHARE)+' '+iosLoc()+'.')+step(2,'Choose <b>Add to Home Screen</b> '+chip('',PLUS)+'.')+step(3,'Tap <b>Add</b>.')+'</ol>';
     if(isMacSafari) return '<ol class="ins-steps">'+step(1,'Click the <b>Share</b> icon '+chip('share',SHARE)+' at the top right, or open the <b>File</b> menu.')+step(2,'Choose <b>Add to Dock…</b> '+chip('stroke',DOCK))+step(3,'Click <b>Add</b>.')+'</ol>';
     return '<ol class="ins-steps">'+step(1,'Open your browser&rsquo;s <b>menu</b>.')+step(2,'Look for <b>Install</b> or <b>Add to Home screen</b>.')+'</ol>';
   }
-  function subText(){ if(installedHere) return 'It’s already installed in this browser — open it any time for full-screen, offline study.'; return 'Add it to your '+place()+' like an app for quick access and the best experience—full-screen, works offline, keeps your progress.'; }
+  function subText(){ return 'Add it to your '+place()+' like an app for quick access and the best experience—full-screen, works offline, keeps your progress.'; }
   function refresh(){
     var cb=$("installBody"); if(cb) cb.innerHTML=bodyHTML();
     var eb=$("installExpl"); if(eb) eb.innerHTML=bodyHTML();
@@ -4142,7 +4131,7 @@ const CARDS = [
 
   var shown=false;
   function maybeShow(trigger){
-    if(standalone()||dismissed()||shown||installedHere) return;   // installed in this browser → no nag, just the passive "open in app" note
+    if(standalone()||dismissed()||shown) return;
     if(trigger==="engage"){
       if(document.body.classList.contains("qs-open")) return;
       if(document.querySelector(".modal.open")) return;
@@ -4159,16 +4148,6 @@ const CARDS = [
   document.documentElement.classList.add("has-install");   // browser + Install visible → Install is the accent pill, How-to-use goes transparent
   var sec=$("setInstallSec"); if(sec) sec.hidden=false;   // permanent Settings entry (D) — instructions inline
   refresh();
-  // Chrome/Chromium only: if this site is already installed in THIS browser, mark the pill "Installed" and swap the card steps for an "open in app" note.
-  function markInstalledHere(){
-    installedHere=true; refresh();
-    var ib=$("installBtn");
-    if(ib){ ib.classList.add("installed"); ib.title="Already installed"; ib.setAttribute("aria-label","App already installed — open it from the address bar");
-      var lb=ib.querySelector(".set-lb"); if(lb) lb.textContent="Installed";
-      var ic=ib.querySelector(".set-ic"); if(ic) ic.innerHTML='<svg viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/></svg>';
-    }
-  }
-  try{ if(navigator.getInstalledRelatedApps){ navigator.getInstalledRelatedApps().then(function(apps){ if(apps && apps.some(function(a){ return a.platform==="webapp"; })) markInstalledHere(); }).catch(function(){}); } }catch(e){}
   var ib=$("installBtn"); if(ib) ib.onclick=function(){ openCard(false); };   // top-bar entry (and Quick Start tour target) opens the card
   var x=$("installX"); if(x) x.onclick=closeInteract;
   var sc=$("installScrim"); if(sc) sc.onclick=closeInteract;
