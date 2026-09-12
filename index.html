@@ -3472,7 +3472,7 @@ const CARDS = [
   // Official acceptable answers for D.C. residents (D.C. is not a state)
   const DC_ANSWERS = {
     23: ["D.C. has no U.S. senators."],
-    29: ["D.C. has no (voting) representative in Congress.", "Eleanor Holmes Norton (D.C.’s non-voting Delegate)"],
+    29: ["D.C. has no (voting) representative in Congress."],
     61: ["D.C. does not have a governor."],
     62: ["D.C. is not a state and does not have a capital."]
   };
@@ -3563,11 +3563,14 @@ const CARDS = [
     for(const item of OF_ROLE_MAP){
       if(item.grp){ let label=item.grp; if(label==="__STATE__") label=officials.state; if(label==="__DISTRICT__") label="District "+(officials.district||"?"); html+=`<div class="of-group">${escapeHtml(label)}</div>`; continue; }
       const f=item.f, src=officials.src[f]||"builtin";
-      // D.C. has no U.S. senators and no voting U.S. representative — show the built-in fact instead of a "Not set / couldn't refresh" row.
-      if(IS_DC() && (f==="senator1" || f==="senator2" || f==="rep")){
+      // D.C. has no U.S. senators, no governor, and no voting U.S. representative — show the built-in fact
+      // (Wikidata's P6 returns D.C.'s Mayor for "governor", which the exam does not accept) instead of a "Not set / couldn't refresh" or mislabeled row.
+      if(IS_DC() && (f==="senator1" || f==="senator2" || f==="governor" || f==="rep")){
         if(f==="senator2") continue;   // collapse the two senator rows into one
-        const dcRole = f==="senator1" ? "U.S. Senators" : item.role;
-        const dcText = f==="senator1" ? "D.C. has no U.S. senators." : "D.C. has no voting Representative.";
+        let dcRole=item.role, dcText;
+        if(f==="senator1"){ dcRole="U.S. Senators"; dcText="D.C. has no U.S. senators."; }
+        else if(f==="governor"){ dcText="D.C. does not have a governor."; }
+        else { dcText="D.C. has no voting Representative."; }
         html+=`<div class="of-row"><div class="of-role">${dcRole}</div><button type="button" class="of-qn" data-qgo="${item.q}" title="Go to Q${item.q}">Q${item.q}</button>`
             +`<div class="of-val">${escapeHtml(dcText)}</div>`
             +`<div class="of-meta"><span class="of-badge builtin">Built-in</span></div></div>`;
