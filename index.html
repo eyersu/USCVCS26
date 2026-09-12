@@ -939,6 +939,7 @@
 <div id="topbar">
 <button id="quickstartBtn" type="button" title="Replay the Quick Start tour"><span class="qs-ic"><svg class="mi" viewBox="0 -960 960 960" aria-hidden="true"><path d="m98-537 168-168q14-14 33-20t39-2l77 14q-55 62-89 117.5T263-466L98-537Zm202 89q27-73 68-137.5T461-702q88-88 201-131.5T873-860q17 98-26 211T716-448q-52 52-117 93t-138 68L300-448Zm335.5-105q29.5 0 49.5-20t20-49.5q0-29.5-20-49.5t-49.5-20q-29.5 0-49.5 20t-20 49.5q0 29.5 20 49.5t49.5 20ZM551-85l-72-165q74-29 129.5-63T726-402l14 77q4 20-2 39.5T718-252L551-85ZM162-318q35-35 85-35.5t85 34.5q35 35 35 85t-35 85q-26 26-81 43T87-74q15-109 32-163.5t43-80.5Z"/></svg></span><span class="qs-lb">Quick Start</span></button>
 <button id="settingsBtn" type="button" title="Settings" aria-label="Settings"><span class="set-ic"><svg viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="m388-80-20-126q-19-7-40-19t-37-25l-118 54-93-164 108-79q-2-9-2.5-20.5T185-480q0-9 .5-20.5T188-521L80-600l93-164 118 54q16-13 37-25t40-18l20-127h184l20 126q19 7 40.5 18.5T669-710l118-54 93 164-108 77q2 10 2.5 21.5t.5 21.5q0 10-.5 21t-2.5 21l108 78-93 164-118-54q-16 13-36.5 25.5T592-206L572-80H388Zm92-270q54 0 92-38t38-92q0-54-38-92t-92-38q-54 0-92 38t-38 92q0 54 38 92t92 38Z"/></svg></span><span class="set-lb">Settings</span></button>
+<button id="installBtn" type="button" title="Install this app" aria-label="Install app"><span class="set-ic"><svg viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z"/></svg></span><span class="set-lb">Install</span></button>
 <button id="guideBtn" type="button" title="How to use this app"><span class="q"><svg class="mi" viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="M419-334q1-87 20.5-129t65.5-76q39-31 57.5-61.11T581-666q0-39-25.5-64.5T486-756q-46 0-75 26t-43 67l-120-52q27-74 87-120.5T485.76-882q109.22 0 168.23 62.15Q713-757.7 713-669q0 60-21 105.5T625-478q-46 40-57 65.5T557-334H419Zm66.79 282Q447-52 420-79q-27-27-27-65.5 0-38.49 26.92-65.5 26.92-27 66-27T552-210q27 27.01 27 65.5 0 38.5-27.21 65.5t-66 27Z"/></svg></span><span class="glabel">How to use</span></button>
 </div>
 
@@ -968,8 +969,7 @@
 
     <div class="set-sec" id="setInstallSec" hidden>
       <p class="set-seclbl">Install</p>
-      <div class="set-rr"><button id="installActionBtn" class="set-reset" type="button"><span class="set-ic"><svg viewBox="0 -960 960 960"><path d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z"/></svg></span> Install app</button><button class="set-info" type="button" data-x="installExpl" aria-label="How to install"><svg viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="M453-280h60v-240h-60v240Zm27-314q14 0 24-10t10-24q0-14-10-24t-24-10q-14 0-24 10t-10 24q0 14 10 24t24 10Zm0 514q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-60q142 0 241-99.5T820-480q0-142-99-241t-241-99q-141 0-240.5 99T140-480q0 141 99.5 240.5T480-140Zm0-340Z"/></svg></button></div>
-      <div class="set-expl" id="installExpl" hidden></div>
+      <div id="installExpl"></div>
     </div>
 
     <div class="set-sec">
@@ -1551,6 +1551,17 @@
     #quickstartBtn .qs-ic{font-size:1.05rem}
     #settingsBtn .set-ic svg{width:16px;height:16px;fill:currentColor}
   }
+  /* Install tab — mirrors Settings, one slot down; hidden by JS when already installed */
+  #installBtn{position:fixed;top:128px;right:0;z-index:20;font-family:"IBM Plex Mono",monospace;font-size:.58rem;letter-spacing:1.4px;text-transform:uppercase;font-weight:600;color:#d7e2ee;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-right:0;border-radius:999px 0 0 999px;padding:7px 14px 7px 12px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;line-height:1;box-shadow:-3px 4px 12px rgba(0,0,0,.3)}
+  #installBtn .set-ic{display:inline-flex}
+  #installBtn .set-ic svg{width:15px;height:15px;fill:currentColor;display:block}
+  @media (hover:hover){ #installBtn:hover{background:var(--orange);border-color:var(--orange);color:#fff} #installBtn:hover .set-ic{background:rgba(255,255,255,.24);color:#fff} }
+  @media (max-width:768px){ #installBtn{top:164px;padding:13px 15px;gap:0} #installBtn .set-lb{display:none} }
+  @media (min-width:769px){
+    #installBtn{width:140px;height:40px;box-sizing:border-box;padding:0 14px 0 7px;justify-content:flex-start;gap:12px;border-radius:999px 0 0 999px;top:204px}
+    #installBtn .set-ic{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.14);color:#a3b3c6;display:inline-flex;align-items:center;justify-content:center;flex:none}
+    #installBtn .set-ic svg{width:16px;height:16px;fill:currentColor}
+  }
 
   /* Settings panel (right drawer) */
   #setScrim{position:fixed;inset:0;background:rgba(6,12,20,.55);z-index:9998;opacity:0;pointer-events:none;transition:opacity .2s;overscroll-behavior:contain}
@@ -1631,6 +1642,10 @@
     #topbar #settingsBtn .set-lb{display:none}
     #topbar #settingsBtn .set-ic{color:#a3b3c6}
     #topbar #settingsBtn .set-ic svg{width:21px;height:21px}
+    #topbar > #installBtn{border-right:1px solid rgba(255,255,255,.13);flex:0 0 auto;padding:13px 18px}
+    #topbar #installBtn .set-lb{display:none}
+    #topbar #installBtn .set-ic{color:#a3b3c6}
+    #topbar #installBtn .set-ic svg{width:21px;height:21px}
     #topbar > button:hover,#topbar > button:active{background:rgba(255,255,255,.05);color:#eaf1f8}
     /* show both labels; neutralise the orange "?" circle so it reads as plain "? HOW TO USE" */
     #topbar #guideBtn .glabel{display:inline}
@@ -3699,6 +3714,7 @@ const CARDS = [
     {sel:"#reviewIcon, #knownIcon", title:"Track what you know",          body:"Mark each card KNOWN or flag it for REVIEW as you go. Your progress saves on this device automatically.", place:"bottom", msel:".nav .review, .nav .know", rad:14},
     {sel:".examrow",     title:"Test yourself",                body:"When you're ready, take a 20-question practice exam — ORAL or WRITTEN. Get 12 right to pass, just like the interview.", place:"top", rad:13},
     {sel:"#settingsBtn", title:"Make it yours",                body:"Adjust the theme color, text size, and voice speed here. It's also where you reset your progress.", place:"bottom", top:true},
+    {sel:"#installBtn",  title:"Install it like an app",       body:"Add it to your device for quick, offline, distraction-free study — it opens like an app, with no browser bar. Tap here whenever you're ready.", place:"bottom", top:true},
     {sel:"#guideBtn",    title:"Everything's in the guide",    body:"Learn more about every function of this guide whenever you like. It's right here for the full walkthrough, anytime.", place:"bottom", last:true}
   ];
   let qsI = 0;
@@ -3752,7 +3768,7 @@ const CARDS = [
   }
   function qsNext(){ if(qsSteps[qsI].last){ qsEnd(); return; } qsI++; qsPlace(); }
   function qsPrev(){ if(qsI>0){ qsI--; qsPlace(); } }
-  function qsEnd(){ $("qsVeil").style.display="none"; document.body.classList.remove("qs-open"); try{ localStorage.setItem(QUICKSTART_LS,"1"); }catch(e){} setTimeout(function(){ document.body.classList.add("hdr-compact"); }, 500); try{ if(window.__maybeInstall) setTimeout(function(){ window.__maybeInstall("tour"); }, 700); }catch(e){} }   // minimize the headline once the tour closes; nudge install at the end of the tour
+  function qsEnd(){ $("qsVeil").style.display="none"; document.body.classList.remove("qs-open"); try{ localStorage.setItem(QUICKSTART_LS,"1"); }catch(e){} setTimeout(function(){ document.body.classList.add("hdr-compact"); }, 500); }   // minimize the headline once the tour closes
   function qsStart(){ qsI=0; document.body.classList.add("qs-open"); try{ vcStop(); hideAudioPrompt(); }catch(e){} document.body.classList.remove("hdr-compact"); try{ if(document.activeElement && document.activeElement.blur) document.activeElement.blur(); }catch(e){} try{ window.scrollTo({top:0,behavior:"auto"}); }catch(e){ window.scrollTo(0,0); } $("qsVeil").style.display="block"; requestAnimationFrame(function(){ requestAnimationFrame(qsPlace); }); }
   function qsWire(){
     const dots=$("qsDots"), veil=$("qsVeil"); if(!veil) return;
@@ -4021,7 +4037,7 @@ const CARDS = [
   function place(){ if(deferred) return "device"; if(isIOS) return "Home Screen"; if(isMacSafari) return "Dock"; return "device"; }
   function iosLoc(){ if(/crios|edgios|fxios/i.test(ua)) return "at the top, by the address bar"; var ipad=/ipad/i.test(ua)||(navigator.maxTouchPoints>1 && /macintosh/i.test(ua)); return ipad?"at the top":"in the bottom bar"; }
   function bodyHTML(){
-    if(deferred) return '<button class="ins-go" data-install type="button">'+DL+'Install app</button><div class="ins-hint">Or use the install icon '+chip('stroke',CHROME)+' in the address bar.</div>';
+    if(deferred) return '<button class="ins-go" data-install type="button">'+DL+'Install app</button>';
     if(isIOS) return '<ol class="ins-steps"><li>Tap the <b>Share</b> icon '+chip('share',SHARE)+' '+iosLoc()+'.</li><li>Choose <b>Add to Home Screen</b> '+chip('',PLUS)+'.</li><li>Tap <b>Add</b>.</li></ol>';
     if(isMacSafari) return '<ol class="ins-steps"><li>Open the <b>File</b> menu in the top bar.</li><li>Choose <b>Add to Dock…</b> '+chip('stroke',DOCK)+'</li><li>Click <b>Add</b>.</li></ol>';
     return '<ol class="ins-steps"><li>Open your browser&rsquo;s <b>menu</b>.</li><li>Look for <b>Install</b> or <b>Add to Home screen</b>.</li></ol>';
@@ -4035,10 +4051,11 @@ const CARDS = [
   }
   function doInstall(){ if(!deferred) return; try{ deferred.prompt(); if(deferred.userChoice) deferred.userChoice.then(function(c){ if(c && c.outcome==="accepted"){ setDismissed(); hideAll(); } deferred=null; }); }catch(e){} }
 
-  function openCard(){ var m=$("installCard"); if(!m) return; refresh(); m.classList.add("open"); m.setAttribute("aria-hidden","false"); }
+  var cardAuto=false;
+  function openCard(auto){ var m=$("installCard"); if(!m) return; cardAuto=!!auto; refresh(); m.classList.add("open"); m.setAttribute("aria-hidden","false"); }
   function closeCard(){ var m=$("installCard"); if(m){ m.classList.remove("open"); m.setAttribute("aria-hidden","true"); } }
-  function dismiss(){ setDismissed(); closeCard(); }
-  function hideAll(){ closeCard(); var s=$("setInstallSec"); if(s) s.hidden=true; }
+  function closeInteract(){ if(cardAuto) setDismissed(); closeCard(); }   // the AUTO-prompt, once closed, stays gone until Reset App; a manual open just closes
+  function hideAll(){ closeCard(); var s=$("setInstallSec"); if(s) s.hidden=true; var b=$("installBtn"); if(b) b.style.display="none"; }
 
   var shown=false;
   function maybeShow(trigger){
@@ -4048,26 +4065,25 @@ const CARDS = [
       if(document.querySelector(".modal.open")) return;
       var sp=$("setPanel"); if(sp && sp.classList.contains("open")) return;
     }
-    shown=true; openCard();
+    shown=true; openCard(true);
   }
   window.__maybeInstall=maybeShow;
 
   window.addEventListener("beforeinstallprompt", function(e){ e.preventDefault(); deferred=e; refresh(); });
   window.addEventListener("appinstalled", function(){ setDismissed(); hideAll(); });
 
-  if(!standalone()){
-    var sec=$("setInstallSec"); if(sec) sec.hidden=false;   // permanent Settings entry (D)
-    refresh();
-    var ab=$("installActionBtn"); if(ab) ab.onclick=function(){ if(deferred){ doInstall(); } else { var e=$("installExpl"); if(e){ e.hidden=false; } var inf=document.querySelector('.set-info[data-x="installExpl"]'); if(inf) inf.classList.add("open"); } };
-    var x=$("installX"); if(x) x.onclick=dismiss;
-    var sc=$("installScrim"); if(sc) sc.onclick=dismiss;
-    var lt=$("installLater"); if(lt) lt.onclick=dismiss;
-    var hv=$("installHave"); if(hv) hv.onclick=dismiss;
-    document.addEventListener("keydown", function(e){ if(e.key==="Escape"){ var m=$("installCard"); if(m && m.classList.contains("open")) dismiss(); } });
-    // engagement: after a few card flips, gently offer once
-    var flips=0, card=$("card");
-    if(card && "MutationObserver" in window){ new MutationObserver(function(muts){ for(var i=0;i<muts.length;i++){ if(muts[i].attributeName==="class" && card.classList.contains("flipped")){ flips++; if(flips>=5) maybeShow("engage"); break; } } }).observe(card,{attributes:true}); }
-  }
+  if(standalone()){ var ib0=$("installBtn"); if(ib0) ib0.style.display="none"; return; }   // running installed → no install UI anywhere
+  var sec=$("setInstallSec"); if(sec) sec.hidden=false;   // permanent Settings entry (D) — instructions inline
+  refresh();
+  var ib=$("installBtn"); if(ib) ib.onclick=function(){ openCard(false); };   // top-bar entry (and Quick Start tour target) opens the card
+  var x=$("installX"); if(x) x.onclick=closeInteract;
+  var sc=$("installScrim"); if(sc) sc.onclick=closeInteract;
+  var lt=$("installLater"); if(lt) lt.onclick=closeInteract;
+  var hv=$("installHave"); if(hv) hv.onclick=closeInteract;
+  document.addEventListener("keydown", function(e){ if(e.key==="Escape"){ var m=$("installCard"); if(m && m.classList.contains("open")) closeInteract(); } });
+  // engagement: after a few card flips, gently offer once
+  var flips=0, card=$("card");
+  if(card && "MutationObserver" in window){ new MutationObserver(function(muts){ for(var i=0;i<muts.length;i++){ if(muts[i].attributeName==="class" && card.classList.contains("flipped")){ flips++; if(flips>=5) maybeShow("engage"); break; } } }).observe(card,{attributes:true}); }
 })();
 </script>
 </body>
