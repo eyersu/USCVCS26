@@ -4139,7 +4139,7 @@ const CARDS = [
       if(document.querySelector(".modal.open")) return;
       var sp=$("setPanel"); if(sp && sp.classList.contains("open")) return;
     }
-    shown=true; openCard(true);
+    shown=true; setDismissed(); openCard(true);   // auto-prompt shows once, ever — persist on show, regardless of whether they act on it
   }
   window.__maybeInstall=maybeShow;
 
@@ -4156,9 +4156,7 @@ const CARDS = [
   var lt=$("installLater"); if(lt) lt.onclick=closeInteract;
   var hv=$("installHave"); if(hv) hv.onclick=closeInteract;
   document.addEventListener("keydown", function(e){ if(e.key==="Escape"){ var m=$("installCard"); if(m && m.classList.contains("open")) closeInteract(); } });
-  // engagement: after a few card flips, gently offer once
-  // Auto-prompt: after 3 card flips OR on the 2nd (or later) visit — whichever comes first.
-  try{ var VLS="civics2025.installvisits.v1"; var v=(parseInt(localStorage.getItem(VLS),10)||0)+1; localStorage.setItem(VLS,String(v)); if(v>=2){ setTimeout(function(){ maybeShow("engage"); }, 2500); } }catch(e){}
+  // Auto-prompt: once ever, after the 3rd card flip (no second-visit trigger). maybeShow persists on show, so it won't return.
   var flips=0, card=$("card");
   if(card && "MutationObserver" in window){ new MutationObserver(function(muts){ for(var i=0;i<muts.length;i++){ if(muts[i].attributeName==="class" && card.classList.contains("flipped")){ flips++; if(flips>=3) maybeShow("engage"); break; } } }).observe(card,{attributes:true}); }
   // Chrome desktop resolves the installed-app display-mode a beat AFTER load, so standalone() can read false at init and leave the
