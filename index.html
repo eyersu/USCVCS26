@@ -4131,6 +4131,10 @@ const CARDS = [
   function maybeShow(trigger){
     if(standalone()||dismissed()||shown) return;
     if(trigger==="engage"){
+      // On Chromium the browser fires beforeinstallprompt only when it can actually offer an install; if it hasn't
+      // (deferred is null) the app is most likely already installed here — so don't auto-nag. iOS / Mac Safari have no
+      // such signal, so keep auto-prompting there. The Install pill stays available for a manual open either way.
+      if(!deferred && !isIOS && !isMacSafari) return;
       if(document.body.classList.contains("qs-open")) return;
       if(document.querySelector(".modal.open")) return;
       var sp=$("setPanel"); if(sp && sp.classList.contains("open")) return;
