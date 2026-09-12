@@ -719,8 +719,8 @@
   table.ptable td{padding:12px 20px;border-bottom:1px solid #f0e9da;color:#33404b;vertical-align:top}
   table.ptable tr:last-child td{border-bottom:none}
   /* Date/Amendment and Q# columns shrink to their content; the middle (text) column takes all remaining width.
-     The first column may wrap (so long dates like "July 4, 1776" don't force it wide); Q# stays on one line. */
-  table.ptable th:first-child, table.ptable td:first-child{width:1%}
+     Nothing wraps on desktop; on phones the first column is allowed to wrap (see the mobile rule) so long dates don't force it wide. */
+  table.ptable th:first-child, table.ptable td:first-child,
   table.ptable th:last-child,  table.ptable td:last-child{width:1%;white-space:nowrap}
   table.ptable .nm{font-family:var(--serif-body);font-size:1rem;font-weight:600;color:#202e3a}
   table.ptable .pnum{font-family:var(--mono);font-weight:600;color:var(--orange);white-space:nowrap}
@@ -925,6 +925,7 @@
     .pgroup{font-size:.72rem}
     table.ptable th{font-size:.68rem}
     table.ptable th, table.ptable td{padding-left:12px;padding-right:12px}   /* reclaim side padding for the text column on phones */
+    table.ptable td:first-child, table.ptable th:first-child{white-space:normal}   /* phones only: let the Date/Amendment column wrap so the text column extends */
     /* Voice-card read-all label */
     .vc-readall{font-size:.70rem}
     /* Footer sentence + copyright (copyright is inline-styled, so override on mobile) */
