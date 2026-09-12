@@ -718,10 +718,11 @@
   table.ptable th{font-family:var(--mono);font-size:.56rem;letter-spacing:1.2px;text-transform:uppercase;color:#a99c88;text-align:left;padding:11px 20px;border-bottom:1px solid #ece3d2;font-weight:600}
   table.ptable td{padding:12px 20px;border-bottom:1px solid #f0e9da;color:#33404b;vertical-align:top}
   table.ptable tr:last-child td{border-bottom:none}
-  /* Date/Amendment and Q# columns shrink to their content; the middle (text) column takes all remaining width */
-  table.ptable th:first-child, table.ptable td:first-child,
+  /* Date/Amendment and Q# columns shrink to their content; the middle (text) column takes all remaining width.
+     The first column may wrap (so long dates like "July 4, 1776" don't force it wide); Q# stays on one line. */
+  table.ptable th:first-child, table.ptable td:first-child{width:1%}
   table.ptable th:last-child,  table.ptable td:last-child{width:1%;white-space:nowrap}
-  table.ptable .nm{font-family:var(--serif-body);font-size:1rem;font-weight:600;color:#202e3a;white-space:nowrap}
+  table.ptable .nm{font-family:var(--serif-body);font-size:1rem;font-weight:600;color:#202e3a}
   table.ptable .pnum{font-family:var(--mono);font-weight:600;color:var(--orange);white-space:nowrap}
   table.ptable .pnum.no{color:#b3bcc6}
   table.ptable .era{font-family:var(--mono);font-size:.64rem;letter-spacing:.5px;color:#7c8894;text-transform:uppercase;white-space:nowrap}
