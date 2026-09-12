@@ -1067,7 +1067,8 @@
   .install-panel{position:relative;width:480px;max-width:94vw;background:linear-gradient(160deg,#352d5a,#111527);color:#eef2f8;border-radius:18px;box-shadow:0 26px 64px rgba(0,0,0,.55);padding:26px 26px 20px;animation:insUp .28s cubic-bezier(.2,.7,.2,1)}
   @keyframes insUp{from{transform:translateY(26px);opacity:.35}to{transform:none;opacity:1}}
   body.anim-off .install-panel{animation:none}
-  .install-x{position:absolute;top:16px;right:16px;width:30px;height:30px;border:none;background:none;color:rgba(255,255,255,.5);font-size:1.15rem;cursor:pointer;line-height:1}
+  .install-x{position:absolute;top:14px;right:14px;width:32px;height:32px;border:none;background:none;border-radius:0;padding:0;box-shadow:none;color:rgba(255,255,255,.55);font-size:1.25rem;cursor:pointer;line-height:1;display:flex;align-items:center;justify-content:center}
+  @media (hover:hover){ .install-x:hover{color:#fff} }
   .install-top{display:flex;gap:20px;align-items:flex-start}
   .install-icon{flex:none;width:76px;height:76px;border-radius:18px;overflow:hidden;box-shadow:0 6px 16px rgba(0,0,0,.4)}
   .install-icon img{width:100%;height:100%;display:block}
@@ -3744,6 +3745,11 @@ const CARDS = [
     {sel:"#settingsBtn", title:"Make it yours",                body:"Adjust the theme color, text size, and voice speed here. It's also where you reset your progress.", place:"bottom", top:true},
     {sel:"#installBtn",  title:"Install it like an app",       body:"Add it to your device for quick, offline, distraction-free study — it opens like an app, with no browser bar. Tap here whenever you're ready.", place:"bottom", top:true, last:true}
   ];
+  // Running installed (standalone): the Install pill is hidden, so drop that step and move "Start studying" (last) onto the new final step.
+  try{ if(window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone===true){
+    for(var _qi=qsSteps.length-1;_qi>=0;_qi--){ if(qsSteps[_qi].sel==="#installBtn"){ qsSteps.splice(_qi,1); break; } }
+    qsSteps.forEach(function(s){ if(s.last) delete s.last; }); qsSteps[qsSteps.length-1].last=true;
+  } }catch(e){}
   let qsI = 0;
   function qsDone(){ try{ return localStorage.getItem(QUICKSTART_LS)==="1"; }catch(e){ return false; } }
   function qsUnionRect(sel){   // bounding box enclosing EVERY element matching sel, so one step can spotlight two things at once (Review+Known on mobile)
@@ -4112,8 +4118,10 @@ const CARDS = [
   var hv=$("installHave"); if(hv) hv.onclick=closeInteract;
   document.addEventListener("keydown", function(e){ if(e.key==="Escape"){ var m=$("installCard"); if(m && m.classList.contains("open")) closeInteract(); } });
   // engagement: after a few card flips, gently offer once
+  // Auto-prompt: after 3 card flips OR on the 2nd (or later) visit — whichever comes first.
+  try{ var VLS="civics2025.installvisits.v1"; var v=(parseInt(localStorage.getItem(VLS),10)||0)+1; localStorage.setItem(VLS,String(v)); if(v>=2){ setTimeout(function(){ maybeShow("engage"); }, 2500); } }catch(e){}
   var flips=0, card=$("card");
-  if(card && "MutationObserver" in window){ new MutationObserver(function(muts){ for(var i=0;i<muts.length;i++){ if(muts[i].attributeName==="class" && card.classList.contains("flipped")){ flips++; if(flips>=5) maybeShow("engage"); break; } } }).observe(card,{attributes:true}); }
+  if(card && "MutationObserver" in window){ new MutationObserver(function(muts){ for(var i=0;i<muts.length;i++){ if(muts[i].attributeName==="class" && card.classList.contains("flipped")){ flips++; if(flips>=3) maybeShow("engage"); break; } } }).observe(card,{attributes:true}); }
 })();
 </script>
 </body>
